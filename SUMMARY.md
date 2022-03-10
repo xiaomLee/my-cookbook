@@ -1,0 +1,31 @@
+my develop cookbook
+
+- [语言]
+  - [go](language/go.md)
+- [TCP/IP]
+  - [tcp/ip](tcp&ip/tcp&ip.md)
+  - [http/https](tcp&ip/http&https&tls.md)
+  - [http2](tcp&ip/http2.md)
+  - [grpc](tcp&ip/grpc.md)
+- [Linux]
+  - [linux](linux/README.md)
+- [容器技术]
+  - [docker](docker/docker.md)
+  - [k8s](k8s/README.md)
+- [后端组件]
+  - [mysql](components/mysql.md)
+  - [redis](components/redis.md)
+  - [kafka](components/kafka.md)
+  - [rabbitmq](components/rabbitmq.md)
+  - [mqtt](components/mqtt.md)
+  - [nginx](components/nginx.md)
+- [分布式]
+  - [raft](distributed/raft.md)
+  - [etcd](distributed/etcd.md)
+  - [zookeeper](distributed/zk.md)
+- [AI]
+  - [video](ai/video.md)
+- [AIOT]
+- [项目实践]
+  - [通用业务网关](application/business-gw.md)
+  - [交易所](application/trade-engin.md)
