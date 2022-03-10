@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-deployment
+  namespace: quickstart
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-deployment
+  template:
+    metadata:
+      labels:
+        app: hello-deployment
+    spec:
+      volumes:
+        - configMap:
+            name: hello-nginx-conf
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+              - key: server.conf
+                path: conf.d/server.conf
+          name: nginx-conf
+        - emptyDir: {}
+          name: html
+      containers:
+        - name: nginx
+          image: nginx:1.7.9
+          imagePullPolicy: Always
+          # command:
+          #   - ./nginx
+          # args:
+          #   - -c /etc/nginx/nginc.conf
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 2
+            successThreshold: 1
+            timeoutSeconds: 1
+            tcpSocket:
+              port: 80
+          volumeMounts:
+            - mountPath: /etc/nginx/nginx.conf
+              name: nginx-conf
+              subPath: nginx.conf
+            - mountPath: /etc/nginx/conf.d
+              name: nginx-conf
+              subPath: conf.d
+            - mountPath: /usr/share/nginx
+              name: html
+      initContainers: # 初始化执行容器, 执行后退出. 将静态文件拷贝到挂载目录, 与nginx-container实现共享.
+        - name: html
+          image: 850278995/html-demo:latest
+          volumeMounts:
+            - mountPath: /share/html
+              name: html
+

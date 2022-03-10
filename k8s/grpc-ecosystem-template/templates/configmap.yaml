@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grpc-ecosystem-template
+data:
+  config.yaml: |-
+    server:
+      name: "grpc-ecosystem-template"
+      debug: true
+
+    log:
+      level: 4   # panic=0, fatal=1, error=2, warning=3, info=4, debug=5, trace=6
+      formatter: "json" # json, text
+      dir: "logs"
+      filename: "default.log"
+      max_age: 7   # 设置文件清理前的最长保存时间 day
+      rotation_size: 200 # M
+      rotation_time: 0 # default 24*time.Hour
+      rotation_count: 5 # max count of keep file. if both set with max_age, max_age will be set -1
+
+    db:
+    #   test-mysql:
+    #      type: "mysql" # postgres
+    #      dsn: "root:root@tcp(127.0.0.1:3306)/test?charset=utf8mb4"
+    #      max_conn: 100,
+    #      idle_conn: 100,
+    #      max_lefttime: 60 # Minute
+    #  test-pg:
+    #    type: "postgres"
+    #    dsn: "host=127.0.0.1 user=root password=root dbname=test port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+    #    max_conn: 100,
+    #    idle_conn: 100,
+    #    max_lefttime: 60 # Minute
+      test:
+        type: "sqlite"
+        dsn: {{ .Values.config.sqliteDsn }}
+        max_conn: 100,
+        idle_conn: 100,
+        max_lefttime: 60 # Minute

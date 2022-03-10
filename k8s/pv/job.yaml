@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: testpv
+  namespace: quickstart
+spec:
+  template:
+    metadata:
+      name: testpv
+    spec:
+      imagePullSecrets:
+        - name: regsecret
+      volumes:
+        - nfs:
+            server: 171.16.41.132
+            path: /nfsroot/tmp
+          name: nfs-vol
+        - emptyDir: {}
+          name: empty-vol
+      containers:
+        - name: testpv
+          image: perl
+          command:  ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+          volumeMounts:
+            - mountPath: /nfs-vol
+              name: nfs-vol
+            - mountPath: /empty-vol
+              name: empty-vol
+      restartPolicy: Never
