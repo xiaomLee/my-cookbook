@@ -89,3 +89,7 @@ cat /proc/sys/kernel/random/uuid
 使用/proc/sys/kernel/random/boot_id！
 使用getuid()！使用/dev/urandom！
 忘记其余的，尤其是主机名或硬件 ID，例如 DMI。请记住，您可以通过各种方式组合上述 ID，以获得不同的语义和有效性约束。
+
+## 参考
+http://0pointer.de/blog/projects/ids.html
+https://nyogjtrc.github.io/posts/2018/12/some-unique-id-in-linux/
