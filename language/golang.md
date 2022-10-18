@@ -355,7 +355,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool) bool {
    协程是属于线程的。协程程序是在线程里面跑的。
    协程没有系统级别的上下文切换消耗，协程的调度切换是用户(程序员)手动切换的，需用户自己实现调度器以及协程上下文切换。
    相当于在一个线程持有的cpu时间片内，执行用户的多个计算任务，减少线程的频繁切换，因此更加灵活,因此又叫用户空间线程。
-   ~~基于上述特点，协程较适合与弱计算型、强IO型的应用（cpu占用时间短，io等待时间长）；结合select/epoll模型可实现较高的效率。~~
+   基于上述特点，协程较适合与弱计算型、强IO型的应用（cpu占用时间短，io等待时间长）；结合select/epoll模型可实现较高的效率。
    
      *协程 线程对比*  
       1. 不需要切换内核态
@@ -407,19 +407,19 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool) bool {
    我们在这里也不会介绍全部字段，而是会挑选其中的一部分进行介绍
    ```
    type g struct {
-   	    stack       stack   // 描述了当前 Goroutine 的栈内存范围 [stack.lo, stack.hi)
-   	    stackguard0 uintptr // 用于调度器抢占式调度
-        preempt       bool // 抢占信号
+   	stack       stack   // 描述了当前 Goroutine 的栈内存范围 [stack.lo, stack.hi)
+   	stackguard0 uintptr // 用于调度器抢占式调度
+      preempt       bool // 抢占信号
     	preemptStop   bool // 抢占时将状态修改成 `_Gpreempted`
     	preemptShrink bool // 在同步安全点收缩栈
    
-        _panic       *_panic // 最内侧的 panic 结构体
-   	    _defer       *_defer // 最内侧的延迟函数结构体
+      _panic       *_panic // 最内侧的 panic 结构体
+   	_defer       *_defer // 最内侧的延迟函数结构体
    
-        m              *m   // 当前 Goroutine 占用的线程，可能为空
-        sched          gobuf    // 存储 Goroutine 的调度相关的数据
-        atomicstatus   uint32   // Goroutine 的状态
-        goid           int64    // Goroutine 的 ID，该字段对开发者不可见，Go 团队认为引入 ID 会让部分 Goroutine 变得更特殊，从而限制语言的并发能力
+      m              *m   // 当前 Goroutine 占用的线程，可能为空
+      sched          gobuf    // 存储 Goroutine 的调度相关的数据
+      atomicstatus   uint32   // Goroutine 的状态
+      goid           int64    // Goroutine 的 ID，该字段对开发者不可见，Go 团队认为引入 ID 会让部分 Goroutine 变得更特殊，从而限制语言的并发能力
    }
    
    type gobuf struct {

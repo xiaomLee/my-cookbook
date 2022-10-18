@@ -1,5 +1,9 @@
 
-## mysql
+# mysql
+
+## 参考
+
+[mysql知识体系详解](https://pdai.tech/md/db/sql-mysql/sql-mysql-overview.html)
 
 1. myisam innodb的区别
 
