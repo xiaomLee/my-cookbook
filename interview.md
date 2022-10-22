@@ -9,9 +9,9 @@
 背景：公司各部门间存在众多形态各异的产品，各产品线各自管理自身研发体系、存在重复造轮子，资源浪费较严重的情况。
 经各部门统一梳理，各产品线产品虽形态各异，但基本功能都大有雷同，故各部门领导牵头有此项目。
 
-团队组成：多部门合作(tob企业业务研发部、tob平台技术中心-算法引擎、研究院算法sdk/模型团队、tog安防团队)
-
 目标：公司级别统一的云边端开发框架，将云边端所需的设备管理、任务调度、算法引擎、算力监控、数据回流、云边协同、远程升级等能力提供抽象聚合实现。实际产品业务方在使用时可按需裁剪框架能力，做最小化的业务入侵。
+
+团队组成：多部门合作(tob企业业务研发部、tob平台技术中心-算法引擎、研究院算法sdk/模型团队、tog安防团队)
 
 个人核心工作：作为产品线业务研发身份参与，抽象实现业务侧所需的设备管理、任务调度、数据回流等模块。
 
@@ -385,9 +385,7 @@
     }
     ```
 
-9. 其他
-
-常见题型总结：
+9. 其他 
 - [岛屿问题](./algorithm/backtrack.md#岛屿)：遍历矩阵，碰到陆地('1')之后，使用dfs(grid[i][j])进行淹没处理；dfs内部需对上下左右四个方向递归淹没。子岛屿问题先将grid2中的岛屿不存在Grid1中的进行淹没，然后统计岛屿数量。飞地问题/封闭岛屿问题， 先将四周边界的岛屿进行淹没，然后按题目需求进行求解
 
 
@@ -450,7 +448,7 @@ SYN_SENT | ----------->  |
 
 3. http2实现原理、以及与http的区别
 
-## go
+## [Go](./language/golang.md)
 
 1. [go调度器实现](./language/golang.md#调度器)
 
@@ -617,44 +615,210 @@ runttime.SliceHeader{
 cap<1024 若期望容量是当前容量的2倍以上，则使用期望容量；否则使用2倍
 cap>1024 每次扩容25%直至满足期望容量
 
-## redis
+## [Redis](./components/redis.md)
 
-1. redis使用场景
+1. [redis使用场景](./components/redis.md#使用场景个人实践)
+- 缓存。缓存热点数据、有失效限制的数据
+- 计数器
+- 分布式锁
+- 延时队列
+- 基数统计
+
+2. [redis作为缓存时的常见问题](./components/redis.md#热点数据缓存)
+- 缓存穿透。访问大量不存在的key，导致压力传导至底层数据库。规范key命名规范、布隆过滤器、只读缓存异步更新
+- 热点数据/缓存击穿。高并发情况下，某个key失效，请求直接至数据库。请求入队列、分布式锁、key永不过期异步更新
+- 缓存雪崩。大量key同一时间集体失效。设置失效时间时，加上一定随机值，避免集体失效；双缓存，一个有时效、一个永久有效、异步更新
+- 数据一致性。采用最终一致性，先更新数据库、在更新缓存，更新缓存失败时提供补偿机制；异步线程同步binlog
+
+3. [redis存储实现原理](./components/redis.md#数据类型数据结构)
+
+- 所有类型的实现都是通过redisObject数据结构来抽象。
+- redisObject.type 代表具体的数据类型，即5种常见数据类型：string、list、set、hashmap、zset。
+- redisObject.encoding 代表具体的编码实现，即底层数据存储的类型：int sds ziplist quicklist dict intset skiplist
+- 每种类型都至少对应两种编码实现
+- string 有 int raw embstr 三种编码方式：raw embstr都对应sds，当字符长度小于44时使用embstr，其内存和redisObject连续、不可修改
+- list 有 ziplist quicklist两种实现：数据量小于128时使用ziplist
+- hashmap 有 ziplist dict两种实现：数据元素数量不超过512，且每个元素长度小于64字节 使用压缩链表；反之使用hash表
+- set 有 intset dict两种实现：当数据量小于512，且数据类型是int时使用intset
+- zset 有 ziplist skiplist两种实现：数据元素数量不超过128 且所有元素长度都小于64字节时，使用压缩链表；反之使用跳跃链表
+
+- redisDb 键空间的抽象，即连接配置里面的 database 属性。默认有16个，可通过redis.conf.databases 来配置。
+- redisDb.dict redisDb.expire 分别维护有当前键空间的所有key-value。key的类型都是string、也即sds，value是一个redisObject指针
+
+数据操作时的内部流程
+- 根据给定的key查询数据库的键空间，未找到返回Null，反之返回redisObject对象
+- 根据redistObject.type检查与将要执行的命令是否匹配，不匹配返回类型错误
+- 根据redisObject.encoding进行底层数据的具体操作，返回执行结果
+
+4. [内存淘汰机制](./components/redis.md#内存淘汰机制)
+
+- noeviction：当内存不足以容纳新写入数据时，新写入操作会报错。默认策略
+- allkeys-lru：当内存不足以容纳新写入数据时，在键空间中，移除最近最少使用的key。
+- allkeys-random：当内存不足以容纳新写入数据时，在键空间中，随机移除某个key。
+- volatile-lru：当内存不足以容纳新写入数据时，在设置了过期时间的键空间中，移除最近最少使用的key。
+- volatile-random：当内存不足以容纳新写入数据时，在设置了过期时间的键空间中，随机移除某个key。
+- volatile-ttl：当内存不足以容纳新写入数据时，在设置了过期时间的键空间中，有更早过期时间的key优先移除。
+
+5. [持久化机制](./components/redis.md#持久化)
+
+- RDB 定期/手动内存快照，磁盘数据落后于内存，存在数据丢失风险
+    
+    有save/bgsave两个命令，save是在主进程中进行rdb快照，阻塞当前应用程序；bgsave是fork子进程，异步执行rdb快照逻辑。步骤如下：
+    - 服务端接受bgsave命令，判断是否存在bgsave子进程，若存在则立即返回；不存在执行fork创建子进程，fork过程是阻塞的
+    - 子进程将数据写入至临时rdb文件，全部完成后，执行原子替换旧rdb文件
+    - 发送信号至主进程，通知rdb完成，更新rdb相关统计信息
+    - 自动触发时机：根据redis.conf save m n 执行定时任务；主从复制；debug reload; shutdown
+    - 快照期间通过写时复制实现数据一致性
+
+- AOF(Append Only File) 指令日志持久化，类似流量回放；所有指令都是’写后‘指令，也即都是可以保证执行成功的，同时不阻塞主进行的写，但也存在写日志失败后的数据丢失问题
+
+    AOF步骤：
+    - append：服务器在执行完一个写命令之后，会以协议格式将被执行的写命令追加到服务器的aof_buf缓冲区
+    - write & sync：always(同步写，数据可靠性高)、everysec(每秒，默认策略)、no(依赖操作系统的刷盘)
+    - aof重写：当AOF文件持续增长而过大时，会fork出一条新进程(bgrewriteaof)来将文件重写(也是先写临时文件最后再rename)；重写期间所有的写入操作采用双写的方式记录日志
+
+- 数据恢复
+
+    - redis重启时判断是否开启aof，如果开启了aof，那么就优先加载aof文件；
+    - 如果aof存在，那么就去加载aof文件，加载成功的话redis重启成功，如果aof文件加载失败，那么会打印日志表示启动失败，此时可以去修复aof文件后重新启动； 
+    - 若aof文件不存在，那么redis就会转而去加载rdb文件，如果rdb文件不存在，redis直接启动成功；
+    - 如果rdb文件存在就会去加载rdb文件恢复数据，如加载失败则打印日志提示启动失败，如加载成功，那么redis重启成功，且使用rdb文件恢复数据；
 
 
-2. redis作为缓存时的常见问题
+5. [高可用方案](./components/redis.md#高可用)
+
+**[主从复制](./components/redis.md#主从复制)**
+
+- redis最简单的高可用方案——一主多从，数据由主到从单向流动
+- 读写分离机制，可扩展单机redis的读性能
+- redis2.8版本之后分为全量复制与增量复制，全量复制步骤如下：
+
+    - 建立连接。从库给主库发送psync命令，主库接收命令，根据runID offset等元信息返回fullsync响应
+    - 主库响应完fullsync之后，后台执行bgsave命令生成rdb快照文件
+    - 快照生成完成之后，通过socket将文件传输至从库
+    - 从库接收文件，清除自身数据库文件(flushall)，之后重新加载新的rdb文件
+    - 补充同步。执行bgsave期间的增量数据，会被记录在replication buffer，rdb加载完成后，发送增量数据至从库，从库执行相应增量命令
+    - 数据同步完成
+- 增量同步
+
+    - 主库会维护一个环形缓冲队列，用于缓冲最近一段时间的新增写入
+    - 从库发送psync命令时会附加一个 offset参数，若offset 还位于缓冲队列内，则执行增量同步；应对短期网络闪断
+    - 根据offset计算出需要发送的增量写操作，与AOF类似，发送至从库
+    - 从库接收增量写操作，执行命令，数据同步完成
 
 
-3. 5大数据类型的底层实现
+**[哨兵集群](./components/redis.md#哨兵机制redis-sentinel)**
+
+哨兵的核心功能是提供主从的健康监控、以及故障自动迁移。哨兵集群独立于redis主从集群。
+
+哨兵集群通信原理：
+- 通过哨兵配置文件sentinel.conf来配置主节点的 name ip port quorum，同时配置自身启动的ip:port
+- 启动成功后，哨兵服务会将自身的ip:port信息发布到主节点的__sentinel__:hello频道上，同时也订阅该topic，于此实现服务发现
+- 发现其他哨兵节点后，各哨兵节点直接会建立socket连接，用于通信交互
+
+监控原理：
+- 定时任务。通过向主节点发送info命令获取主从结构的信息；通过向所有节点(主——从)发送ping进行心跳检测
+- 主观下线。若某节点一定时间内未响应ping检测，则判断为该节点主观下线
+- 客观下线。针对主节点，还有客观下线的判断，用于实现故障转移。客观下线指若哨兵集群内的其他节点也判断为该主库主观下线，且数量大于配置文件中的quorum，则该主库被判断为客观下线
+- 哨兵节点选主。主库被判断客观下线后，所有哨兵节点会发起一次选举，选出一个leader对主库进行故障转移。选举算法与raft类似，需获得半数以上选票
+- 故障转移。leader哨兵节点从所有从库中根据策略选出一个新的主库，通过 slave no one/slaveof命令更改主从结构，将已经下线的主库设置为新主库的从节点，更新各哨兵节点的配置文件，记录新主库ip:port
 
 
-4. 持久化机制
+**[redis-cluster](./components/redis.md#集群redis-cluster)**
 
 
-5. 高可用方案
+## [mysql](./components/mysql.md)
 
+1. [mysql架构](./components/mysql.md#架构设计)
+- 主要可分为连接层、服务层、引擎层、存储层
+- 服务层负责实现数据库相关的各类功能封装，核心组件为：连接器、SQL接口层、解析器、优化器、执行器
+- 比较常用的存储引擎有InnoDB、MyISAM，从5.1版本之后默认存储引擎是InnoDB
 
-## mysql
+2. [InnoDB vs MyISAM](./components/mysql.md#比较)
+- InnoDB支持事务，MyISAM不支持
+- InnoDB最新粒度支持行锁，MyISAM只有表锁，并发写性能比MyISAM好，但MyISAM会单独保存表的行数，对count(*)的操作极快，适用于读场景
+- InnoDB必须要有主键，主索引结构是聚簇索引，同时支持外键；MyISAM所有所有都是非聚簇索引，故可以无主键，且不支持外键
+- MyISAM表和索引都支持压缩，更节省内存
+- InnoDB不支持全文索引，MyISAM支持
 
-1. 常用引擎
+3. [事务ACID原则](./components/mysql.md#事务)
+- 原子性 atomicity
+- 一致性 consistency
+- 隔离性 isolation
+- 持久性 durability
 
+4. [事务隔离级别](./components/mysql.md#事务)
+- 读未提交、读已提交、可重复读、串行
+- mysql默认为可重复读
+- 常见的事务问题：脏读、不可重复读、幻读，分别对应四种隔离级别的解决方案
+- 幻读：A、B两个事务同时对一个表进行插入操作，插入数据相同，若存在唯一约束的条件下，某一个事务会失败，但在这个事务中以唯一键去执行查询，会发现有查不到表中存在该条记录。产生原因在于MVCC的实现机制。
 
-2. ACID事务一致性
+5. [MVCC](./components/mysql.md#mvcc)
+- 多版本控制，在事务中使用的是快照读的设计理念
+- 核心依赖三个设计：数据行的隐式字段(DB_TRX_ID DB_ROLL_PTR)、undolog、读视图(READ VIEW)
+- 通过undolog存储数据行的多个版本，以DB_ROLL_PTR字段实现链表结构，最新旧数据为链表头
+- 通过DB_TRX_ID + 读视图(READ VIEW) 实现当前事务可读的历史版本快照逻辑，且在RR隔离级别下事务内只进行一次读视图的生成(首次)，实现可重复读
 
+6. [主从复制](./components/mysql.md#主从复制)
+- 读写分离、数据热备、高可用实现的基石
+- 涉及三个核心线程：主节点 log dump thread，从节点 io thread、sql thread
+- 首先从节点io-thread向主节点发起连接，此时附带当前已同步的offset
+- 主节点接收从节点的连接请求，建立连接；之后开始根据offset加锁读取binlog数据至发送缓冲区，读取完成后释放锁；同时将发送缓冲区的数据发送给从节点
+- 从节点接收数据，将数据写入relaylog，同时记录当前已同步的offset等信息至master-info配置文件中
+- sql-thread线程监听到relaylog有新增数据，开始逐条执行sql语句，至同步完成
+- 主从复制的过程主要分为同步模式、半同步模式、全同步模式三种
+- 异步指的是事务在主节点提交后立即返回，主从复制完全异步；会导致主备切换时可能存在数据丢失的问题
+- 半同步指事务在主节点提交后，等待至少一个从节点已同步当前Binlog至relaylog后，再返回；会增加事务时延
+- 全同步指事务在主节点提交后，等待所有从节点都已复制Binglog至relaylog后再执行返回；时延较高
 
-## etcd
+## [etcd](./distributed/etcd.md)
 
-1. 使用场景
-
+1. [使用场景](./distributed/etcd.md#应用场景)
+- 服务发现。利用lease + key + watch prefix来实现
+- 分布式配置中心。结合watch机制实现配置热更新
+- 分布式任务管理器。基于Watch实现一个任务分发调度模型——k8s的pod调度
+- 分布式锁。四要素：互斥性、安全性、可用性、对称性
+- 集群选主。
 
 2. 实现原理
+- 集群的协调采用Raft一致性协议
+- 引入分布式下的线性写、线性读机制(线性读支持可配置)
+- 任意时刻集群内只会存在一个leader节点，leader节点负责处理所有的请求
+- 每个客户端都可接收请求，之后会将请求转发至leader，客端户透明无感
+- 每个node节点都存储着全量的数据，且都有被选为leader的可能
+- v3之后node节点的数据存储实现采用的是 btree + mvcc + boltdb
 
+3. [raft原理](./distributed/raft.md)
+- 将分布式一致性问题转化为三个子问题：选举、日志复制、日志一致性。
+- 选举。所有节点都可能在 follower candidate leader 三种状态下切换。
 
-3. raft原理
+    - 所有节点都从 follower 状态开始。若在一定时间内(每个节点在150~300ms内随机)持续收不到来自 leader 节点的心跳信息，则会切换状态至 candidate
+    - candidate 将自己当前记录的任期(term)+1，清空选举计时器，投自身一票，然后并发向其他节点发起选举投票请求(RPC)
+    - 每个节点只有一次投票权，其他节点在接收到vote请求之后，比较vote-term与自身term大小，若大于自身term且未投票，随即投票并更新term
+    - 若当前candidate获得了大多数(超集群半数)的投票，即成为leader；之后开始定期开始向集群其他节点广播心跳；未成功则重新发起
 
+- 日志复制。
 
-4. 底层数据存储模型
+    - 日志记录的实体是命令(command + args)，每条日志条目都包含 term + index + command
+    - 所有客户端请求都会被转发至leader处理，leader首先将该请求记录到日志(append log)，此时该日志条目处于uncommit状态
+    - 之后并发的将该日志条目通过RPC请求复制到其他follower节点
+    - 其他节点接收数据，记录到自身日志文件，返回ack
+    - leader节点收到大多数follower节点复制成功的消息后，执行commit提交，日志条目被改为commit状态，同时命令被应用到实际的存储状态机
+    - 应用成功后，返回执行结果至客户端
+    - 同时不断通知其他节点提交该日志条目
 
+- 日志一致性。
+
+    - 不同节点的日志，若term + index 一致，一定可以保证他们所记录的command命令一致
+    - 不同节点的日志，若term + index 一致，那么他们之前所记录的日志条目也一定一致；这是在日志复制时保证的
+
+4. [底层数据存储模型/存储状态机](./distributed/etcd.md#etcd存储实现状态机的存储模型)
+- 整体的存储状态机分为三个核心组件：TreeIndex Backend Compactor
+- TreeIndex是一个Btree结构，存储着用户key至BoltDB的key的对应关系，Backend是一个k-v数据库
+- 用户key到 BoltDB.key的映射关系通过keyIndex结构实现，该结构同时实现了mvcc，事务依赖此实现
+- keyIndex核心结构是generations 存储一个key的多个代
+- 每个generation保存着多个版本 revision；revision.main 全局递增的版本号事务ID revision.sub 同一事务内的子版本号
+- 采用懒删除机制，所有删除的key，会在revision上打上标记T，之后通过异步Compactor组件实现相应数据的删除
 
 ## kafka
 
@@ -670,7 +834,7 @@ cap>1024 每次扩容25%直至满足期望容量
 4. 消息队列选型对比
 
 
-## elaticsearch
+## elasticsearch
 
 1. 使用场景
 
