@@ -1,21 +1,20 @@
 ## kafka
 
-   Kafka主要特点是基于Pull的模式来处理消息消费，追求高吞吐量。
-   不支持事务，对消息的重复、丢失、错误没有严格要求，适合产生大量数据的互联网服务的数据收集业务。
+- Kafka 主要特点是基于Pull的模式来处理消息消费，所有生产者消息都被顺序append到对应的 leader-partition-log。
+- 数据写入时其实是到对应 partition-log 的磁盘页缓存 page cache 中，之后依赖操作系统的刷盘机制落盘，kafka-server 提供配置项，可实现同步刷盘。
+- 当 Consumer 连接时，服务端会对每个 Consumer 维护一份元数据——消费的partition、offset 等信息，之后基于元信息取顺序读取日志文件。
+- Kafka 所有元信息的存储、选主逻辑都依赖 zk 实现，kafka-server 本身的核心功能是复制消息的顺序存储。
+- 基于分 partition 顺序存储的罗，Kafka 实现高并发高高吞吐量。
+- 每个 leader-partition-log 都会有 对应的 replicate-partition-log，用于容灾备份。
+- 不支持事务，对消息的重复、丢失、错误没有严格要求，适合产生大量数据的互联网服务的数据收集业务。
    
-   磁盘顺序存储，效率比内存还高。集群依赖zk，可快速水平扩展，支持分布式。
-   
-   两种模式
-   
-   点对点模式
-   点对点模式是一个基于拉取或轮询的消息传送模型，由消费者主动拉取数据，客户端需要实时开启一个线程监控队列中是否有数据。
-   
-   发布/订阅模式
-   发布/订阅模式是一个基于推送的消息传送模型，由MQ主动推送消息给所有订阅者，即使当前订阅者不可用
-   
-   ![生产者](./images/kafka生产者.jpg)
-   ![消费者](./images/kafka消费者.jpg)
-   
+![生产者](./images/kafka生产者.jpg)
+![消费者](./images/kafka消费者.jpg)
+
+[Kafka 背景及架构介绍](https://www.infoq.cn/article/kafka-analysis-part-1)
+[Kafka High Availability （上）](https://www.infoq.cn/article/kafka-analysis-part-2)
+[Kafka High Availability （下）](https://www.infoq.cn/article/kafka-analysis-part-3)
+[深入详解 Kafka，从源码到架构全部讲透 ](https://www.sohu.com/a/476603641_121124378)
    
 1. 概念
    

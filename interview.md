@@ -65,7 +65,7 @@
 - 回文链表：快慢指针，注意奇偶
 - 奇偶重排：快慢指针
 - 插入删除合并：使用dummy节点作为head
-- 翻转：有遍历与递归两种方式；遍历要点——使用一个pre变量记录前一个node；递归要点——当前节点的next.next指向自己，cur.Next置空，递归下一个节点
+- 翻转：有遍历与递归两种方式；遍历要点——使用一个pre变量记录前一个node；递归要点——当前节点的head.next.next指向自己，cur.Next置空，递归下一个节点；善用子函数抽象拆解问题 reverseN(head, n) reverseBetween(a, b *ListNode)
 
 
 算法应用：
@@ -446,7 +446,7 @@ SYN_SENT | ----------->  |
 ```
 
 
-3. http2实现原理、以及与http的区别
+3. [http2实现原理、以及与http的区别](./tcp%26ip/http2.md)
 
 ## [Go](./language/golang.md)
 
@@ -460,7 +460,7 @@ go调度器是由goruntime实现的一种基于用户态线程而进行的调度
 - G：Goroutine抽象。用户代码块的抽象，反向持有m，同时存储有自身的栈信息，另外持有一个sched结构，存储调度相关的信息——现场保存、现场恢复
 - P：处理器的抽象Process。持有本地运行队列、mcache、绑定的m；核心目标是通过资源本地化来解决协程调度时的资源竞争问题
 
-- sched：调度器实例。组织运行MGP三大组件的管理者，持有空闲的P队列、空闲的M队列、全局的G队列、以及其他一些全局的缓存资源
+- sched：调度器实例。MGP三大组件的管理者，持有空闲的P队列、空闲的M队列、全局的G队列、以及其他一些全局的缓存资源
 
 **调度器启动&循环**
 
@@ -699,6 +699,7 @@ cap>1024 每次扩容25%直至满足期望容量
     - 从库接收文件，清除自身数据库文件(flushall)，之后重新加载新的rdb文件
     - 补充同步。执行bgsave期间的增量数据，会被记录在replication buffer，rdb加载完成后，发送增量数据至从库，从库执行相应增量命令
     - 数据同步完成
+
 - 增量同步
 
     - 主库会维护一个环形缓冲队列，用于缓冲最近一段时间的新增写入
@@ -736,7 +737,7 @@ cap>1024 每次扩容25%直至满足期望容量
 
 2. [InnoDB vs MyISAM](./components/mysql.md#比较)
 - InnoDB支持事务，MyISAM不支持
-- InnoDB最新粒度支持行锁，MyISAM只有表锁，并发写性能比MyISAM好，但MyISAM会单独保存表的行数，对count(*)的操作极快，适用于读场景
+- InnoDB最细粒度支持行锁，MyISAM只有表锁，并发写性能比MyISAM好，但MyISAM会单独保存表的行数，对count(*)的操作极快，适用于读场景
 - InnoDB必须要有主键，主索引结构是聚簇索引，同时支持外键；MyISAM所有所有都是非聚簇索引，故可以无主键，且不支持外键
 - MyISAM表和索引都支持压缩，更节省内存
 - InnoDB不支持全文索引，MyISAM支持
@@ -816,7 +817,7 @@ cap>1024 每次扩容25%直至满足期望容量
 - 整体的存储状态机分为三个核心组件：TreeIndex Backend Compactor
 - TreeIndex是一个Btree结构，存储着用户key至BoltDB的key的对应关系，Backend是一个k-v数据库
 - 用户key到 BoltDB.key的映射关系通过keyIndex结构实现，该结构同时实现了mvcc，事务依赖此实现
-- keyIndex核心结构是generations 存储一个key的多个代
+- keyIndex核心结构是generations 存储一个key的多个
 - 每个generation保存着多个版本 revision；revision.main 全局递增的版本号事务ID revision.sub 同一事务内的子版本号
 - 采用懒删除机制，所有删除的key，会在revision上打上标记T，之后通过异步Compactor组件实现相应数据的删除
 
@@ -828,11 +829,13 @@ cap>1024 每次扩容25%直至满足期望容量
 2. 使用过程中的问题
 
 
-3. 实现原理
+3. 设计原理
+
 
 
 4. 消息队列选型对比
 
+## [mqtt](./components/mqtt.md)
 
 ## elasticsearch
 
@@ -842,7 +845,7 @@ cap>1024 每次扩容25%直至满足期望容量
 2. 组件架构原理
 
 
-## k8s
+## [k8s](./k8s/README.md)
 
 1. 整体架构
 

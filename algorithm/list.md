@@ -18,11 +18,77 @@
 ### 反转
 
 [反转链表](https://leetcode.cn/problems/reverse-linked-list/)
+```go
+func reverseList(head *ListNode) *ListNode {
+    if head == nil || head.Next == nil {
+        return head
+    }
+    node := reverseList(head.Next)
+    head.Next.Next = head
+    head.Next = nil
+    return node
+}
+```
 
 [反转链表II](https://leetcode.cn/problems/reverse-linked-list-ii/)
+```go
+func reverseBetween(head *ListNode, left int, right int) *ListNode {
+    if left == 1 {
+        return reverseN(head, right)
+    }
+    head.Next = reverseBetween(head.Next, left-1, right-1)
+    return head
+}
+
+var tail *ListNode
+func reverseN(head *ListNode, n int) *ListNode {
+    if n == 1 {
+        tail = head.Next
+        return head
+    }
+    p := reverseN(head.Next,n-1)
+    head.Next.Next = head
+    head.Next = tail
+    return p
+}
+```
 
 [K个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group/)
+```go
+func reverseKGroup(head *ListNode, k int) *ListNode {
+    if head == nil {
+        return head
+    }
+    // 判断是否有k个元素
+    a, b := head, head
+    for i:=0; i<k; i++ {
+        if b == nil {
+            return head
+        }
+        b = b.Next
+    }
+    newHead := reverseBetween(a, b)
+    a.Next = reverseKGroup(b, k)
+    return newHead
+}
 
+func reverseBetween(a, b *ListNode) *ListNode {
+    var pre *ListNode
+    cur := a
+    for cur != b {
+        tmp := cur.Next
+        cur.Next = pre
+        pre = cur
+        cur = tmp
+    }
+    return pre
+}
+```
+
+**小结**
+- 遍历的方式需使用一个pre变量记录前一个节点
+- 递归需要关注当前节点需要做啥
+- 善用子函数抽象拆解问题 reverseN(head, n) reverseBetween(a, b *ListNode)
 
 ### 合并 分割 相加
 
