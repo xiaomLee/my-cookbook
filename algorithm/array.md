@@ -158,6 +158,8 @@ func swim(nums []int, root int) {
         if idx == root {
             break
         }
+        // 交换
+        nums[root], nums[idx] = nums[idx], nums[root]
         root = idx
     }
 }
@@ -178,6 +180,8 @@ func sink(nums []int, end int) {
         if idx == root {
             break
         }
+        // 交换
+        nums[root], nums[idx] = nums[idx], nums[root]
         root = idx
     }
 }
@@ -606,6 +610,47 @@ func firstBadVersion(n int) int {
 [search-in-rotated-sorted-array](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
 [search-in-rotated-sorted-array-ii](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/)
+```go
+func search(nums []int, target int) bool {
+    // 二分搜索
+    start, end := 0, len(nums) -1
+    for start+1 < end {
+        // 去除重复元素
+        for start < end && nums[start] == nums[start+1] {
+            start++
+        }
+        for start < end && nums[end] == nums[end-1] {
+            end--
+        }
+        mid := start + (end-start)/2
+        if nums[mid] == target {
+            return true
+        }
+
+        // 判断在左上升区间 还是右上升区间
+        if nums[start] < nums[mid] {
+            // 左上升区间
+            if nums[start] <= target && nums[mid] >= target {
+                end = mid
+            }else {
+                start = mid
+            }
+        }else if nums[end] > nums[mid] {
+            // 右上升区间
+            if nums[end] >= target && nums[mid] <= target {
+                start = mid
+            }else {
+                end = mid
+            }
+        }
+    }
+    // 判断最后剩余的 start end
+    if nums[start] == target || nums[end] == target {
+        return true
+    }
+    return false
+}
+```
 
 [在排序数组中查找数字 I](https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/)
 
@@ -618,8 +663,56 @@ func firstBadVersion(n int) int {
 ### 前缀和
 
 [区域和检索 - 数组不可变](https://leetcode.cn/problems/range-sum-query-immutable/)
+```go
+type NumArray struct {
+    data []int
+    preSum []int
+}
+
+func Constructor(nums []int) NumArray {
+    preSum := make([]int, len(nums)+1)
+    for i := 0; i < len(nums); i++ {
+        preSum[i+1] = preSum[i] + nums[i]
+    }
+    //fmt.Println(preSum)
+    return NumArray{
+        data: nums,
+        preSum: preSum,
+    }
+}
+
+func (this *NumArray) SumRange(left int, right int) int {
+    return this.preSum[right+1] - this.preSum[left]
+}
+ ```
 
 [二维区域和检索 - 矩阵不可变](https://leetcode.cn/problems/range-sum-query-2d-immutable/)
+```go
+type NumMatrix struct {
+    preSum [][]int
+}
+
+
+func Constructor(matrix [][]int) NumMatrix {
+    preSum := make([][]int, len(matrix)+1)
+    preSum[0] = make([]int, len(matrix[0])+1)
+    for i := 0; i<len(matrix); i++ {
+        if preSum[i+1] == nil {
+            preSum[i+1] = make([]int, len(matrix[0])+1)
+        }
+        for j:=0; j< len(matrix[0]); j++ {
+            preSum[i+1][j+1] = preSum[i+1][j] + preSum[i][j+1] - preSum[i][j] + matrix[i][j]
+        }
+    }
+    return NumMatrix{preSum: preSum}
+}
+
+
+func (this *NumMatrix) SumRegion(row1 int, col1 int, row2 int, col2 int) int {
+    preSum := this.preSum
+    return preSum[row2+1][col2+1] - preSum[row2+1][col1] - preSum[row1][col2+1] + preSum[row1][col1]
+}
+ ```
 
 [二维子矩阵的和](https://leetcode.cn/problems/O4NDxx/)
 
@@ -633,10 +726,52 @@ func firstBadVersion(n int) int {
 ### 数组遍历
 
 [翻转字符串里的单词](https://leetcode.cn/problems/reverse-words-in-a-string/)
+```go
+// 多次翻转
+// 首先整个字符串翻转
+// 之后 每个单词再次翻转
+```
 
 [旋转图像](https://leetcode.cn/problems/rotate-image/)
+```go
+func rotate(matrix [][]int)  {
+    // 1. 对角线交换，完成行列转换
+    // 2. 每行翻转，完成旋转
+
+    // 1 2 3
+    // 4 5 6
+    // 7 8 9
+
+    // 1 4 7
+    // 2 5 8
+    // 3 6 9
+
+    // 7 4 1
+    // 8 5 2
+    // 9 6 3
+
+    for i:=0; i<len(matrix); i++ {
+        for j:=i; j<len(matrix); j++ {
+            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+        }
+    }
+    for i :=0; i<len(matrix); i++ {
+       reverse(matrix[i])
+    }
+}
+
+func reverse(nums []int) {
+    i, j :=0, len(nums)-1
+    for i<j {
+        nums[i], nums[j] = nums[j], nums[i]
+        i++
+        j--
+    }
+}
+```
 
 [螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/)
+
 
 [螺旋矩阵 II](https://leetcode.cn/problems/spiral-matrix-ii/)
 

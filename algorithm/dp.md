@@ -35,6 +35,36 @@ func minPathSum(grid [][]int) int {
     // base case: dp[0][0] = grid[0][0]
     // return dp[m-1][n-1]
 
+    // dp[i][j] 表示从 (i, j) 出发， 到达最右下角时的最小路径和
+    // 要使 dp[i][j] 最小， 即 grid[i][j] + 下一步选取最小的路径即可, 下一步可选的路径是 dp[i+1][j] dp[i][j+1]
+    // dp[i][j] = min(dp[i+1][j], dp[i][j+1]) + grid[i][j] 注意边界值
+    // base case dp[m-1][n-1] = grid[m-1][n-1]
+    // return dp[0][0]
+
+    m := len(grid)
+    if m == 0 {
+        return 0
+    }
+    n := len(grid[0])
+    dp := make([][]int, m)
+    
+    for i:=m-1; i>=0; i-- {
+        if dp[i] == nil {
+            dp[i] = make([]int, n)
+        }
+        for j:=n-1; j>=0; j-- {
+            if i == m-1 && j == n-1 {
+                dp[i][j] = grid[i][j]
+            }else if i == m-1 {
+                dp[i][j] = dp[i][j+1] + grid[i][j]
+            }else if j == n-1 {
+                dp[i][j] = dp[i+1][j] + grid[i][j]
+            }else {
+                dp[i][j] = min(dp[i+1][j], dp[i][j+1]) + grid[i][j]
+            }
+        }
+    }
+    return dp[0][0]
 }
 ```
 
@@ -49,6 +79,23 @@ func minimumTotal(triangle [][]int) int {
     // base case: 最后一层dp[i][j] = triangle[i][j]
     // return dp[0][0]
 
+    dp := make([][]int, len(triangle))
+    dp[len(triangle)-1] = triangle[len(triangle)-1]
+    
+    for i:=len(triangle)-2; i>=0; i-- {
+        if dp[i] == nil {
+            dp[i] = make([]int, len(triangle[i]))
+        }
+        for j:=0; j<len(dp[i]); j++ {
+            if dp[i+1][j] < dp[i+1][j+1] {
+                dp[i][j] = dp[i+1][j] + triangle[i][j]
+            }else {
+                dp[i][j] = dp[i+1][j+1] + triangle[i][j]
+            }
+        }
+    }
+    return dp[0][0]
+
 
 
     // 思路2
@@ -56,7 +103,7 @@ func minimumTotal(triangle [][]int) int {
     // 状态转移 当前值+上一层相邻的最小路径和
     // dp[i][j] = min(dp[i-1][j], dp[i-1][j-1]) + triangle[i][j]
     // base case dp[0][0] = triangle[0][0]
-    // return max(dp[len(triangle)-1])
+    // return min(dp[len(triangle)-1])
 }
 ```
 
@@ -69,8 +116,25 @@ func uniquePaths(m int, n int) int {
     // base case dp[0][0] = 1
     // return dp[m-1][n-1]
 
+    dp := make([][]int, m)
+    for i:=0; i<m; i++ {
+        if dp[i] == nil {
+            dp[i] = make([]int, n)
+        }
+        for j:=0; j<n; j++ {
+            if i==0 && j==0 {
+                dp[i][j] = 1
+            }else if i == 0 {
+                dp[i][j] = dp[i][j-1]
+            }else if j == 0 {
+                dp[i][j] = dp[i-1][j]
+            }else {
+                dp[i][j] = dp[i-1][j] + dp[i][j-1]
+            }
+        }
+    }
+    return dp[m-1][n-1]
 }
-
 ```
 
 4. [不同路径数II](https://leetcode.cn/problems/unique-paths-ii/)
@@ -85,6 +149,14 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 }
 
 ```
+
+**小结**
+
+矩阵(三角形)类的动规问题通常需二维dp数组来存储状态。
+
+dp[i][j]的定义基本为从起点出发到达(i, j)时的最大最小、总数之类的含义；
+亦可定义为从(i, j)出发，到达终点时的所求值；
+两种定义的差异体现在状态转移时 dp[i-1][j] dp[i][j-1]; dp[i+1][j] dp[i][j+1] 
 
 
 ### 跳跃&爬楼梯
@@ -127,6 +199,7 @@ func jump(nums []int) int {
 ```
 
 **小结**
+
 跳跃爬楼梯问题通常用一维dp表来存储状态。
 
 定义基本为：从初始点到达当前点 或 从当前点到达终点
@@ -139,7 +212,7 @@ func jump(nums []int) int {
 1. [连续子数组最大和](https://leetcode.cn/problems/maximum-subarray/)
 ```go
 func maxSubArray(nums []int) int {
-    // dp[i] 表示以nums[i]为结尾的最大子连续数组和
+    // dp[i] 表示以nums[i]为结尾的连续子数组，最大数组和
     // 状态转移 如果dp[i-1]>0 dp[i]=dp[i-1]+nums[i] 否则 dp[i] = nums[i]
     // base case dp[0]=nums[0]
     // return max(dp[:])
@@ -160,9 +233,19 @@ func maxSubArray(nums []int) int {
 }
 ```
 
-2. [分割回文串](https://leetcode.cn/problems/palindrome-partitioning/) 回溯算法
+2. [最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
+```go
+func lengthOfLIS(nums []int) int {
+    // dp[i] 表示以 nums[i] 为递增子序列的结尾，其所有子序列中的最大长度
+    // 状态转移 遍历nums[:i] if nums[j]<nums[i] dp[i] = max(dp[i], dp[j]+1)
+    // base case dp[0] = 1
+    // return max(dp[:])
+}
+```
 
-3. [分割回文串2](https://leetcode.cn/problems/palindrome-partitioning-ii/) 求最小分割次数
+3. [分割回文串](https://leetcode.cn/problems/palindrome-partitioning/) 回溯算法
+
+4. [分割回文串2](https://leetcode.cn/problems/palindrome-partitioning-ii/) 求最小分割次数
 ```go
 func minCut(s string) int {
     // dp[i] 表示将s[:i]分割成回文子串的最小分割次数
@@ -172,7 +255,7 @@ func minCut(s string) int {
 }
 ```
 
-4. [最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
+5. [最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
 ```go
 func longestPalindrome(s string) string {
 
@@ -201,25 +284,15 @@ func findPalindrome(s string, i, j int) string{
 }
 ```
 
-5. [最长括号子串](https://www.nowcoder.com/practice/45fd68024a4c4e97a8d6c45fc61dc6ad?tpId=295&tqId=715&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj)
+6. [最长括号子串](https://www.nowcoder.com/practice/45fd68024a4c4e97a8d6c45fc61dc6ad?tpId=295&tqId=715&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj)
 
-6. [单词拆分](https://leetcode.cn/problems/word-break/)
+7. [单词拆分](https://leetcode.cn/problems/word-break/)
 ```go
 func wordBreak(s string, wordDict []string) bool {
     // dp[i] 表示s[:i]能否由wordDict拼接出
     // 状态转移 遍历s[:i] dp[i] = (s[:i] in wordDict) || (dp[j] && s[j:i] in wordDict)
     // base case dp[0] = false
     // return dp[len(s)]
-}
-```
-
-7. [最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
-```go
-func lengthOfLIS(nums []int) int {
-    // dp[i] 表示以nums[i]为结尾的最长子序列长度
-    // 状态转移 遍历nums[:i] if nums[j]<nums[i] dp[i] = max(dp[i], dp[j]+1)
-    // base case dp[0] = 0 dp[1] = 1
-    // return max(dp[:])
 }
 ```
 
@@ -230,7 +303,6 @@ func lengthOfLIS(nums []int) int {
 
 
 ### 两序列比对问题
-
 
 1. [最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)
 ```go
@@ -323,9 +395,39 @@ func change(amount int, coins []int) int {
 1. [背包问题](https://www.lintcode.com/problem/92/)
 ```go
 func BackPack(m int, a []int) int {
-    // dp[i]
+    // write your code here
+    // dp[i][w] 表示针对第 i 个物品 容量为 w 时， 最多能装多满
+    // 对于每一个物品， 有装入 不装入两种选择
+    // 状态转移 dp[i][w] = max(dp[i-1][w], dp[i-1][w-a[i-1]] + a[i-1])
+    // base case dp[0][:] = 0 dp[:][0] = 0
+    // return dp[len(a)][m]
 
+    dp := make([][]int, len(a)+1)
+    dp[0] = make([]int, m+1)
+    for i:=1; i<=len(a); i++ {
+        if dp[i] == nil {
+            dp[i] = make([]int, m+1)
+        }
+        for j:=0; j<=m; j++ {
+            if j == 0 {
+                dp[i][j] = 0
+                continue
+            }
+            // dp[i][w] = max(dp[i-1][w], dp[i-1][w-a[i-1]] + a[i-1])
+            dp[i][j] = dp[i-1][j]
+            if j-a[i-1] >=0 {
+                dp[i][j] = max(dp[i][j], dp[i-1][j-a[i-1]] + a[i-1])
+            }
+        }
+    }
+    return dp[len(a)][m]
+}
 
+func max(a, b int) int {
+    if a>b {
+        return a
+    }
+    return b
 }
 ```
 
@@ -335,6 +437,44 @@ func BackPack(m int, a []int) int {
 ```
 
 3. [分割等和子集](https://leetcode.cn/problems/partition-equal-subset-sum
+```go
+func canPartition(nums []int) bool {
+    // 转换成背包问题 target = sum/2
+    // 背包容量为 target 从 nums 中选取元素， 求能否恰好装满
+    sum := 0
+    for i:=0; i<len(nums); i++ {
+        sum += nums[i]
+    }
+    if sum%2 != 0 {
+        // 无法均分
+        return false 
+    }
+    target := sum/2
+
+    // dp[i][w] 表示针对第 i 个物品， 还有 w 容量时，能否装满
+    // 状态转移 dp[i][w] = dp[i-1][w] || dp[i-1][w-nums[i]]
+    // base case dp[0][:] = false dp[:][0] = true
+    dp := make([][]bool, len(nums)+1)
+    dp[0] = make([]bool, target+1)
+
+    for i:=1; i<=len(nums); i++ {
+        if dp[i] == nil {
+            dp[i] = make([]bool, target+1)
+        }
+        for j:=0; j<=target; j++ {
+            if j == 0 {
+                dp[i][j] = true
+                continue
+            }
+            dp[i][j] = dp[i-1][j]
+            if j-nums[i-1] >= 0 {
+                dp[i][j] = dp[i][j] || dp[i-1][j-nums[i-1]]
+            }
+        }
+    }
+    return dp[len(nums)][target]
+}
+```
 
 **小结**
 

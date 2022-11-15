@@ -166,7 +166,6 @@ func flatten(root *TreeNode)  {
 }
 ```
 
-
 [翻转二叉树](https://leetcode.cn/problems/invert-binary-tree/)
 ```go
 func invertTree(root *TreeNode) *TreeNode {
@@ -270,6 +269,7 @@ func maxDepth(root *TreeNode, res *int) int {
     return right+1
 }
 ```
+
 [完全二叉树的节点个数](https://leetcode.cn/problems/count-complete-tree-nodes/)
 ```go
 func countNodes(root *TreeNode) int {
@@ -296,7 +296,6 @@ func countNodes(root *TreeNode) int {
     return 1 + countNodes(root.Left) + countNodes(root.Right)
 }
 ```
-
 
 [二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)
 ```go
@@ -418,6 +417,7 @@ func levelOrderBottom(root *TreeNode) [][]int {
     return res
 }
 ```
+
 [二叉树的层序遍历-ii](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
 ```go
 // 遍历同上 遍历完成后翻转result
@@ -427,6 +427,7 @@ func reverse(list [][]int) {
     }
 }
 ```
+
 [二叉树的z字形遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 ```go
 // 层序遍历
