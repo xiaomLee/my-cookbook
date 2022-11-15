@@ -821,7 +821,7 @@ cap>1024 每次扩容25%直至满足期望容量
 - 每个generation保存着多个版本 revision；revision.main 全局递增的版本号事务ID revision.sub 同一事务内的子版本号
 - 采用懒删除机制，所有删除的key，会在revision上打上标记T，之后通过异步Compactor组件实现相应数据的删除
 
-## kafka
+## [kafka](./components/kafka.md)
 
 1. 使用场景
 
@@ -837,7 +837,7 @@ cap>1024 每次扩容25%直至满足期望容量
 
 ## [mqtt](./components/mqtt.md)
 
-## elasticsearch
+## [elasticsearch](./components/es.md)
 
 1. 使用场景
 
