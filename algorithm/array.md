@@ -29,7 +29,6 @@ quickSort(nums []int, start, end int) {
 
 ```go
 func QuickSort(nums []int) {
-
     sort(nums, 0, len(nums)-1)
 }
 
@@ -282,7 +281,25 @@ func findPalindrome(s string, i, j int) string {
 // 将数组看做一个木桶 arr[0] arr[len(arr)-1]看做木桶的两个边，不断收缩
 // 木桶原理：水量以短边为准
 func trap(height []int) int {
-
+    left, right := 0, len(height)-1
+    maxLeft, maxRight := height[0], height[right]
+    res := 0
+    for left < right {
+        if height[left]>maxLeft {
+            maxLeft = height[left]
+        }
+        if height[right]>maxRight {
+            maxRight = height[right]
+        }
+        if maxLeft<maxRight {
+            res += maxLeft-height[left]
+            left++
+        }else {
+            res += maxRight-height[right]
+            right--
+        }
+    }
+    return res
 }
 ```
 

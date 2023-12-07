@@ -344,12 +344,88 @@ func minDistance(word1 string, word2 string) int {
     // 思路2
     // max(len(str1), len(str2)) - LCS
     // LCS算法参考最长公共子序列
+
+    dp := make([][]int, len(str1)+1)
+    for i:=0; i<=len(str1); i++ {
+        //fmt.Println(i)
+        if dp[i] == nil {
+            dp[i] = make([]int, len(str2)+1)
+        }
+        for j:=0; j<=len(str2); j++ {
+            if i== 0 {
+                dp[i][j] = j
+                continue
+            }else if j == 0 {
+                dp[i][j] = i
+                continue
+            }
+            if str1[i-1] == str2[j-1] {
+                dp[i][j] = dp[i-1][j-1]
+            }else {
+                dp[i][j] = min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1]) + 1
+            }
+        }
+    }
+    return dp[len(str1)][len(str2)]
 }
 ```
 
 4. [正则表达式](https://leetcode.cn/problems/regular-expression-matching/)
-```
+```go
+func match( str string ,  pattern string ) bool {
+    // 动规
+    // dp[i][j] 表示 str[:i] pattern[:j] 是否匹配
+    // dp = make([][]bool, len(str)+1)
+    
+    // 状态转移
+    // 1. str[i-1] == pattern[j-1] dp[i][j] = dp[i-1][j-1]
+    // 2. pattern[j-1] == '.' dp[i][j] = dp[i-1][j-1]
+    // 3. pattern[j-1] == '*'  
+    // 3.1 pattern[j-2] == str[i-1] || pattern[j-2] ='.'  
+    //      dp[i][j] = dp[i][j-2](a* 匹配0次) || dp[i-1][j] (a* 匹配多次)
+    // 3.2 pattern[j-2] != str[i-1]  dp[i][j] = dp[i][j-2] (a* 匹配0次)
+    // 3.3 j<2  dp[i][j] = false
 
+    // base case
+    // dp[0][0] = true dp[1:n][0] = false
+
+    dp := make([][]bool, len(str)+1)
+    for i:=0; i<=len(str); i++ {
+        if dp[i] == nil {
+            dp[i] = make([]bool, len(pattern)+1)
+        }
+        for j:=0; j<=len(pattern); j++ {
+            if i == 0 && j == 0 {
+                dp[i][j] = true
+                continue
+            }
+            if i == 0 {
+                if j>=2 && pattern[j-1] == '*' {
+                    dp[i][j] = dp[i][j-2] 
+                }else {
+                    dp[i][j] = false
+                }
+                continue
+            }
+            if j == 0 {
+                dp[i][j] = false
+                continue
+            }
+            if str[i-1] == pattern[j-1] || pattern[j-1] == '.' {
+                dp[i][j] = dp[i-1][j-1]
+            }else if pattern[j-1] == '*' && j>=2 && 
+            (pattern[j-2] == str[i-1] || pattern[j-2] == '.') {
+                dp[i][j] = dp[i][j-2] || dp[i-1][j]
+            }else if pattern[j-1] == '*' && j>=2 {
+                dp[i][j] = dp[i][j-2]
+            }else {
+                // invalid pattern
+                dp[i][j] = false
+            }
+        }
+    }
+    return dp[len(str)][len(pattern)]
+}
 ```
 
 5. [字符串匹配 KMP算法](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/)
