@@ -34,11 +34,23 @@ QoS 0：消息最多传递一次。
 
 QoS 1：消息传递至少 1 次。
 
-包含了简单的重发机制，发布者发送消息之后等待接收者的 ACK，如果没收到 ACK 则重新发送消息。这种模式能保证消息至少能到达一次，但无法保证消息重复。
+包含了简单的重发机制，发布者发送消息之后存储该PUBLISH报文(packetID标识)， 并等待接收者的 PUBACK；
+若收到回复的PUBAC, 则将PACKET ID 置为可重用；
+如果没收到 ACK 则重新发送消息， PACKET ID 不变， DUP=1；
+因为存在PACKET ID 重用，这种模式能保证消息至少能到达一次，但无法保证消息重复。
 
 QoS 2：消息仅传送一次。
 
-设计了重发和重复消息发现机制，保证消息到达对方并且严格只到达一次。
+设计了重发和重复消息发现机制，保证消息到达对方并且严格只到达一次。类似两阶段提交，需要与对端有两次交互。
+1. 客户端发送 PUBLISH Qos=2 packectID=1024 msg=bytes 的报文，并缓存
+2. 服务端接收并回复 PUBREC（pub recevice） packetID=1024，记录packetID
+3. 客户端接收 PUBREC 删除本地 PUBLISH 缓存，并新增 PUBREL 缓存 (pub release)
+4. 客户端发送 PUBREL packetID=1024
+5. 服务接收 PUBREL，同时释放packetID, 并回复 PUBCOMP (pub complete) 
+6. 客户端接收 PUBCOMP 删除本地 PUBREL 缓存， 释放重用packetID
+
+- QoS 2 规定，发送方只有在收到 PUBREC 报文之前可以重传 PUBLISH 报文。
+- 在收到对端回复的 PUBCOMP 报文确认双方都完成 Packet ID 释放之前，也不可以使用当前 Packet ID 发送新的消息。
 
 [MQTT QoS（服务质量）介绍](https://www.emqx.com/zh/blog/introduction-to-mqtt-qos)
 

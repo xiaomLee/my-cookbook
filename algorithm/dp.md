@@ -344,6 +344,29 @@ func minDistance(word1 string, word2 string) int {
     // 思路2
     // max(len(str1), len(str2)) - LCS
     // LCS算法参考最长公共子序列
+
+    dp := make([][]int, len(str1)+1)
+    for i:=0; i<=len(str1); i++ {
+        //fmt.Println(i)
+        if dp[i] == nil {
+            dp[i] = make([]int, len(str2)+1)
+        }
+        for j:=0; j<=len(str2); j++ {
+            if i== 0 {
+                dp[i][j] = j
+                continue
+            }else if j == 0 {
+                dp[i][j] = i
+                continue
+            }
+            if str1[i-1] == str2[j-1] {
+                dp[i][j] = dp[i-1][j-1]
+            }else {
+                dp[i][j] = min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1]) + 1
+            }
+        }
+    }
+    return dp[len(str1)][len(str2)]
 }
 ```
 
@@ -526,7 +549,7 @@ func canPartition(nums []int) bool {
 
 ### 股票问题
 
-1. [股票卖卖的最佳时机](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/)
+1. [股票买卖的最佳时机](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/)
 ```go
 func maxProfit(prices []int) int {
     // dp[i][j] 表示第天i天 分别在持仓、未持仓状态下的收益 j = {0, 1}
@@ -564,7 +587,7 @@ func maxProfit(prices []int) int {
 }
 ```
 
-2. [股票卖卖的最佳时机2](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/)
+2. [股票买卖的最佳时机2](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/)
 ```go
 func maxProfit(prices []int) int {
     // dp[i][j] 表示第天i天 分别在持仓、未持仓状态下的收益 j = {0, 1}
@@ -602,7 +625,7 @@ func maxProfit(prices []int) int {
 }
 ```
 
-3. [股票卖卖的最佳时机3](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/) 交易次数限制 2次
+3. [股票买卖的最佳时机3](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/) 交易次数限制 2次
 ```go
 func maxProfit(prices []int) int {
     // dp[i][k][j] 表示第i天 最大k次交易限制 持仓/未持仓时的收益; K只在买入的时候-1, 初始值为最大买入次数
@@ -648,7 +671,7 @@ func maxProfit(prices []int) int {
 }
 ```
 
-4. [股票卖卖的最佳时机4](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/) 交易次数限制 k次
+4. [股票买卖的最佳时机4](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/) 交易次数限制 k次
 ```go
 func maxProfit(K int, prices []int) int {
     // 同上 3

@@ -51,6 +51,22 @@ func reverseN(head *ListNode, n int) *ListNode {
     head.Next = tail
     return p
 }
+
+
+func reverseN(head *ListNode, n int) *ListNode {
+    // 1->2->3->4->5   n=3  pre=nil  cur=1
+    var pre *ListNode
+    cur := head
+    for ; n>0; n-- {
+        cur.Next, pre, cur = pre, cur, cur.Next
+    }
+    // 1<-2<-3 4->5  n=0  pre=3 cur=4 head=1
+    
+    head.Next = cur
+    // 5<-4<=1<-2<-3
+    return pre
+}
+
 ```
 
 [K个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group/)
@@ -76,10 +92,7 @@ func reverseBetween(a, b *ListNode) *ListNode {
     var pre *ListNode
     cur := a
     for cur != b {
-        tmp := cur.Next
-        cur.Next = pre
-        pre = cur
-        cur = tmp
+        cur.Next, pre, cur = pre, 
     }
     return pre
 }
@@ -302,6 +315,32 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 ```
 
 [旋转链表](https://leetcode.cn/problems/rotate-list/)
+```go
+func rotateRight(head *ListNode, k int) *ListNode {
+    n := 0
+    p := head
+    for p!=nil {
+        p = p.Next
+        n++ 
+    }
+    if n == 0 || k%n == 0{
+        return head
+    }
+    p = head
+    for i:=0; i<(n-1-k%n); i++ {
+        p = p.Next
+    }
+    newHead := p.Next
+    p.Next = nil
+
+    p = newHead
+    for p.Next != nil {
+        p = p.Next
+    }
+    p.Next = head
+    return newHead
+}
+```
 
 [删除排序链表中的重复元素](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/)
 
