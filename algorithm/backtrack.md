@@ -474,7 +474,41 @@ func numEnclaves(grid [][]int) int {
 }
 ```
 
-5. [岛屿的最大面积](https://leetcode.cn/problems/max-area-of-island/)
+5. [695.岛屿的最大面积](https://leetcode.cn/problems/max-area-of-island/)
+```go
+func maxAreaOfIsland(grid [][]int) int {
+	m := len(grid)
+	n := len(grid[0])
+	var dfs func(grid [][]int, i, j int) int
+	dfs = func(grid [][]int, i, j int) int {
+		if i < 0 || j < 0 || i >= m || j >= n || grid[i][j] == 0 {
+			return 0
+		}
+		grid[i][j] = 0
+		area := 1
+		area += dfs(grid, i+1, j)
+		area += dfs(grid, i-1, j)
+		area += dfs(grid, i, j-1)
+		area += dfs(grid, i, j+1)
+		return area
+	}
+
+	// 统计
+	maxArea := 0
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if grid[i][j] == 1 {
+				area := dfs(grid, i, j)
+				if area > maxArea {
+					maxArea = area
+				}
+			}
+		}
+	}
+
+	return maxArea
+}
+```
 
 **小结**
 
