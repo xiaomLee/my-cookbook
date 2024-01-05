@@ -619,9 +619,10 @@ cap>1024 每次扩容25%直至满足期望容量
 
 1. [redis使用场景](./components/redis.md#使用场景个人实践)
 - 缓存。缓存热点数据、有失效限制的数据
-- 计数器
-- 分布式锁
-- 延时队列
+- 计数器 incr
+- 分布式限流器 lua + 令牌桶算法
+- 分布式锁 setnx
+- 延时队列 zset + score(timestamp)
 - 基数统计
 
 2. [redis作为缓存时的常见问题](./components/redis.md#热点数据缓存)
@@ -817,7 +818,7 @@ cap>1024 每次扩容25%直至满足期望容量
 - 整体的存储状态机分为三个核心组件：TreeIndex Backend Compactor
 - TreeIndex是一个Btree结构，存储着用户key至BoltDB的key的对应关系，Backend是一个k-v数据库
 - 用户key到 BoltDB.key的映射关系通过keyIndex结构实现，该结构同时实现了mvcc，事务依赖此实现
-- keyIndex核心结构是generations 存储一个key的多个
+- keyIndex核心结构是generations 存储一个key的多个generation
 - 每个generation保存着多个版本 revision；revision.main 全局递增的版本号事务ID revision.sub 同一事务内的子版本号
 - 采用懒删除机制，所有删除的key，会在revision上打上标记T，之后通过异步Compactor组件实现相应数据的删除
 

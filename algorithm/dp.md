@@ -442,7 +442,7 @@ func change(amount int, coins []int) int {
     // dp[i] 表示 凑出 i 金额的组合数
     // 状态转移 为凑出i金额 可先凑出 ’i - 某一种面额的硬币’ 的金额；类比爬楼梯，要到达i  先到达 i-step
     // 循环coins dp[i] += dp[i-coins[j]]
-    // base case dp[0][0] = 1
+    // base case dp[0] = 1
     // return dp[amount]
 }
 ```

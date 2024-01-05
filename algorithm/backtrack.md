@@ -62,7 +62,7 @@ func backtrack(nums []int, pos int, track []int, res *[][]int) {
 
 ### 排列
 
-1. [全排列](https://leetcode.cn/problems/permutations/) 不含重复数字
+1. [46.全排列](https://leetcode.cn/problems/permutations/) 不含重复数字
 ```go
 func backtrack(nums []int, visited []bool, track []int, res *[][]int) {
     if len(track) == len(nums) {
@@ -84,7 +84,7 @@ func backtrack(nums []int, visited []bool, track []int, res *[][]int) {
 }
 ```
 
-2. [全排列II](https://leetcode.cn/problems/permutations-ii/) 含重复数字
+2. [47.全排列II](https://leetcode.cn/problems/permutations-ii/) 含重复数字
 ```go
 // 含重复数字， 先排序， 固定所有数字的相对顺序
 func permuteUnique(nums []int) [][]int {
@@ -103,7 +103,7 @@ func permuteUnique(nums []int) [][]int {
             if visited[i]  {
                 continue
             }
-            // 跳过重复数字; 将重复的数字当做一个整体
+            // 跳过重复数字; 将重复的数字当做一个整体, visited[i] == false 故 visited[i-1] 也需 false
             if i>0 && nums[i-1] == nums[i] && !visited[i-1] {
                 continue
             }
@@ -126,7 +126,7 @@ func permuteUnique(nums []int) [][]int {
 
 ### 组合
 
-1. [组合](https://leetcode.cn/problems/combinations/)
+1. [77.组合](https://leetcode.cn/problems/combinations/)
 ```go
 func backtrack(nums []int, k int, pos int, track []int, res *[][]int) {
     if pos == len(nums)-k+1 {
@@ -150,7 +150,7 @@ func backtrack(nums []int, k int, pos int, track []int, res *[][]int) {
 }
 ```
 
-2. [组合总和](https://leetcode.cn/problems/combination-sum/) 可重复选
+2. [39.组合总和](https://leetcode.cn/problems/combination-sum/) 可重复选
 ```go
 func backtrack(nums []int, target int, pos int, sum int, track []int, res *[][]int) {
     if sum == target {
@@ -176,7 +176,7 @@ func backtrack(nums []int, target int, pos int, sum int, track []int, res *[][]i
 }
 ```
 
-3. [组合总和II](https://leetcode.cn/problems/combination-sum-ii/) 重复只可用一次
+3. [40.组合总和II](https://leetcode.cn/problems/combination-sum-ii/) 重复只可用一次
 ```go
 // 先排序 sort.Slice(nums, func(i, j)bool {nums[i]<nums[j]})
 func backtrack(nums []int, target int, pos int, sum int, track []int, res *[][]int) {
@@ -198,15 +198,15 @@ func backtrack(nums []int, target int, pos int, sum int, track []int, res *[][]i
         }
         sum += nums[i]
         track = append(track, nums[i])
-        // 可重复选 pos=i
-        backtrack(nums, target, i, sum, track, res)
+        // 不可重复选 pos=i+1
+        backtrack(nums, target, i+1, sum, track, res)
         sum-=nums[i]
         track = track[:len(track)-1]
     }
 }
 ```
 
-4. [组合总和III](https://leetcode.cn/problems/combination-sum-iii/)
+4. [216.组合总和III](https://leetcode.cn/problems/combination-sum-iii/)
 ```go
 func combinationSum3(k int, n int) [][]int {
     var (
@@ -241,7 +241,7 @@ func backtrack(i int, target int, k int, sum int, track []int, res *[][]int) {
 
 ### 子集
 
-1. [子集](https://leetcode.cn/problems/subsets/)
+1. [78.子集](https://leetcode.cn/problems/subsets/)
 ```go
 func backtrack(nums []int, pos int, track []int, res *[][]int) {
     ans := make([]int, len(track))
@@ -256,7 +256,7 @@ func backtrack(nums []int, pos int, track []int, res *[][]int) {
 }
 ```
 
-2. [子集II](https://leetcode.cn/problems/subsets-ii/) 重复数字
+2. [90.子集II](https://leetcode.cn/problems/subsets-ii/) 重复数字
 ```go
 // 先排序
 func backtrack(nums []int, pos int, track []int, res *[][]int) {
@@ -275,6 +275,76 @@ func backtrack(nums []int, pos int, track []int, res *[][]int) {
 }
 ```
 
+3. [416.分割等和子集](https://leetcode.cn/problems/partition-equal-subset-sum)
+```go
+// 解法1：回溯算法  无法提交通过 执行超时
+func canPartition(nums []int) bool {
+	sum := 0
+	for _, num := range nums {
+		sum += num
+	}
+	if sum%2 != 0 {
+		return false
+	}
+	target := sum / 2
+	var backtrack func(nums []int, target, pos int, sum int) bool
+	backtrack = func(nums []int, target, pos int, sum int) bool {
+		if sum == target {
+			return true
+		}
+		if sum > target {
+			return false
+		}
+		for i := pos; i < len(nums); i++ {
+			sum += nums[i]
+			if backtrack(nums, target, i+1, sum) {
+				return true
+			}
+			sum -= nums[i]
+		}
+		return false
+	}
+	return backtrack(nums, target, 0, 0)
+}
+
+
+// 解法2：动态规划
+// 分割成两个相等子集可类比为 背包问题
+// 针对数组 nums， 背包容量为 sum/2, 求满足是否能恰好把背包装满；若能恰好装满，此时剩余未装入的数字和同样为 sum/2
+func dpF(nums) bool {
+    // 定义 dp[i][j], 表示针对 nums[:i] 容量为 j, 能否恰好装满
+	// 则 对于当前的 dp[i][j] 取决于当前数字 nums[i] 是否装入
+	// 当前不装入，则从 nums[:i-1] 去选择： dp[i][j] = dp[i-1][j]
+	// 当前装入，则 nums[:i-1] 可装入的容量变为 j- nums[i]： dp[i][j] = dp[i-1][j-nums[i]]
+	// base case: dp[:][0] = true dp[0][1:] = false
+
+	dp := make([][]bool, len(nums)+1)
+	for i := 0; i <= len(nums); i++ {
+		if dp[i] == nil {
+			dp[i] = make([]bool, target+1)
+		}
+		for j := 0; j <= target; j++ {
+			if j == 0 {
+				dp[i][j] = true
+				continue
+			}
+			if i == 0 {
+				dp[i][j] = false
+				continue
+			}
+			dp[i][j] = dp[i-1][j]
+			if j-nums[i-1] >= 0 {
+				dp[i][j] = dp[i][j] || dp[i-1][j-nums[i-1]]
+			}
+		}
+	}
+	return dp[len(nums)][target]
+}
+
+```
+
+4. [698.划分为k个相等的子集](https://leetcode.cn/problems/partition-to-k-equal-sum-subsets)
+
 **小结**
 
 - 排列问题backtrack里层循环是需从0开始, 且需传入一个visited数组；针对有重复数字问题，先排序，然后把有序数字当做一个整体看待，即对
@@ -283,7 +353,7 @@ i>0 && nums[i] == nums[i-1] && && !visited[i-1] 需做跳过的判断
 
 ### 岛屿
 
-1. [岛屿数量](https://leetcode.cn/problems/number-of-islands/)
+1. [200.岛屿数量](https://leetcode.cn/problems/number-of-islands/)
 ```go
 func numIslands(grid [][]byte) int {
     res := 0
@@ -320,7 +390,7 @@ func dfs(grid [][]byte, i, j int) {
 
 ```
 
-2. [统计子岛屿](https://leetcode.cn/problems/count-sub-islands/)
+2. [1905.统计子岛屿](https://leetcode.cn/problems/count-sub-islands/)
 ```go
 func countSubIslands(grid1 [][]int, grid2 [][]int) int {
     // 思路 将grid2中的岛屿不存在grid1中的淹掉， 然后统计grid2岛屿的数量
@@ -347,7 +417,7 @@ func countSubIslands(grid1 [][]int, grid2 [][]int) int {
 }
 ```
 
-3. [统计封闭岛屿的数目](https://leetcode.cn/problems/number-of-closed-islands/)
+3. [1254.统计封闭岛屿的数目](https://leetcode.cn/problems/number-of-closed-islands/)
 ```go
 func closedIsland(grid [][]int) int {
     // 思路 把靠边的岛屿先淹没， 然后统计岛屿数量
@@ -376,7 +446,7 @@ func closedIsland(grid [][]int) int {
 }
 ```
 
-4. [飞地的数量](https://leetcode.cn/problems/number-of-enclaves/)
+4. [1020.飞地的数量](https://leetcode.cn/problems/number-of-enclaves/)
 ```go
 func numEnclaves(grid [][]int) int {
     // 思路 对四周边界的岛屿进行淹没， 然后统计1的数量
