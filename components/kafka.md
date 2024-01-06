@@ -4,7 +4,7 @@
 - 数据写入时其实是到对应 partition-log 的磁盘页缓存 page cache 中，之后依赖操作系统的刷盘机制落盘，kafka-server 提供配置项，可实现同步刷盘。
 - 当 Consumer 连接时，服务端会对每个 Consumer 维护一份元数据——消费的partition、offset 等信息，之后基于元信息取顺序读取日志文件。
 - Kafka 所有元信息的存储、选主逻辑都依赖 zk 实现，kafka-server 本身的核心功能是复制消息的顺序存储。
-- 基于分 partition 顺序存储的罗，Kafka 实现高并发高高吞吐量。
+- 基于分 partition 顺序存储的逻辑，Kafka 实现高并发高高吞吐量。
 - 每个 leader-partition-log 都会有 对应的 replicate-partition-log，用于容灾备份。
 - 不支持事务，对消息的重复、丢失、错误没有严格要求，适合产生大量数据的互联网服务的数据收集业务。
    

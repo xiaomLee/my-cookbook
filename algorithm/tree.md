@@ -57,8 +57,8 @@ func dfs(root *TreeNode, result *[]interface{}) {
     }
     // 前序位置 此时前中后序都可以，按编码习惯通常放于前序位置
     *result = append(*result, root)
-    traverse(root.Left, result)
-    traverse(root.Right, result)
+    dfs(root.Left, result)
+    dfs(root.Right, result)
 }
 ```
 

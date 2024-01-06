@@ -372,60 +372,48 @@ func minDistance(word1 string, word2 string) int {
 
 4. [正则表达式](https://leetcode.cn/problems/regular-expression-matching/)
 ```go
-func match( str string ,  pattern string ) bool {
-    // 动规
-    // dp[i][j] 表示 str[:i] pattern[:j] 是否匹配
-    // dp = make([][]bool, len(str)+1)
-    
-    // 状态转移
-    // 1. str[i-1] == pattern[j-1] dp[i][j] = dp[i-1][j-1]
-    // 2. pattern[j-1] == '.' dp[i][j] = dp[i-1][j-1]
-    // 3. pattern[j-1] == '*'  
-    // 3.1 pattern[j-2] == str[i-1] || pattern[j-2] ='.'  
-    //      dp[i][j] = dp[i][j-2](a* 匹配0次) || dp[i-1][j] (a* 匹配多次)
-    // 3.2 pattern[j-2] != str[i-1]  dp[i][j] = dp[i][j-2] (a* 匹配0次)
-    // 3.3 j<2  dp[i][j] = false
+    // dp[i][j] 表示 s[:i] p[:j] 能否匹配
+    // 则存在如下状态转换
+    // p[j-1] == s[i-1] 匹配掉当前字符 dp[i][j] = dp[i-1][j-1]
+    // p[j-1] == '.' 仅能匹配一个任意字符 dp[i][j] = dp[i-1][j-1]
+    // p[j-1] == '*' 匹配0个p[j-2]字符 dp[i][j] = dp[i][j-2] || dp[i-1][j-2] || dp[i-1][j]
+    // p[j-1] != '.' && p[j-1] != '*' dp[i][j] = false
+    // base case dp[i][0] = i==0 dp[0][j] = j >= 2 && j%2 == 0 && p[j-1] == '*' false : dp[i][j-2]
+				
 
-    // base case
-    // dp[0][0] = true dp[1:n][0] = false
-
-    dp := make([][]bool, len(str)+1)
-    for i:=0; i<=len(str); i++ {
+    dp := make([][]bool, len(s)+1)
+    for i:=0; i<=len(s); i++ {
         if dp[i] == nil {
-            dp[i] = make([]bool, len(pattern)+1)
+            dp[i] == make([]bool, len(p)+1)
         }
-        for j:=0; j<=len(pattern); j++ {
-            if i == 0 && j == 0 {
-                dp[i][j] = true
+        for j:=0; j<=len(p); j++ {
+            if j == 0 {
+                dp[i][j] = i==0
                 continue
             }
             if i == 0 {
-                if j>=2 && pattern[j-1] == '*' {
-                    dp[i][j] = dp[i][j-2] 
-                }else {
-                    dp[i][j] = false
-                }
-                continue
-            }
-            if j == 0 {
                 dp[i][j] = false
-                continue
+				if j >= 2 && j%2 == 0 && p[j-1] == '*' {
+					dp[i][j] = dp[i][j-2]
+				}
+				continue
             }
-            if str[i-1] == pattern[j-1] || pattern[j-1] == '.' {
+            if p[j-1] == s[i-1] {
                 dp[i][j] = dp[i-1][j-1]
-            }else if pattern[j-1] == '*' && j>=2 && 
-            (pattern[j-2] == str[i-1] || pattern[j-2] == '.') {
-                dp[i][j] = dp[i][j-2] || dp[i-1][j]
-            }else if pattern[j-1] == '*' && j>=2 {
-                dp[i][j] = dp[i][j-2]
+            }else if p[j-1] == '.' {
+                dp[i][j] = dp[i-1][j-1]
+            }else if p[j-1] == '*' {
+                dp[i][j] = dp[i][j-2] 
+                if p[j-2] == s[i-1] || p[j-2] == '.' {
+                    dp[i][j] = dp[i][j-2] || dp[i-1][j-2] || dp[i-1][j]
+                }
             }else {
-                // invalid pattern
                 dp[i][j] = false
             }
         }
     }
-    return dp[len(str)][len(pattern)]
-}
+    return dp[len(s)][len(p)]
+
 ```
 
 5. [字符串匹配 KMP算法](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/)
@@ -454,7 +442,7 @@ func change(amount int, coins []int) int {
     // dp[i] 表示 凑出 i 金额的组合数
     // 状态转移 为凑出i金额 可先凑出 ’i - 某一种面额的硬币’ 的金额；类比爬楼梯，要到达i  先到达 i-step
     // 循环coins dp[i] += dp[i-coins[j]]
-    // base case dp[0][0] = 1
+    // base case dp[0] = 1
     // return dp[amount]
 }
 ```
