@@ -760,3 +760,8 @@ func maxProfit(prices []int, fee int) int {
 - 状态转移：对当前房屋i有两种选择——偷、不偷，最大收益分别对应 dp[i-2] + nums[i], dp[i-1]; max(偷， 不偷)
 - base case dp[0] = 0 dp[1] = nums[0]
 - 对于环形链表，分两种base case：偷第一家不偷最后一家(dp[1]=nums[0]), 不偷第一家(dp[1]=0)
+
+
+### 刷题列表
+
+[参考](https://books.halfrost.com/leetcode/ChapterTwo/Dynamic_Programming/)
