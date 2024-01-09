@@ -25,7 +25,7 @@ dp.md
 
 ### 矩阵类型 遍历&递推
 
-1. [最小路径和](https://leetcode.cn/problems/minimum-path-sum/)
+1. [64.最小路径和](https://leetcode.cn/problems/minimum-path-sum/)
 ```go
 // [[1,3,1],[1,5,1],[4,2,1]]
 func minPathSum(grid [][]int) int {
@@ -68,7 +68,7 @@ func minPathSum(grid [][]int) int {
 }
 ```
 
-2. [三角形最小路径和](https://leetcode.cn/problems/triangle/)
+2. [120.三角形最小路径和](https://leetcode.cn/problems/triangle/)
 ```go
 func minimumTotal(triangle [][]int) int {
 
@@ -107,7 +107,7 @@ func minimumTotal(triangle [][]int) int {
 }
 ```
 
-3. [不同路径数I](https://leetcode.cn/problems/unique-paths/)
+3. [62.不同路径数](https://leetcode.cn/problems/unique-paths/)
 ```go
 func uniquePaths(m int, n int) int {
     // dp[i][j] 表示从(0, 0)出发 到达(i, j)共有多少种路径
@@ -137,7 +137,7 @@ func uniquePaths(m int, n int) int {
 }
 ```
 
-4. [不同路径数II](https://leetcode.cn/problems/unique-paths-ii/)
+4. [63不同路径数II](https://leetcode.cn/problems/unique-paths-ii/)
 ```go
 func uniquePathsWithObstacles(obstacleGrid [][]int) int {
     // dp[i][j] 表示从(0, 0)出发 到达(i, j)共有多少种路径

@@ -523,11 +523,114 @@ func maxAreaOfIsland(grid [][]int) int {
 
 ### 其他 
 
-1. [N皇后](https://leetcode.cn/problems/n-queens/)
+1. [51.N皇后](https://leetcode.cn/problems/n-queens/)
+```go
+func solveNQueens(n int) [][]string {
+	var backtrack func(n int, row int, track [][]byte, res *[][]string)
+	backtrack = func(n, row int, track [][]byte, res *[][]string) {
+		if row == n {
+			// fmt.Println(track)
+			ans := make([]string, 0)
+			for _, bytes := range track {
+				// fmt.Println(string(bytes))
+				ans = append(ans, string(bytes))
+			}
+			*res = append(*res, ans)
+			return
+		}
 
-2. [数独](https://leetcode.cn/problems/sudoku-solver/)
+		if track[row] == nil {
+			track[row] = make([]byte, n)
+			for col := 0; col < n; col++ {
+				track[row][col] = '.'
+			}
+		}
 
-3. [括号生成](https://leetcode.cn/problems/generate-parentheses/)
+		// 对于当前行的没一列进行选择
+		for col := 0; col < n; col++ {
+			// 对于当前的 track[row][col] = 'Q' 判断是否能攻击
+			if canAttack(track, row, col) {
+				continue
+			}
+			track[row][col] = 'Q'
+			backtrack(n, row+1, track, res)
+			track[row][col] = '.'
+		}
+	}
+
+	track := make([][]byte, n)
+	res := make([][]string, 0)
+	backtrack(n, 0, track, &res)
+	return res
+}
+
+func canAttack(track [][]byte, row, col int) bool {
+	// 同一列
+	for i := 0; i < row; i++ {
+		if track[i][col] == 'Q' {
+			return true
+		}
+	}
+	// 同一斜线 V 型 左斜上方
+	for i, j := row-1, col-1; i >= 0 && j >= 0; i, j = i-1, j-1 {
+		if track[i][j] == 'Q' {
+			return true
+		}
+	}
+	// 同一斜线 V 型 右斜上方
+	for i, j := row-1, col+1; i >= 0 && j < len(track); i, j = i-1, j+1 {
+		if track[i][j] == 'Q' {
+			return true
+		}
+	}
+	return false
+}
+```
+
+2. [52.N皇后II](https://leetcode.cn/problems/n-queens-ii/description/)
+```go
+// 同上   
+```
+
+3. [37.解数独](https://leetcode.cn/problems/sudoku-solver/)
+```go
+
+```
+
+4. [22.括号生成](https://leetcode.cn/problems/generate-parentheses/)
+```go
+func generateParenthesis(n int) []string {
+	// 共有2*n个字符， 左括号 右括号分别为 n 个
+	// 递归， 每次递归分别减少一个左括号 或 右括号
+	// 前序位置判断当前组合是否合法
+	// left == 0 && right == 0 找到合法组合
+	// left < 0 || right < 0 || left > right 非法
+	var backtrack func(left, right int, track []byte, res *[]string)
+	backtrack = func(left, right int, track []byte, res *[]string) {
+		if right == 0 && left == 0 {
+			*res = append(*res, string(track))
+			return
+		}
+		if left < 0 || right < 0 || left > right {
+			return
+		}
+
+		// 尝试添加左括号
+		track = append(track, '(')
+		backtrack(left-1, right, track, res)
+		track = track[:len(track)-1]
+
+		// 尝试添加右括号
+		track = append(track, ')')
+		backtrack(left, right-1, track, res)
+		track = track[:len(track)-1]
+	}
+	track := make([]byte, 0)
+	res := make([]string, 0)
+	backtrack(n, n, track, &res)
+	return res
+}
+```
 
 
 ## 参考阅读
