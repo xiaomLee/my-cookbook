@@ -161,7 +161,7 @@ dp[i][j]的定义基本为从起点出发到达(i, j)时的最大最小、总数
 
 ### 跳跃&爬楼梯
 
-1. [爬楼梯](https://leetcode.cn/problems/climbing-stairs/)
+1. [70.爬楼梯](https://leetcode.cn/problems/climbing-stairs/)
 ```go
 func climbStairs(n int) int {
     // dp[i] 表示到达第i阶有多少种方法
@@ -171,15 +171,29 @@ func climbStairs(n int) int {
 }
 ```
 
-2. [跳跃游戏](https://leetcode.cn/problems/jump-game/)
+2. [55.跳跃游戏](https://leetcode.cn/problems/jump-game/)
 ```go
 func canJump(nums []int) bool {
 
     // 思路1
     // dp[i] 表示从0出发 能否到达第i个下标
     // 状态转移 dp[i] 依赖于所有 <i 的点当中是否有可以到达i的下标，即 dp[j] && nums[j]>=i-j 
-    // base case dp[0][0]=true
+    // base case dp[0]=true
     // return dp[len(nums)-1]
+	dp := make([]bool, len(nums))
+	for i:=0; i<len(nums); i++ {
+		if i == 0 {
+			dp[0] = true
+			continue
+		}
+		for j:=0; j < i; j++ {
+			if dp[j] && i-j <= nums[j] {
+				dp[i] = true
+				break
+			}
+		}
+	}
+	return dp[len(nums)-1]
 
     // 思路2
     // dp[i] 表示从出发， 能否到达终点
@@ -189,12 +203,32 @@ func canJump(nums []int) bool {
 }
 ```
 
-3. [跳跃游戏2](https://leetcode.cn/problems/jump-game-ii/) 
+3. [45.跳跃游戏II](https://leetcode.cn/problems/jump-game-ii/) 
 ```go
 func jump(nums []int) int {
     // dp[i] 表示从nums[i] 到最后一个位置的最少次数
     // 状态转移 dp[i] = min(dp[i+0], dp[i+1], ..., dp[i+nums[i]]) + 1
     // base case dp[n-1] = 0
+
+
+    // dp[i] 表示到达 i 的最小跳跃次数
+	// dp[i] = min(dp[:i-1] && nums[j] >= i-j) + 1
+	// base case dp[0] = 0
+
+	dp := make([]int, len(nums))
+	for i:=0; i<len(nums); i++ {
+		if i == 0 {
+			dp[0] = 0
+			continue
+		}
+		dp[i] = math.MaxInt32
+		for j:=0; j<i; j++ {
+			if nums[j] >= i-j && dp[i] > dp[j] {
+				dp[i] = dp[j] + 1
+			}
+		}
+	}
+	return dp[len(nums)-1]
 }
 ```
 
@@ -209,7 +243,7 @@ func jump(nums []int) int {
 
 ### 子序列&子串问题
 
-1. [连续子数组最大和](https://leetcode.cn/problems/maximum-subarray/)
+1. [53.最大子数组和](https://leetcode.cn/problems/maximum-subarray/)
 ```go
 func maxSubArray(nums []int) int {
     // dp[i] 表示以nums[i]为结尾的连续子数组，最大数组和
@@ -233,29 +267,203 @@ func maxSubArray(nums []int) int {
 }
 ```
 
-2. [最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
+2. [300.最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
 ```go
 func lengthOfLIS(nums []int) int {
     // dp[i] 表示以 nums[i] 为递增子序列的结尾，其所有子序列中的最大长度
     // 状态转移 遍历nums[:i] if nums[j]<nums[i] dp[i] = max(dp[i], dp[j]+1)
     // base case dp[0] = 1
     // return max(dp[:])
+    dp := make([]int, len(nums))
+	res := 0
+	for i:=0; i<len(nums); i++ {
+		if i == 0 {
+			dp[i] = 1
+			res = dp[i]
+			continue
+		}
+		dp[i] = 1
+		for j:=0; j<i; j++ {
+			if nums[i] > nums[j] && dp[i] < dp[j] +1 {
+				dp[i] = 1 + dp[j]
+			}
+		}
+		if dp[i] > res {
+			res = dp[i]
+		}
+	}
+	return res
 }
 ```
 
-3. [分割回文串](https://leetcode.cn/problems/palindrome-partitioning/) 回溯算法
+3. [131.分割回文串](https://leetcode.cn/problems/palindrome-partitioning/) 回溯算法
+```go
+func partition(s string) [][]string {
+	var backtrack func(s string, pos int, track []string, res *[][]string) 
+	backtrack = func(s string, pos int, track []string, res *[][]string) {
+		if pos == len(s) {
+			ans := make([]string, len(track))
+			copy(ans, track)
+			*res = append(*res, ans)
+			return
+		}
+		for i:=pos; i<len(s); i++ {
+			// 对于每一个 s[i] 都有两种选择：分割 or 不分割
+			if !isPalindrome(s[pos:i+1]) {
+				continue
+			}
+			track = append(track, s[pos:i+1])
+			backtrack(s, i+1, track, res)
+			track = track[:len(track)-1]
+		}
+	}
 
-4. [分割回文串2](https://leetcode.cn/problems/palindrome-partitioning-ii/) 求最小分割次数
+	track := make([]string, 0)
+	res := make([][]string, 0)
+	backtrack(s, 0, track, &res)
+	return res
+}
+
+func isPalindrome(s string) bool {
+	if len(s) <= 1 {
+		return true
+	}
+	i, j:= 0, len(s)-1
+	for i<j {
+		if s[i] != s[j] {
+			return false
+		}
+		i++
+		j--
+	}
+	return true
+}
+
+```
+
+4. [132.分割回文串II](https://leetcode.cn/problems/palindrome-partitioning-ii/) 求最小分割次数
 ```go
 func minCut(s string) int {
-    // dp[i] 表示将s[:i]分割成回文子串的最小分割次数
-    // 状态转移 对s[:i]进行遍历， 若s[j:i]是回文串 dp[i] = min(dp[i], dp[j] + 1)
-    // base case dp[0] = -1 dp[1] = 0
-    // return dp[len(s)]
+	// dp[i] 表示将 s[:i] 分割成都是回文子串的最小分割次数 0<= i <= len(s)
+	// 则 dp[i] = min(dp[j] && s[j:i] isPalindrome) + 1
+	// base case dp[0] = 0 dp[1] = 0 dp[i] = i-1
+	// return dp[len(s)]
+
+	isPalindrome := func(s string) bool {
+		for i,j:=0, len(s)-1; i<j; i, j= i+1, j-1{
+			if s[i] != s[j] {
+				return false
+			}
+		}
+		return true
+	}
+
+	huiwen := make([][]bool, len(s)+1)
+	for i:=0; i<len(s); i++ {
+		if huiwen[i] == nil {
+			huiwen[i] = make([]bool, len(s)+1)
+		}
+		for j:=i; j<=len(s); j++ {
+			huiwen[i][j] = isPalindrome(s[i:j])
+		}
+	}
+
+	dp := make([]int, len(s)+1)
+	for i:=0; i<=len(s); i++ {
+		if i <= 1 || huiwen[0][i] {
+			dp[i] = 0
+			continue
+		}
+
+		dp[i] = i - 1
+		for j:=0; j<i; j++ {
+			if huiwen[j][i] && dp[j] + 1 < dp[i] {
+				dp[i] = dp[j] + 1
+			}
+		}
+	}
+	return dp[len(s)]
 }
 ```
 
-5. [最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
+5. [32.最长有效括号](https://leetcode.cn/problems/longest-valid-parentheses/description/)
+```go
+// dp[i] 表示以 s[i] 为结尾的最长有效括号长度
+	// 则 
+	// 1. 若 s[i] == '(' 以 s[i] 为结尾的最长有效括号为必定为 0 ： dp[i] = 0
+	// 2. 若 s[i] == ')' 需根据 s[i-1] 做状态转移
+	// 2.1 若 s[i-1] == '(' 则 s[i-1] s[i] 已能组成有效括号 dp[i] = dp[i-2] + 2
+	// 2.2 若 s[i-1] == ')' 则 需判断 dp[i-1] 
+	// 2.2.1 若 dp[i-1] == 0 则 dp[i] =0 
+	// 2.2.2 若 dp[i-1] > 0 && i - dp[i-1]>0 && s[i - dp[i-1] -1 ] == '(' 则 dp[i] = dp[i-1] + 2 + dp[i- dp[i-1] -2]
+	// (subs) ( (sub_s) ) 
+	// base case: dp[0] = 0
+	// return max(dp[:])
+
+	dp := make([]int, len(s))
+	res := 0
+	for i :=0; i<len(s); i++ {
+		if i == 0 {
+			dp[i] = 0
+			continue
+		}
+		if i == 1 {
+			if s[i] == ')' && s[i-1] == '(' {
+				dp[i] = 2
+				res = dp[i]
+			}else {
+				dp[i] = 0
+			}
+			continue
+		}
+		
+		if s[i] == ')' && s[i-1] == '(' {
+			dp[i] = dp[i-2] + 2
+		}else if s[i] == ')' && s[i-1] == ')' &&
+		 dp[i-1] > 0 && i - dp[i-1] -1 >= 0 && s[i - dp[i-1] -1 ] == '(' {
+			dp[i] = dp[i-1] + 2
+			if i-dp[i-1]-2>= 0 {
+				dp[i] = dp[i] + dp[i- dp[i-1] -2]
+			}
+		}
+
+		if dp[i] > res {
+			res = dp[i]
+		}
+	}
+	return res
+```
+
+6. [139.单词拆分](https://leetcode.cn/problems/word-break/)
+```go
+func wordBreak(s string, wordDict []string) bool {
+    // dp[i] 表示s[:i]能否由wordDict拼接出
+    // 状态转移 遍历s[:i] dp[i] = (s[:i] in wordDict) || (dp[j] && s[j:i] in wordDict)
+    // base case dp[0] = true
+    // return dp[len(s)]
+    dict := make(map[string]bool)
+	for _, word := range wordDict {
+		dict[word] = true
+	}
+
+	dp := make([]bool, len(s)+1)
+	for i:=0; i<=len(s); i++ {
+		if i == 0 {
+			dp[0] = true
+			continue
+		}
+		for j:=0; j<i; j++ {
+			if dp[j] && dict[s[j:i]] {
+				dp[i] = true
+				break
+			}
+		}
+	}
+	return dp[len(s)]
+}
+```
+
+7. [5.最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
 ```go
 func longestPalindrome(s string) string {
 
@@ -284,27 +492,15 @@ func findPalindrome(s string, i, j int) string{
 }
 ```
 
-6. [最长括号子串](https://www.nowcoder.com/practice/45fd68024a4c4e97a8d6c45fc61dc6ad?tpId=295&tqId=715&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj)
-
-7. [单词拆分](https://leetcode.cn/problems/word-break/)
-```go
-func wordBreak(s string, wordDict []string) bool {
-    // dp[i] 表示s[:i]能否由wordDict拼接出
-    // 状态转移 遍历s[:i] dp[i] = (s[:i] in wordDict) || (dp[j] && s[j:i] in wordDict)
-    // base case dp[0] = false
-    // return dp[len(s)]
-}
-```
-
 **小结**
-动规子序列/子串问题通常用一维dp表来存储状态。
+动规子序列/子串问题通常用一维dp表来存储状态。问题7，最长回文子串不适于本分类，需要用二维数组来表示状态，此处仅做为记录。
 
 定义基本为：一维数组dp[i], 表示将当前点作为结尾的结果，然后对s[i] 或者s[:i]做复合题意的判断
 
 
 ### 两序列比对问题
 
-1. [最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)
+1. [1143.最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)
 ```go
 func longestCommonSubsequence(text1 string, text2 string) int {
     // dp[i][j] 表示text1[:i] text2[:j] 的最长公共子序列长度
@@ -313,6 +509,26 @@ func longestCommonSubsequence(text1 string, text2 string) int {
     // text1[i] != text2[j] dp[i][j] = max(dp[i-1][j], dp[i][j-1])
     // base case dp[0][0] = 0 dp[i][0] = 0 dp[0][j] = 0
     // return dp[len(text1)][len(text2)]
+    dp := make([][]int, len(text1)+1)
+	for i:=0; i<=len(text1); i++ {
+		if dp[i] == nil {
+			dp[i] = make([]int, len(text2)+1)
+		}
+		for j:=0; j<=len(text2); j++ {
+			if i==0 || j == 0 {
+				dp[i][j] = 0
+				continue
+			}
+			if text1[i-1] == text2[j-1] {
+				dp[i][j] = dp[i-1][j-1] + 1
+			}else if  dp[i-1][j] > dp[i][j-1] {
+				dp[i][j] = dp[i-1][j]
+			}else {
+				dp[i][j] = dp[i][j-1]
+			}
+		}
+	}
+	return dp[len(text1)][len(text2)]
 }
 
 ```
@@ -329,7 +545,7 @@ func longestCommonSubstring(str1 string, str2 string) string {
 }
 ```
 
-3. [编辑距离](https://leetcode.cn/problems/edit-distance/)
+3. [72.编辑距离](https://leetcode.cn/problems/edit-distance/)
 ```go
 func minDistance(word1 string, word2 string) int {
     
@@ -370,7 +586,7 @@ func minDistance(word1 string, word2 string) int {
 }
 ```
 
-4. [正则表达式](https://leetcode.cn/problems/regular-expression-matching/)
+4. [10.正则表达式](https://leetcode.cn/problems/regular-expression-matching/)
 ```go
     // dp[i][j] 表示 s[:i] p[:j] 能否匹配
     // 则存在如下状态转换
@@ -416,7 +632,10 @@ func minDistance(word1 string, word2 string) int {
 
 ```
 
-5. [字符串匹配 KMP算法](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/)
+5. [28.strstr / KMP算法](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/)
+```go
+
+```
 
 **小结**
 两个序列的动规问题，需定义一个二维dp表， 所代表的意义一般是 str1[:i] str2[:j] 的最值
@@ -746,7 +965,6 @@ func maxProfit(prices []int, fee int) int {
 1. 第i天 最大k次交易 未持仓：前一天也未持仓今天不操作(dp[i-1][k][0]), 或 前一天持仓今天卖出(dp[i-1][k][1]+price[i]) 
 2. 第i天 最大k次交易 持仓：前一天未持仓今天买入(dp[i-1][k-1][0]-prices[i]), 或  前一天持仓今天不操作(dp[i-1][k][1])
 3. base case dp[0][k][0] = 0 dp[0][k][1] = -prices[0] dp[i][0][0] = 0 dp[i][0][1] = math.MinInt32
-
 
 ### 打家劫舍
 
