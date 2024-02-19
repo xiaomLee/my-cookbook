@@ -645,7 +645,7 @@ func minDistance(word1 string, word2 string) int {
 
 ### 零钱兑换
 
-1. [零钱兑换](https://leetcode.cn/problems/coin-change/)
+1. [322.零钱兑换](https://leetcode.cn/problems/coin-change/)
 ```go
 func coinChange(coins []int, amount int) int {
     // dp[i] 表示凑出 i金额最少的硬币数
@@ -655,7 +655,7 @@ func coinChange(coins []int, amount int) int {
 }
 ```
 
-2. [零钱兑换II](https://leetcode.cn/problems/coin-change-2/)
+2. [518.零钱兑换II](https://leetcode.cn/problems/coin-change-2/)
 ```go
 func change(amount int, coins []int) int {
     // dp[i] 表示 凑出 i 金额的组合数
@@ -679,7 +679,7 @@ func change(amount int, coins []int) int {
 ```go
 func BackPack(m int, a []int) int {
     // write your code here
-    // dp[i][w] 表示针对第 i 个物品 容量为 w 时， 最多能装多满
+    // dp[i][w] 表示针对前 i 个物品 容量为 w 时， 最多能装多满
     // 对于每一个物品， 有装入 不装入两种选择
     // 状态转移 dp[i][w] = max(dp[i-1][w], dp[i-1][w-a[i-1]] + a[i-1])
     // base case dp[0][:] = 0 dp[:][0] = 0

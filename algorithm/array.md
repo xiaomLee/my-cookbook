@@ -332,7 +332,7 @@ func slideWindow(s string) int {
 }
 ```
 
-[无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
+[3.无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
 ```go
 func lengthOfLongestSubstring(s string) int {
     // 滑动窗口 + map
@@ -364,7 +364,7 @@ func lengthOfLongestSubstring(s string) int {
 }
 ```
 
-[找到字符串中所有字母异位词](https://leetcode.cn/problems/find-all-anagrams-in-a-string/)
+[438.找到字符串中所有字母异位词](https://leetcode.cn/problems/find-all-anagrams-in-a-string/)
 ```go
 func findAnagrams(s string, p string) []int {
     // 滑动窗口
@@ -458,7 +458,7 @@ func search(nums []int, target int) int {
 }
 ```
 
-[在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
+[34.在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
 ```go
 func searchRange(nums []int, target int) []int {
     // 二分查找
