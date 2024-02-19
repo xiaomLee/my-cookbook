@@ -34,8 +34,8 @@
  * 
  * 
  * 示例 3:
- * 
- * 
+ *
+ *
  * 输入: s = "pwwkew"
  * 输出: 3
  * 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
@@ -51,11 +51,37 @@
  * s 由英文字母、数字、符号和空格组成
  * 
  * 
+ *
+ *
+ *
+ *
+ * 提示：
+ *
+ *
+ * 0 <= s.length <= 5 * 10^4
+ * s 由英文字母、数字、符号和空格组成
+ *
+ *
  */
 
 // @lc code=start
 func lengthOfLongestSubstring(s string) int {
-
+	win := make(map[byte]int, 0)
+	res := 0
+	left, right := 0, 0
+	for right < len(s) {
+		c := s[right]
+		win[c] += 1
+		right++
+		for win[c] > 1 {
+			win[s[left]]--
+			left++
+		}
+		if right-left > res {
+			res = right - left
+		}
+	}
+	return res
 }
 // @lc code=end
 

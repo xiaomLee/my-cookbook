@@ -6,11 +6,11 @@
  * https://leetcode.cn/problems/find-all-anagrams-in-a-string/description/
  *
  * algorithms
- * Medium (54.04%)
- * Likes:    1365
+ * Medium (54.05%)
+ * Likes:    1358
  * Dislikes: 0
- * Total Accepted:    365.5K
- * Total Submissions: 676.7K
+ * Total Accepted:    361.1K
+ * Total Submissions: 668.1K
  * Testcase Example:  '"cbaebabacd"\n"abc"'
  *
  * 给定两个字符串 s 和 p，找到 s 中所有 p 的 异位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
@@ -53,7 +53,39 @@
 
 // @lc code=start
 func findAnagrams(s string, p string) []int {
+	win := make(map[byte]int, 0)
+	res := make([]int, 0)
+	left, right:=0, 0
 
+
+	match := make(map[byte]int)
+    for i:=0; i<len(p); i++ {
+        match[p[i]] +=1
+    }
+
+	for right < len(s) {
+		win[s[right]] += 1
+		right++
+
+		for right-left>len(p) {
+            win[s[left]]--
+            left++
+        }
+
+		if right-left == len(p) && valid(win, match) {
+            res = append(res, left)
+        }
+	}
+	return res
+}
+
+func valid(win map[byte]int, match map[byte]int) bool {
+    for key, val := range match {
+        if num, ok := win[key]; !ok || num != val {
+            return false
+        }
+    }
+    return true
 }
 // @lc code=end
 

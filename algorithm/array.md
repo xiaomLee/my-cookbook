@@ -406,12 +406,49 @@ func valid(win map[byte]int, match map[byte]int) bool {
 }
 ```
 
-[字符串的排列](https://leetcode.cn/problems/permutation-in-string/)
+[567.字符串的排列](https://leetcode.cn/problems/permutation-in-string/)
 ```go
 // 同上
+
+func checkInclusion(s1 string, s2 string) bool {
+	s1Map := make(map[byte]int)
+	for i:=0; i<len(s1); i++ {
+		s1Map[s1[i]] += 1
+	}
+
+	match := func(m1, m2 map[byte]int) bool {
+		for c, val := range m2 {
+			if num, ok := m1[c]; !ok || num != val {
+				return false
+			}
+		}
+		return true
+	}
+
+	win := make(map[byte]int)
+	left, right := 0, 0
+
+	for right < len(s2) {
+		win[s2[right]] += 1
+		right++
+
+		for right - left > len(s1) {
+			win[s2[left]]--
+			left++
+		}
+
+		// fmt.Println(win)
+
+		if right - left == len(s1) && match(win, s1Map) {
+			return true
+		}
+	}
+	return false
+}
+
 ```
 
-[最小覆盖子串](https://leetcode.cn/problems/minimum-window-substring/)
+[76.最小覆盖子串](https://leetcode.cn/problems/minimum-window-substring/)
 
 [重复的DNA序列](https://leetcode.cn/problems/repeated-dna-sequences/)
 
