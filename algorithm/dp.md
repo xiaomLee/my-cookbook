@@ -645,6 +645,10 @@ func findPalindrome(s string, i, j int) string{
 }
 ```
 
+2. [516.最长回文子序列](https://leetcode.cn/problems/longest-palindromic-subsequence/description/)
+3. [312.戳气球](https://leetcode.cn/problems/burst-balloons/description/)
+4. [1246.删除回文子数组](https://leetcode.cn/problems/palindrome-removal/description/)
+
 ### 零钱兑换
 
 1. [322.零钱兑换](https://leetcode.cn/problems/coin-change/)
