@@ -87,11 +87,11 @@ func longestValidParentheses(s string) int {
 		}else {
 			dp[i] = 0
 		}
+
 		if dp[i] > res {
 			res = dp[i]
 		}
 	}
-
 	return res
 }
 // @lc code=end

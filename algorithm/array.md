@@ -495,7 +495,7 @@ func search(nums []int, target int) int {
 }
 ```
 
-[在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
+[34.在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
 ```go
 func searchRange(nums []int, target int) []int {
     // 二分查找
