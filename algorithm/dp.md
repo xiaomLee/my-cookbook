@@ -255,38 +255,13 @@ func minCut(s string) int {
 }
 ```
 
-5. [最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
+5. [最长括号子串](https://www.nowcoder.com/practice/45fd68024a4c4e97a8d6c45fc61dc6ad?tpId=295&tqId=715&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj)
+5. [32.最长有效括号](https://leetcode.cn/problems/longest-valid-parentheses)
 ```go
-func longestPalindrome(s string) string {
 
-    // 思路1 动规
-    // dp[i][j] 表示 s[i:j]是否是回文串
-    // 状态转移 dp[i][j] 依赖于 s[i] == s[j] && dp[i+1][j-1]
-    // base case dp[0][0] = true dp[i][i] = true
-    // return range dp && max(i-j)
-
-
-    // 思路2 中心扩散法
-    // 回文串存在奇数偶数之分， 分别以i,  (i, i+1)为中心寻找最长回文子串
-    // max(res, max(res1, res2))
-}
-
-// 扩散寻找最长回文串
-func findPalindrome(s string, i, j int) string{
-    for i>=0 && j<len(s) {
-        if s[i] != s[j] {
-            break
-        }
-        i--
-        j++
-    }
-    return s[i+1:j]
-}
 ```
 
-6. [最长括号子串](https://www.nowcoder.com/practice/45fd68024a4c4e97a8d6c45fc61dc6ad?tpId=295&tqId=715&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj)
-
-7. [单词拆分](https://leetcode.cn/problems/word-break/)
+6. [单词拆分](https://leetcode.cn/problems/word-break/)
 ```go
 func wordBreak(s string, wordDict []string) bool {
     // dp[i] 表示s[:i]能否由wordDict拼接出
@@ -423,6 +398,37 @@ func minDistance(word1 string, word2 string) int {
 状态转移一般 dp[i][j] = min/max(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) 此类型的方程
 需注意dp的长度通常会Len(str1)+1
 
+
+### 区间dp
+
+1. [5.最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
+```go
+func longestPalindrome(s string) string {
+
+    // 思路1 动规
+    // dp[i][j] 表示 s[i:j]是否是回文串
+    // 状态转移 dp[i][j] 依赖于 s[i] == s[j] && dp[i+1][j-1]
+    // base case dp[0][0] = true dp[i][i] = true
+    // return range dp && max(i-j)
+
+
+    // 思路2 中心扩散法
+    // 回文串存在奇数偶数之分， 分别以i,  (i, i+1)为中心寻找最长回文子串
+    // max(res, max(res1, res2))
+}
+
+// 扩散寻找最长回文串
+func findPalindrome(s string, i, j int) string{
+    for i>=0 && j<len(s) {
+        if s[i] != s[j] {
+            break
+        }
+        i--
+        j++
+    }
+    return s[i+1:j]
+}
+```
 
 ### 零钱兑换
 
