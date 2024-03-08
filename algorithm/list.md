@@ -17,7 +17,7 @@
 
 ### 反转
 
-[反转链表](https://leetcode.cn/problems/reverse-linked-list/)
+[206.反转链表](https://leetcode.cn/problems/reverse-linked-list/)
 ```go
 func reverseList(head *ListNode) *ListNode {
     if head == nil || head.Next == nil {
@@ -30,7 +30,7 @@ func reverseList(head *ListNode) *ListNode {
 }
 ```
 
-[反转链表II](https://leetcode.cn/problems/reverse-linked-list-ii/)
+[92.反转链表II](https://leetcode.cn/problems/reverse-linked-list-ii/)
 ```go
 func reverseBetween(head *ListNode, left int, right int) *ListNode {
     if left == 1 {
@@ -69,9 +69,9 @@ func reverseN(head *ListNode, n int) *ListNode {
 
 ```
 
-[K个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group/)
+[25.K个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group/)
 ```go
-func reverseKGroup(head *ListNode, k int) *ListNode {
+func reerseKGroup(head *ListNode, k int) *ListNode {
     if head == nil {
         return head
     }
@@ -105,7 +105,7 @@ func reverseBetween(a, b *ListNode) *ListNode {
 
 ### 合并 分割 相加
 
-[合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists/)
+[21.合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists/)
 ```go
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
     // 思路 1 递归解法 mergeTwoLists(list1.Next, list2) or mergeTwoLists(list1, list2.Next)
@@ -133,7 +133,7 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 }
 ```
 
-[合并K个升序链表](https://leetcode.cn/problems/merge-k-sorted-lists/)
+[23.合并K个升序链表](https://leetcode.cn/problems/merge-k-sorted-lists/)
 ```go
 func mergeKLists(lists []*ListNode) *ListNode {
     // 思路 二分递归合并 转换成 mergeTwoLists
@@ -164,7 +164,7 @@ func mergeTwoLists(list1, list2 *ListNode) *ListNode {
 }
 ```
 
-[分隔链表](https://leetcode.cn/problems/partition-list/)
+[86.分隔链表](https://leetcode.cn/problems/partition-list/)
 ```go
 func partition(head *ListNode, x int) *ListNode {
     if head == nil {
