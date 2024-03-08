@@ -463,35 +463,6 @@ func wordBreak(s string, wordDict []string) bool {
 }
 ```
 
-7. [5.最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
-```go
-func longestPalindrome(s string) string {
-
-    // 思路1 动规
-    // dp[i][j] 表示 s[i:j]是否是回文串
-    // 状态转移 dp[i][j] 依赖于 s[i] == s[j] && dp[i+1][j-1]
-    // base case dp[0][0] = true dp[i][i] = true
-    // return range dp && max(i-j)
-
-
-    // 思路2 中心扩散法
-    // 回文串存在奇数偶数之分， 分别以i,  (i, i+1)为中心寻找最长回文子串
-    // max(res, max(res1, res2))
-}
-
-// 扩散寻找最长回文串
-func findPalindrome(s string, i, j int) string{
-    for i>=0 && j<len(s) {
-        if s[i] != s[j] {
-            break
-        }
-        i--
-        j++
-    }
-    return s[i+1:j]
-}
-```
-
 **小结**
 动规子序列/子串问题通常用一维dp表来存储状态。问题7，最长回文子串不适于本分类，需要用二维数组来表示状态，此处仅做为记录。
 
@@ -642,6 +613,46 @@ func minDistance(word1 string, word2 string) int {
 状态转移一般 dp[i][j] = min/max(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) 此类型的方程
 需注意dp的长度通常会Len(str1)+1
 
+
+### 区间dp
+
+1. [5.最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
+```go
+func longestPalindrome(s string) string {
+
+    // 思路1 动规
+    // dp[i][j] 表示 s[i:j]是否是回文串
+    // 状态转移 dp[i][j] 依赖于 s[i] == s[j] && dp[i+1][j-1]
+    // base case dp[0][0] = true dp[i][i] = true
+    // return range dp && max(i-j)
+
+
+    // 思路2 中心扩散法
+    // 回文串存在奇数偶数之分， 分别以i,  (i, i+1)为中心寻找最长回文子串
+    // max(res, max(res1, res2))
+}
+
+// 扩散寻找最长回文串
+func findPalindrome(s string, i, j int) string{
+    for i>=0 && j<len(s) {
+        if s[i] != s[j] {
+            break
+        }
+        i--
+        j++
+    }
+    return s[i+1:j]
+}
+```
+
+2. [516.最长回文子序列](https://leetcode.cn/problems/longest-palindromic-subsequence/description/)
+3. [扰乱字符串]
+4. [312.戳气球](https://leetcode.cn/problems/burst-balloons/description/)
+5. [能量向量]
+6. [石子合并]
+7. [248G]
+8. [涂色]
+4. [1246.删除回文子数组](https://leetcode.cn/problems/palindrome-removal/description/)
 
 ### 零钱兑换
 

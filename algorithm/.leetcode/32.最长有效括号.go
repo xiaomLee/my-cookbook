@@ -6,10 +6,10 @@
  * https://leetcode.cn/problems/longest-valid-parentheses/description/
  *
  * algorithms
- * Hard (37.56%)
- * Likes:    2433
+ * Hard (37.57%)
+ * Likes:    2453
  * Dislikes: 0
- * Total Accepted:    417.6K
+ * Total Accepted:    424.8K
  * Total Submissions: 1.1M
  * Testcase Example:  '"(()"'
  *
@@ -58,42 +58,34 @@
 // @lc code=start
 func longestValidParentheses(s string) int {
 	// dp[i] 表示以 s[i] 为结尾的最长有效括号长度
-	// 则 
-	// 1. 若 s[i] == '(' 以 s[i] 为结尾的最长有效括号为必定为 0 ： dp[i] = 0
-	// 2. 若 s[i] == ')' 需根据 s[i-1] 做状态转移
-	// 2.1 若 s[i-1] == '(' 则 s[i-1] s[i] 已能组成有效括号 dp[i] = dp[i-2] + 2
-	// 2.2 若 s[i-1] == ')' 则 需判断 dp[i-1] 
-	// 2.2.1 若 dp[i-1] == 0 则 dp[i] =0 
-	// 2.2.2 若 dp[i-1] > 0 && i - dp[i-1]>0 && s[i - dp[i-1] -1 ] == '(' 则 dp[i] = dp[i-1] + 2 + dp[i- dp[i-1] -2]
-	// (subs) ( (sub_s) ) 
+	// 1 s[i] == ')' 
+	// 1.1 s[i-1] == '(' 则 dp[i] = dp[i-2] + 2
+	// 1.2. s[i] == ')' s[i-1] == ')' if s[i-dp[i-1]-1] == '(' dp[i] = dp[i-1] + 2 + dp[i-dp[i-1]-2] else dp[i] = 0
+	// 1.3  s[i] == '(' dp[i] = 0
 	// base case: dp[0] = 0
-	// return max(dp[:])
 
 	dp := make([]int, len(s))
 	res := 0
-	for i :=0; i<len(s); i++ {
-		if i == 0 {
-			dp[i] = 0
-			continue
-		}
-		if i == 1 {
-			if s[i] == ')' && s[i-1] == '(' {
+
+	for i:=1; i<len(s); i++ {
+		if s[i] == ')' && s[i-1] == '(' {
+			if i > 2 {
+				dp[i] = dp[i-2] + 2
+			}else {
 				dp[i] = 2
-				res = dp[i]
+			}
+		}else if s[i] == ')' && s[i-1] == ')' {
+			if dp[i-1] > 0 && i-dp[i-1]-1 >= 0 && s[i-dp[i-1]-1] == '(' {
+				if i-dp[i-1]-2 > 0 {
+					dp[i] = dp[i-1] + 2 + dp[i-dp[i-1]-2]
+				}else {
+					dp[i] = dp[i-1] + 2
+				}
 			}else {
 				dp[i] = 0
 			}
-			continue
-		}
-		
-		if s[i] == ')' && s[i-1] == '(' {
-			dp[i] = dp[i-2] + 2
-		}else if s[i] == ')' && s[i-1] == ')' &&
-		 dp[i-1] > 0 && i - dp[i-1] -1 >= 0 && s[i - dp[i-1] -1 ] == '(' {
-			dp[i] = dp[i-1] + 2
-			if i-dp[i-1]-2>= 0 {
-				dp[i] = dp[i] + dp[i- dp[i-1] -2]
-			}
+		}else {
+			dp[i] = 0
 		}
 
 		if dp[i] > res {
