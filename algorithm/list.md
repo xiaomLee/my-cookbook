@@ -54,7 +54,7 @@ func reverseN(head *ListNode, n int) *ListNode {
 
 
 func reverseN(head *ListNode, n int) *ListNode {
-    // 1->2->3->4->5   n=3  pre=nil  cur=1
+    // 1->2->3->4->5   n=3  pre=nil  cur=1 head=1
     var pre *ListNode
     cur := head
     for ; n>0; n-- {
@@ -90,9 +90,8 @@ func reerseKGroup(head *ListNode, k int) *ListNode {
 
 func reverseBetween(a, b *ListNode) *ListNode {
     var pre *ListNode
-    cur := a
-    for cur != b {
-        cur.Next, pre, cur = pre, 
+    for a != b {
+        a.Next, pre, a = pre, a, a.Next
     }
     return pre
 }
@@ -194,7 +193,7 @@ func partition(head *ListNode, x int) *ListNode {
 
 ### 有环、公共节点
 
-[环形链表](https://leetcode.cn/problems/linked-list-cycle/)
+[141.环形链表](https://leetcode.cn/problems/linked-list-cycle/)
 ```go
 func hasCycle(head *ListNode) bool {
     if head == nil {
@@ -213,7 +212,7 @@ func hasCycle(head *ListNode) bool {
 }
 ```
 
-[环形链表II](https://leetcode.cn/problems/linked-list-cycle-ii/)
+[142.环形链表II](https://leetcode.cn/problems/linked-list-cycle-ii/)
 ```go
 func detectCycle(head *ListNode) *ListNode {
     if head == nil {
@@ -242,7 +241,7 @@ func detectCycle(head *ListNode) *ListNode {
 }
 ```
 
-[相交链表](https://leetcode.cn/problems/intersection-of-two-linked-lists/)
+[160.相交链表](https://leetcode.cn/problems/intersection-of-two-linked-lists/)
 ```go
 func getIntersectionNode(headA, headB *ListNode) *ListNode {
     // 思路1 
@@ -272,15 +271,12 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 
 ### 查找 删除、插入
 
-[链表的中间结点](https://leetcode.cn/problems/middle-of-the-linked-list/)
+[876.链表的中间结点](https://leetcode.cn/problems/middle-of-the-linked-list/)
 ```go
 func middleNode(head *ListNode) *ListNode {
-    if head == nil {
-        return nil
-    }
     // 快慢指针 快指针两倍速
     slow, fast := head, head
-    for fast.Next!=nil && fast.Next.Next != nil {
+    for fast!=nil && fast.Next != nil {
         slow = slow.Next
         fast = fast.Next.Next
     }
@@ -288,7 +284,7 @@ func middleNode(head *ListNode) *ListNode {
 }
 ```
 
-[删除链表的倒数第 N 个结点](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/)
+[19.删除链表的倒数第 N 个结点](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/)
 ```go
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
     if head == nil {
@@ -314,7 +310,7 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 }
 ```
 
-[旋转链表](https://leetcode.cn/problems/rotate-list/)
+[61.旋转链表](https://leetcode.cn/problems/rotate-list/)
 ```go
 func rotateRight(head *ListNode, k int) *ListNode {
     n := 0
@@ -342,9 +338,9 @@ func rotateRight(head *ListNode, k int) *ListNode {
 }
 ```
 
-[删除排序链表中的重复元素](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/)
+[83.删除排序链表中的重复元素](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/)
 
-[删除排序链表中的重复元素II](https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/)
+[82.删除排序链表中的重复元素II](https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/)
 ```go
 func deleteDuplicates(head *ListNode) *ListNode {
     if head == nil {
@@ -373,16 +369,76 @@ func deleteDuplicates(head *ListNode) *ListNode {
 
 ### 排序
 
-[排序链表](https://leetcode.cn/problems/sort-list/)
+[148.排序链表](https://leetcode.cn/problems/sort-list/)
+```go
+func sortList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	// 快慢指针找中点 归并排序
+	// [4,2,1,3] 
+	// 此处注意：fast = head.Next, 否则当只有两个数的时候，slow 指针会永远指向第二个数
+	// slow 指针要寻找的相当于是 mid 的前一个节点
+	slow, fast := head, head.Next
+	for fast!= nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+	fmt.Println(slow.Val, slow.Next.Val)
+	right := sortList(slow.Next)
+	slow.Next = nil
+	left := sortList(head)
+	return mergeTwoLists(left, right)
+}
 
-[对链表进行插入排序](https://leetcode.cn/problems/insertion-sort-list/)
+func mergeTwoLists(list1, list2 *ListNode) *ListNode {
+	if list1 == nil {
+		return list2
+	}else if list2 == nil {
+		return list1
+	}else if list1.Val < list2.Val {
+		list1.Next = mergeTwoLists(list1.Next, list2)
+		return list1
+	}else {
+		list2.Next = mergeTwoLists(list1, list2.Next)
+		return list2
+	}
+}
+```
 
-[重排链表](https://leetcode.cn/problems/reorder-list/)
+[147.对链表进行插入排序](https://leetcode.cn/problems/insertion-sort-list/)
+```go
+func insertionSortList(head *ListNode) *ListNode {
+	dummy := &ListNode{}
+	for head!=nil {
+		insertSort(dummy, head.Val)
+		head = head.Next
+	}
+	return dummy.Next
+}
+
+func insertSort(head *ListNode, val int) {
+	node := &ListNode{Val: val}
+	if head.Next == nil {
+		head.Next = node
+		return
+	}
+	p := head
+	for p.Next!=nil && p.Next.Val <= node.Val {
+		p = p.Next
+	}
+	fmt.Println(p.Val)
+	node.Next = p.Next
+	p.Next = node 
+}
+```
+
+[143.重排链表](https://leetcode.cn/problems/reorder-list/)
 
 ### 其他 
 
-[回文链表](https://leetcode.cn/problems/palindrome-linked-list/)
-[奇偶链表](https://leetcode.cn/problems/odd-even-linked-list/)
+[234.回文链表](https://leetcode.cn/problems/palindrome-linked-list/)
+[328.奇偶链表](https://leetcode.cn/problems/odd-even-linked-list/)
 
 
 ## 常见工程应用

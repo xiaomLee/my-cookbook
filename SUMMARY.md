@@ -1,18 +1,25 @@
-my develop cookbook
+# Summary
+
+* [Introduction](README.md)
 
 - 语言
-  - [go](language/go.md)
-- TCP/IP
-  - [tcp/ip](tcp&ip/tcp&ip.md)
-  - [http/https](tcp&ip/http&https&tls.md)
-  - [http2](tcp&ip/http2.md)
-  - [grpc](tcp&ip/grpc.md)
+  - [go](language/golang.md)
+- 计算机网络
+  - [tcp/ip](network/tcp&ip.md)
+  - [http/https](network/http&https&tls.md)
+  - [http2](network/http2.md)
+  - [grpc](network/grpc.md)
+  - [udp](network/udp.md)
+  - [dns](network/dns.md)
+  - [quic](network/quic.md)
 - Linux
   - [linux](linux/README.md)
-- 容器技术
-  - [docker](docker/docker.md)
-  - [k8s](k8s/README.md)
-- 后端组件
+  - [机器标识码/硬件ID](linux/ids.md)
+  - [进程/线程/协程](linux/process-thread-coroutine.md)
+- DevOps
+  - [docker](devops/docker.md)
+  - [kubernetes](devops/k8s/README.md)
+- 常用组件
   - [mysql](components/mysql.md)
   - [redis](components/redis.md)
   - [kafka](components/kafka.md)
@@ -27,5 +34,5 @@ my develop cookbook
   - [video](ai/video.md)
 - AIOT
 - 项目实践
-  - [通用业务网关](application/business-gw.md)
-  - [交易所](application/trade-engin.md)
+  - [通用业务网关](projects/business-gw.md)
+  - [交易所](projects/trade-engin.md)

@@ -646,13 +646,108 @@ func findPalindrome(s string, i, j int) string{
 ```
 
 2. [516.最长回文子序列](https://leetcode.cn/problems/longest-palindromic-subsequence/description/)
-3. [扰乱字符串]
+```go
+func longestPalindromeSubseq(s string) int {
+	// dp[i][j] 表示 s[j:i] 的最长回文子序列
+	// 1. s[i] == s[j] dp[i][j] = max(dp[i-1][j+1]+2, dp[i-1][j], dp[i][j+1])
+	// 2. s[i] != s[j] dp[i][j] = max(dp[i-1][j+1], dp[i-1][j], dp[i][j+1])
+	// base case: dp[0][0] = 1 
+	// return dp[0][len(s)-1]
+	
+	max := func(ints ...int) int {
+		sort.Ints(ints)
+		return ints[len(ints)-1]
+	}
+
+	dp := make([][]int, len(s))
+	for i:=0; i<len(s); i++ {
+		if dp[i] == nil {
+			dp[i] = make([]int, len(s))
+		}
+		for j:=i; j>=0; j-- {
+			if i==0 || j==i {
+				dp[i][j] = 1
+				continue
+			}
+			if s[j] == s[i] {
+				dp[i][j] = max(dp[i-1][j+1]+2, dp[i-1][j], dp[i][j+1])
+			}else {
+				dp[i][j] = max(dp[i-1][j+1], dp[i-1][j], dp[i][j+1])
+			}
+		}
+	}
+	return dp[len(s)-1][0]
+}
+```
+
+3. [87.扰乱字符串](https://leetcode.cn/problems/scramble-string/description/)
+```go
+func isScramble(s1 string, s2 string) bool {
+	// 递归 + 记忆搜索
+	// tips:
+	// 1. 可对 s1 s2 进行 hascode 进行初步判断筛选(长度、字母异位词)
+	// 2. 对每次结果进行存储，防止重复计算
+	memo := make(map[string]bool)
+	var recursive func(s1, s2 string, memo map[string]bool) bool
+	var hashCode func(s string) int 
+	recursive = func (s1, s2 string, memo map[string]bool) bool {
+		if len(s1) != len(s2) {
+			return false
+		}
+		if hashCode(s1) != hashCode(s2) {
+			return false
+		}
+		if s1==s2 {
+			return true
+		}
+		if ans, ok := memo[s1+s2]; ok {
+			return ans
+		}
+	
+		n := len(s1)
+		for i:=0; i<n-1; i++ {
+			if recursive(s1[:i+1], s2[:i+1], memo) && recursive(s1[i+1:], s2[i+1:], memo) {
+				memo[s1+s2] = true
+				memo[s2+s1] = true
+				return true
+			}
+			
+			if recursive(s1[:i+1], s2[n-i-1:], memo) && recursive(s1[i+1:], s2[:n-i-1], memo) {
+				memo[s1+s2] = true
+				memo[s2+s1] = true
+				return true
+			}
+		}
+		memo[s1+s2] = false
+		memo[s2+s1] = false
+		return false
+	}
+	
+	hashCode = func(s string) int {
+		var code int
+		for _, char := range s {
+			code += 1<<(char - 'a')
+		}
+		return code
+	}
+	
+
+	return recursive(s1, s2, memo)
+}
+
+```
+
 4. [312.戳气球](https://leetcode.cn/problems/burst-balloons/description/)
 5. [能量向量]
 6. [石子合并]
 7. [248G]
 8. [涂色]
 4. [1246.删除回文子数组](https://leetcode.cn/problems/palindrome-removal/description/)
+
+**小结**
+区间DP整体框架模型上有点类似回文串的中心扩散法（或递归子问题），先求解中间某段的结果，然后向两端扩散求解。
+- 比如 [5.最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/) [516.最长回文子序列](https://leetcode.cn/problems/longest-palindromic-subsequence/description/) 都是先求解 s[i:j] 是不是回文串(或最大长度)，之后通过 s[i-1] == s[j+1] 进行扩散
+- 
 
 ### 零钱兑换
 

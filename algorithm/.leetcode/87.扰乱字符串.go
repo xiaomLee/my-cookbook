@@ -75,7 +75,50 @@
 
 // @lc code=start
 func isScramble(s1 string, s2 string) bool {
+	// 区间dp：将 s1[i:i+k] s2[j:j+k] 当做一个整体区间
+	// 每个字符串来说有两种选择：从第 i 位开始 截取 k 位长度作为一个虚拟整体
+	// 则 能将 s1 s2 正确分割的条件为满足下述全部：
+	// 1. s1[i:i+k] 与 s2[j:j+k] 能正确分割
+	// 2. s1[:i] 与 (s2[:j] 或 s2[j+k:]) 且 s1[i+k:] 与(s2[:j] 或 s2[j+k:]) 能正确分割
+	// 存在递归子问题
+	// 故定义 dp[i][j][k] 为 分别从 s1, s2 的 i, j 位开始截取 k 长度的子串，此时的 s1[i:i+k] s2[j:k] 能否被正确分割
+	// dp[i][j][k] = range(l ... k) { 
+	// 		(dp[i][j][l] && dp[i+l][j+l][k-l]) ||	// (s1[i:i+l] && s2[j:j+l]) && (s1[i+l:i+k] && s2[j+l:j+k])
+	//		(dp[i][j+k-l][l] && dp[i+l][j][k-l])	// (s1[i:i+l] && s2[j+k-l:j+k]) && (s1[i+l:i+k] && s2[j:j+k-l])
+	// }
+	// base case: 当 k==1 时 判断 s[i] == s[j] 即  dp[i][j][1] = s[i] == s[j]
 
+	n := len(s1)
+	dp := make([][][]bool, n+1)
+	for k:=1; k <= n; k++ {
+		for i:=0; i<=n-k; i++ {
+			if dp[i] == nil {
+				dp[i] = make([][]bool, n+1)
+			}
+			for j:=0; j<=n-k; j++ {
+				if dp[i][j] == nil {
+					dp[i][j] = make([]bool, n+1)
+				}
+				if k == 1 {
+                    dp[i][j][k] = s1[i] == s2[j]
+                    continue
+                }
+				for l:=1; l<k; l++ {
+					// (s1[i:i+l] && s2[j:j+l]) && (s1[i+l:i+k] && s2[j+l:j+k])
+					if dp[i][j][l] && dp[i+l][j+l][k-l] {
+						dp[i][j][k] = true
+						break
+					}
+					// (s1[i:i+l] && s2[j+k-l:j+k]) && (s1[i+l:i+k] && s2[j:j+k-l])
+					if dp[i][j+k-l][l] && dp[i+l][j][k-l] {
+						dp[i][j][k] = true
+						break
+					}
+				}
+			}
+		}
+	}
+	return dp[0][0][n]
 }
 // @lc code=end
 

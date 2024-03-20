@@ -51,7 +51,38 @@
 
 // @lc code=start
 func maxCoins(nums []int) int {
-	
+	// 区间dp
+	// dp[i][j] 表示将 nums[i:j] 之间的气球全戳破时所能获取的最大值
+	// 要获得最大值存在如下选择：对于 nums[i:j] 间的气球被戳破，会产生如下结果
+	// dp[i][j]_case_k = dp[i][k] + nums[i]*nums[k]*nums[j] + dp[k][j]
+	// 则 dp[i][j] = max(dp[i][j]_case_i+1...j-1)
+
+	// 对原数组左右边界进行扩展 + 1，用于边界控制
+	n := len(nums)
+	nums = append([]int{1}, nums...)
+	nums = append(nums, 1)
+	dp := make([][]int, n+2)
+	for i:=0; i<len(dp); i++ {
+		dp[i] = make([]int, n+2)
+	}
+
+	// 对于 dp[i][j]_case_n 的结果产生会依赖 case_i+k，故需倒序迭代
+	// [1, 3,1,5,8, 1] 
+	// max_j = n+2 == 1 
+	// max_i = n == n-1+1 =  原数组的倒数第二个值
+	for i:=n; i>=0; i-- {
+		for j:=i+2; j<n+2; j++ {
+			// 循环 nums[i:j]
+			for k:=i+1; k<j; k++ {
+				//fmt.Println("i, j, k:", i, j, k)
+				case_k := dp[i][k] + nums[i]*nums[k]*nums[j] + dp[k][j]
+				if case_k > dp[i][j] {
+					dp[i][j] = case_k
+				}
+			}
+		}
+	}
+	return dp[0][n+1]
 }
 // @lc code=end
 

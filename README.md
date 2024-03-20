@@ -1,4 +1,2 @@
-# my-cookbook
-cookboook for develop
+# my cookbook
 
-[summary](SUMMARY.md)
