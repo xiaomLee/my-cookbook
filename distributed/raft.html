@@ -1,0 +1,354 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>raft</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../README.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 计算机网络</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../network/tcp&ip.html"><strong aria-hidden="true">2.1.</strong> tcp/ip</a></li><li class="chapter-item expanded "><a href="../network/http&https&tls.html"><strong aria-hidden="true">2.2.</strong> http/https</a></li><li class="chapter-item expanded "><a href="../network/http2.html"><strong aria-hidden="true">2.3.</strong> http2</a></li><li class="chapter-item expanded "><a href="../network/grpc.html"><strong aria-hidden="true">2.4.</strong> grpc</a></li><li class="chapter-item expanded "><a href="../network/udp.html"><strong aria-hidden="true">2.5.</strong> udp</a></li><li class="chapter-item expanded "><a href="../network/dns.html"><strong aria-hidden="true">2.6.</strong> dns</a></li><li class="chapter-item expanded "><a href="../network/quic.html"><strong aria-hidden="true">2.7.</strong> quic</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Linux</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux/README.html"><strong aria-hidden="true">3.1.</strong> linux</a></li><li class="chapter-item expanded "><a href="../linux/ids.html"><strong aria-hidden="true">3.2.</strong> 机器标识码/硬件ID</a></li><li class="chapter-item expanded "><a href="../linux/process-thread-coroutine.html"><strong aria-hidden="true">3.3.</strong> 进程/线程/协程</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 数据结构与算法</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../algorithm/list.html"><strong aria-hidden="true">4.1.</strong> List</a></li><li class="chapter-item expanded "><a href="../algorithm/stack.html"><strong aria-hidden="true">4.2.</strong> stack</a></li><li class="chapter-item expanded "><a href="../algorithm/tree.html"><strong aria-hidden="true">4.3.</strong> tree</a></li><li class="chapter-item expanded "><a href="../algorithm/array.html"><strong aria-hidden="true">4.4.</strong> array</a></li><li class="chapter-item expanded "><a href="../algorithm/backtrack.html"><strong aria-hidden="true">4.5.</strong> 回溯算法</a></li><li class="chapter-item expanded "><a href="../algorithm/dp.html"><strong aria-hidden="true">4.6.</strong> 动态规划</a></li><li class="chapter-item expanded "><a href="../algorithm/bloom.html"><strong aria-hidden="true">4.7.</strong> 布隆过滤器</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 语言</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../language/golang.html"><strong aria-hidden="true">5.1.</strong> go</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> 常用组件</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../components/mysql.html"><strong aria-hidden="true">6.1.</strong> mysql</a></li><li class="chapter-item expanded "><a href="../components/redis.html"><strong aria-hidden="true">6.2.</strong> redis</a></li><li class="chapter-item expanded "><a href="../components/kafka.html"><strong aria-hidden="true">6.3.</strong> kafka</a></li><li class="chapter-item expanded "><a href="../components/rabbitmq.html"><strong aria-hidden="true">6.4.</strong> rabbitmq</a></li><li class="chapter-item expanded "><a href="../components/mqtt.html"><strong aria-hidden="true">6.5.</strong> mqtt</a></li><li class="chapter-item expanded "><a href="../components/nginx.html"><strong aria-hidden="true">6.6.</strong> nginx</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> 分布式</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../distributed/raft.html" class="active"><strong aria-hidden="true">7.1.</strong> raft</a></li><li class="chapter-item expanded "><a href="../distributed/etcd.html"><strong aria-hidden="true">7.2.</strong> etcd</a></li><li class="chapter-item expanded "><a href="../distributed/zk.html"><strong aria-hidden="true">7.3.</strong> zookeeper</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> AI</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ai/video.html"><strong aria-hidden="true">8.1.</strong> video</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> AIOT</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 容器技术</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../devops/docker.html"><strong aria-hidden="true">10.1.</strong> docker</a></li><li class="chapter-item expanded "><a href="../devops/k8s/README.html"><strong aria-hidden="true">10.2.</strong> kubernetes</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 项目实践</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../projects/business-gw.html"><strong aria-hidden="true">11.1.</strong> 通用业务网关</a></li><li class="chapter-item expanded "><a href="../projects/trade-engin.html"><strong aria-hidden="true">11.2.</strong> 交易所</a></li></ol></li><li class="chapter-item expanded "><a href="../bak/bak.html"><strong aria-hidden="true">12.</strong> 归档</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/xiaomLee/my-cookbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/xiaomLee/my-cookbook/edit/master/.//distributed/raft.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="raft"><a class="header" href="#raft">Raft</a></h1>
+<p>Raft是一种分布式一致性算法。</p>
+<p>Raft的工作方式是在集群中选举一个领导者。领导者负责接受客户端请求并管理到其他服务器的日志复制。数据只在一个方向流动:从领导者到其他服务器。</p>
+<p>Raft将一致性问题分解为三个子问题:</p>
+<ul>
+<li>
+<p>领导者选举: 现有领导者失效时，需要选举新的领导者；</p>
+</li>
+<li>
+<p>日志复制: 领导者需要通过复制保持所有服务器的日志与自己的同步；</p>
+</li>
+<li>
+<p>安全性: 如果其中一个服务器在特定索引上提交了日志条目，那么其他服务器不能在该索引应用不同的日志条目。</p>
+</li>
+</ul>
+<h2 id="工作原理概述"><a class="header" href="#工作原理概述">工作原理概述</a></h2>
+<p>follower：所有结点都以follower的状态开始。如果没收到leader消息则会变成candidate状态。<br />
+candidate：会向其他结点“拉选票”，如果得到大部分的票则成为leader。这个过程就叫做Leader选举(Leader Election)。<br />
+leader：所有对系统的修改都会先经过leader。每个修改都会写一条日志(log entry)。leader收到修改请求执行日志复制(Log Replication)。</p>
+<pre><code>执行复制日志到所有follower结点(replicate entry)
+大部分节点复制完成后，leader执行日志提交，索引index++
+通知所有follower节点日志已提交，应用索引
+所有follower也提交日志
+现在整个系统处于一致的状态
+</code></pre>
+<p>全局只有两种请求
+leader发出的Append Entries，心跳与日志都是通过它进行发送的。
+candidate发出的vote</p>
+<p><a href="http://thesecretlivesofdata.com/raft/">参考</a></p>
+<h2 id="选举"><a class="header" href="#选举">选举</a></h2>
+<p>每一个服务器节点都处于这三个状态之一：</p>
+<ul>
+<li>
+<p>Follower:追随者，跟随者都是被动的：他们不会发送任何请求，只是简单的响应来自领导者或者候选人的请求；</p>
+</li>
+<li>
+<p>Candidate:候选人，如果跟随者接收不到消息，那么他就会变成候选人并发起一次选举，获得集群中大多数选票的候选人将成为领导者。</p>
+</li>
+<li>
+<p>Leader:领导者，系统中只有一个领导人并且其他的节点全部都是跟随者，领导人处理所有的客户端请求（如果一个客户端和跟随者联系，那么跟随者会把请求重定向给领导人）</p>
+</li>
+</ul>
+<p><strong>任期</strong></p>
+<p>每个任期都以一次选举开始，任期号单调递增。每个服务器存储当前任期号，并在每次通信中交换该任期编号。</p>
+<p>如果一个服务器的当前任期号小于其他服务器，那么它将把当前任期更新为更大的值。如果候选人或领导者发现其任期已过期，则立即转化为追随者状态。如果服务器接收到带有过期任期号的请求，它将拒绝该请求。</p>
+<p><strong>leader选举</strong></p>
+<p>领导者定期向跟随者发送心跳，来维持自己的leader角色。如果跟随者在一定的时间内——选举超时时间——election timeout（为了避免选举冲突，这个超时时间是一个150~300ms之间的随机数，每个节点每次超时时间不固定）没有接收到leader的心跳消息（通过AppendEntries这个消息结构来传递），也就是选举超时，那么他就会认为系统中没有可用的领导者,并且发起选举以选出新的领导者。</p>
+<p>要开始一次选举过程，跟随者先要增加自己的当前任期号并且转换到候选人状态。然后他会并行的向集群中的其他服务器节点发送请求投票的 RPCs 来给自己投票， vote消息体。</p>
+<p>成为candidate的节点发起新的选举期(election term)去“拉选票”：</p>
+<ol>
+<li>重置自己的计时器</li>
+<li>投自己一票</li>
+<li>发送 Request Vote消息</li>
+</ol>
+<p>如果接收节点在新term内没有投过票那它就会投给此candidate，并重置它自己的选举超时时间。<br />
+candidate拉到大部分选票就会成为leader，并定时发送心跳——Append Entries消息，去重置各个follower的计时器。当前Term会继续直到某个follower接收不到心跳并成为candidate。</p>
+<p>如果不巧两个结点同时成为candidate都去“拉票”怎么办？这时会发生Splite Vote情况。
+两个结点可能都拉到了同样多的选票，难分胜负，选举失败，本term没有leader。
+之后又有计时器超时的follower会变成candidate，将term加一并开始新一轮的投票。</p>
+<h2 id="日志复制"><a class="header" href="#日志复制">日志复制</a></h2>
+<p>客户端提交的每一条命令都会被按顺序记录到leader的日志中，每一条命令都包含term编号和顺序索引，然后向其他节点并行发送AppendEntries RPC用以复制命令(客户端指令被包含在AppendEntries中，如果命令丢失会不断重发)，当复制成功也就是大多数节点成功复制后，leader就会提交命令，即执行(Apply)该命令并且将执行结果返回客户端，raft保证已经提交的命令最终也会被其他节点成功执行。</p>
+<p>来看下是具体的流程：</p>
+<p>1、所有的请求都先经过leader,每个请求首先以日志的形式保存在leader中，然后这时候日志的状态是uncommited状态；</p>
+<p>2、然后leader将这些更改的请求发送到follower；</p>
+<p>3、leader等待大多数的follower确认接收；</p>
+<p>4、leader在等待大多数的follower确认接收之后，commit这些更改，提交这个信息到自己的状态机中，然后通知客户端更新的结果；</p>
+<p>5、同时leader会不断的尝试通知其他follower节点去提交应用(apply)该日志，并记录lastlogindex。</p>
+<p><img src="./images/raft-log-append.png" alt="日志提交流程" /></p>
+<p>日志由有序编号（log index）的日志条目组成。每个日志条目包含它被创建时的任期号（term），和用于状态机执行的命令。如果一个日志条目被复制到大多数服务器上，就被认为可以提交（commit）了。</p>
+<p><img src="./images/raft-log-detail.png" alt="日志详情" /></p>
+<p>Raft日志同步保证如下两点：</p>
+<ul>
+<li>如果不同节点日志中的两个条目有着相同的索引和任期号，则它们所存储的命令是相同的；</li>
+<li>如果不同节点日志中的两个条目有着相同的索引和任期号，则它们之前的所有条目都是完全一样的。</li>
+</ul>
+<p>第一条特性源于Leader在一个term内在给定的一个log index最多创建一条日志条目，同时该条目在日志中的位置也从来不会改变。</p>
+<p>第二条特性：Raft算法在发送日志复制请求时会携带前置日志的term和logIndex值（即 prevLogTerm 和 prevLogIndex），只有在 prevLogTerm 和 prevLogIndex 匹配的情况下才能成功响应请求。如果prevLogTerm和prevLogIndex不匹配，则说明当前节点可能是新加入的、或者之前服从于其它Leader，亦或当前节点之前是Leader节点。为了兑现承诺二，Leader节点需要与该Follower节点向前追溯找到term和logIndex匹配的那条日志，并使用Leader节点的日志强行覆盖该Follower此后的日志数据。</p>
+<p>一般情况下，Leader和Followers的日志保持一致，因此AppendEntries一致性检查通常不会失败。然而，Leader崩溃可能会导致日志不一致：旧的Leader可能没有完全复制完日志中的所有条目。一个Follower可能会丢失掉Leader上的一些条目，也有可能包含一些Leader没有的条目，也有可能两者都会发生。丢失的或者多出来的条目可能会持续多个任期。</p>
+<p>Leader通过强制Followers复制它的日志来处理日志的不一致，Followers上的不一致的日志会被Leader的日志覆盖。</p>
+<p>Leader为了使Followers的日志同自己的一致，Leader需要找到Followers同它的日志一致的地方，然后覆盖Followers在该位置之后的条目。</p>
+<p>Leader会从后往前试，每次AppendEntries失败后尝试前一个日志条目，直到成功找到每个Follower的日志一致位点，然后向后逐条覆盖Followers在该位置之后的条目。</p>
+<h2 id="安全性"><a class="header" href="#安全性">安全性</a></h2>
+<p>在实际的生产环境中，我们会遇到各种各样的情况，下面来讨论几种常见的问题。</p>
+<p><strong>leader宕机，新的leader未同步前任committed的数据</strong></p>
+<p>leader宕机了，然后又选出了新的leader，但是新的leader没有同步前任committed的数据，新leader节点会强行覆盖集群中其它节点与自己冲突的日志数据。</p>
+<p>如何避免：</p>
+<p>这种情况raft会对参加选举的节点进行限制，只有包含已经committed日志的节点才有机会竞选成功</p>
+<p>1、参选节点的term值大于等于投票节点的term值；</p>
+<p>2、如果 term 值相等，则参选节点的 lastLogIndex 大于等于投票节点的 lastLogIndex 值。</p>
+<p><strong>Leader在将日志复制给Follower节点之前宕机</strong></p>
+<p>如果在复制之前宕机，当然这时候消息处于uncommitted状态，新选出的leader一定不包含这些日志信息，所以新的leader会强制覆盖follower中跟他冲突的日志，也就是刚刚宕机的leader，如果变成follower，他未同步的信息会被新的leader覆盖掉。</p>
+<p><strong>Leader在将日志复制给Follower节点之间宕机</strong></p>
+<p>在复制的过程中宕机，会有两种情况：</p>
+<p>1、只有少数的follower被同步到了；</p>
+<p>2、大多数的follower被同步到了；</p>
+<p>情况1：如果只有少数的follower被同步了，如果新的leader不包含这些信息，新的leader会覆盖那些已经同步的节点的信息，如果新的节点包含这些数据,直接走到下面的情况2；</p>
+<p>情况2：Leader在复制的过程中宕机,所以肯定消息是没有commit的，新的leader需要再次尝试将其复制给各个Follower节点，并依据自己的复制状态决定是否提交这些日志。</p>
+<p><strong>Leader在响应客户端之前宕机</strong></p>
+<p>这种情况，我们根据上面的同步机制可以知道，消息肯定是committed状态的，新的leader肯定包含这个信息，但是新任Leader可能还未被通知该日志已经被提交，不过这个信息在之后一定会被新任Leader标记为committed。</p>
+<p>不过对于客户端可能超时拿不到结果，认为本次消息失败了，客户端需要考虑幂等性。</p>
+<p><strong>时间和可用性</strong></p>
+<p>广播时间（broadcastTime） &lt;&lt; 候选超时时间（electionTimeout） &lt;&lt; 平均故障间隔时间（MTBF）</p>
+<ul>
+<li>broadcastTime: 广播时间指的是从一个服务器并行的发送 RPCs 给集群中的其他服务器并接收响应的平均时间，也就是集群之间的平均延时时间;</li>
+<li>electionTimeout: 追随者设置的候选超时时间；</li>
+<li>MTBF：平均故障间隔时间就是对于一台服务器而言，两次故障之间的平均时间。</li>
+</ul>
+<p>如果一个follower在一个electionTimeout时间内没有接收到leader的RPC，也没有接收到其他candidate的voteRequestRPC，他就会苏醒，变成candidate状态，开始新一轮的投票。所以broadcastTime要小于electionTimeout的时间。</p>
+<p>在Leader宕机与选举出新任Leader之间，整个集群处于无主的状态，我们应该尽可能缩短此类状态的持续时间，而控制的参数就是electionTimeout的最小值，所以electionTimeout需要在保证大于broadcastTime的前提下远小于一个集群中机器的平均故障间隔时间MTBF。</p>
+<p><strong>网络分区问题</strong></p>
+<p>如果由于网络的隔离，导致原来的Raft集群分裂成多个小的集群，各自分区中会重新开始选举形各自形成新的leader。</p>
+<p>假设原来有5个节点的集群因为网络导致分区为分别含有3， 2节点的两个子集群</p>
+<p>只含有2个节点的子集群必定选不出leader：因为此时集群中的保存的节点数是5，只含2个节点是无法通过大多数节点投票这个设定的</p>
+<p>此时访问node4, node5节点的客户端请求都将失败。</p>
+<p>含有3个节点的子集群可以正常工作，日志被正常提交。当分区消除后，node4 node5将同步1,2，3节点的数据</p>
+<h2 id="参考"><a class="header" href="#参考">参考</a></h2>
+<ul>
+<li><a href="https://www.cnblogs.com/ricklz/p/15094389.html">etcd的Raft一致性算法原理</a></li>
+<li><a href="https://github.com/hashicorp/raft">hashicorp/raft</a></li>
+<li><a href="https://qiankunli.github.io/2020/05/17/hashicorp_raft.html">hashicorp/raft源码分析</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../components/nginx.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../distributed/etcd.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../components/nginx.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../distributed/etcd.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

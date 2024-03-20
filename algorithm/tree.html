@@ -1,0 +1,1059 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>tree</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../README.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 计算机网络</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../network/tcp&ip.html"><strong aria-hidden="true">2.1.</strong> tcp/ip</a></li><li class="chapter-item expanded "><a href="../network/http&https&tls.html"><strong aria-hidden="true">2.2.</strong> http/https</a></li><li class="chapter-item expanded "><a href="../network/http2.html"><strong aria-hidden="true">2.3.</strong> http2</a></li><li class="chapter-item expanded "><a href="../network/grpc.html"><strong aria-hidden="true">2.4.</strong> grpc</a></li><li class="chapter-item expanded "><a href="../network/udp.html"><strong aria-hidden="true">2.5.</strong> udp</a></li><li class="chapter-item expanded "><a href="../network/dns.html"><strong aria-hidden="true">2.6.</strong> dns</a></li><li class="chapter-item expanded "><a href="../network/quic.html"><strong aria-hidden="true">2.7.</strong> quic</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Linux</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux/README.html"><strong aria-hidden="true">3.1.</strong> linux</a></li><li class="chapter-item expanded "><a href="../linux/ids.html"><strong aria-hidden="true">3.2.</strong> 机器标识码/硬件ID</a></li><li class="chapter-item expanded "><a href="../linux/process-thread-coroutine.html"><strong aria-hidden="true">3.3.</strong> 进程/线程/协程</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 数据结构与算法</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../algorithm/list.html"><strong aria-hidden="true">4.1.</strong> List</a></li><li class="chapter-item expanded "><a href="../algorithm/stack.html"><strong aria-hidden="true">4.2.</strong> stack</a></li><li class="chapter-item expanded "><a href="../algorithm/tree.html" class="active"><strong aria-hidden="true">4.3.</strong> tree</a></li><li class="chapter-item expanded "><a href="../algorithm/array.html"><strong aria-hidden="true">4.4.</strong> array</a></li><li class="chapter-item expanded "><a href="../algorithm/backtrack.html"><strong aria-hidden="true">4.5.</strong> 回溯算法</a></li><li class="chapter-item expanded "><a href="../algorithm/dp.html"><strong aria-hidden="true">4.6.</strong> 动态规划</a></li><li class="chapter-item expanded "><a href="../algorithm/bloom.html"><strong aria-hidden="true">4.7.</strong> 布隆过滤器</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 语言</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../language/golang.html"><strong aria-hidden="true">5.1.</strong> go</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> 常用组件</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../components/mysql.html"><strong aria-hidden="true">6.1.</strong> mysql</a></li><li class="chapter-item expanded "><a href="../components/redis.html"><strong aria-hidden="true">6.2.</strong> redis</a></li><li class="chapter-item expanded "><a href="../components/kafka.html"><strong aria-hidden="true">6.3.</strong> kafka</a></li><li class="chapter-item expanded "><a href="../components/rabbitmq.html"><strong aria-hidden="true">6.4.</strong> rabbitmq</a></li><li class="chapter-item expanded "><a href="../components/mqtt.html"><strong aria-hidden="true">6.5.</strong> mqtt</a></li><li class="chapter-item expanded "><a href="../components/nginx.html"><strong aria-hidden="true">6.6.</strong> nginx</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> 分布式</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../distributed/raft.html"><strong aria-hidden="true">7.1.</strong> raft</a></li><li class="chapter-item expanded "><a href="../distributed/etcd.html"><strong aria-hidden="true">7.2.</strong> etcd</a></li><li class="chapter-item expanded "><a href="../distributed/zk.html"><strong aria-hidden="true">7.3.</strong> zookeeper</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> AI</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ai/video.html"><strong aria-hidden="true">8.1.</strong> video</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> AIOT</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 容器技术</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../devops/docker.html"><strong aria-hidden="true">10.1.</strong> docker</a></li><li class="chapter-item expanded "><a href="../devops/k8s/README.html"><strong aria-hidden="true">10.2.</strong> kubernetes</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 项目实践</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../projects/business-gw.html"><strong aria-hidden="true">11.1.</strong> 通用业务网关</a></li><li class="chapter-item expanded "><a href="../projects/trade-engin.html"><strong aria-hidden="true">11.2.</strong> 交易所</a></li></ol></li><li class="chapter-item expanded "><a href="../bak/bak.html"><strong aria-hidden="true">12.</strong> 归档</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/xiaomLee/my-cookbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/xiaomLee/my-cookbook/edit/master/.//algorithm/tree.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="树"><a class="header" href="#树">树</a></h1>
+<!-- vscode-markdown-toc -->
+<ul>
+<li>
+<ol>
+<li><a href="#BinaryTree">二叉树(Binary Tree)</a></li>
+</ol>
+<ul>
+<li>1.1. <a href="#">二叉树遍历</a></li>
+<li>1.2. <a href="#DFSBFS">深度遍历(DFS)/层次遍历(BFS)</a></li>
+<li>1.3. <a href="#-1">常见题型</a></li>
+</ul>
+</li>
+<li>
+<ol start="2">
+<li><a href="#BSTBinarySearchTree">二叉搜索树BST(Binary Search Tree)</a></li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li><a href="#-1">其他常见树形结构及应用</a></li>
+</ol>
+<ul>
+<li>3.1. <a href="#-1">前缀树</a></li>
+<li>3.2. <a href="#B-BalanceTreeBayerTree">B-树(Balance Tree/Bayer Tree)</a></li>
+<li>3.3. <a href="#BBPlus">B+树(B树Plus)</a></li>
+<li>3.4. <a href="#AVLBalanceBinarySearchTree">AVL树(Balance Binary Search Tree)</a></li>
+<li>3.5. <a href="#RedBlackTree">红黑树(Red Black Tree)</a></li>
+</ul>
+</li>
+<li>
+<ol start="4">
+<li><a href="#-1">参考</a></li>
+</ol>
+</li>
+</ul>
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
+<h2 id="1-二叉树binary-tree"><a class="header" href="#1-二叉树binary-tree">1. <a name='BinaryTree'></a>二叉树(Binary Tree)</a></h2>
+<p><strong>核心解题思维</strong></p>
+<ul>
+<li>遍历：是否可以通过遍历一遍二叉树得到答案？如果可以，用一个 traverse 函数配合外部变量来实现；</li>
+<li>递归：原问题是否可以通过子问题推导出？如果可以，定义一个递归函数，充分利用函数返回值，入参基本是root.left root.right</li>
+</ul>
+<p>明确二叉树每个节点需要做什么， 需要在什么时候做(前中后序)</p>
+<h3 id="11-二叉树遍历"><a class="header" href="#11-二叉树遍历">1.1. <a name=''></a>二叉树遍历</a></h3>
+<p><strong>前序遍历</strong>：<strong>先访问根节点</strong>，再前序遍历左子树，再前序遍历右子树
+<strong>中序遍历</strong>：先中序遍历左子树，<strong>再访问根节点</strong>，再中序遍历右子树
+<strong>后序遍历</strong>：先后序遍历左子树，再后序遍历右子树，<strong>再访问根节点</strong></p>
+<pre><code class="language-go">func traverse(root *TreeNode) {
+    if root == nil {
+        return
+    }
+    // 前序位置
+    traverse(root.Left)
+    // 中序位置
+    traverse(root.Right)
+    // 后序位置
+}
+</code></pre>
+<h3 id="12-深度遍历dfs层次遍历bfs"><a class="header" href="#12-深度遍历dfs层次遍历bfs">1.2. <a name='DFSBFS'></a>深度遍历(DFS)/层次遍历(BFS)</a></h3>
+<p><strong>DFS-自顶向下</strong></p>
+<pre><code class="language-go">func dfs(root *TreeNode, result *[]interface{}) {
+    if root == nil {
+        return
+    }
+    // 前序位置 此时前中后序都可以，按编码习惯通常放于前序位置
+    *result = append(*result, root)
+    dfs(root.Left, result)
+    dfs(root.Right, result)
+}
+</code></pre>
+<p><strong>DFS-自底向上 又称分治法</strong></p>
+<pre><code class="language-go">func divide(root *TreeNode) []interface{} {
+    if root == nil {
+        return nil
+    }
+
+    // 分治
+    left := divide(root.Left)
+    right := divide(root.Right)
+
+    // merge
+   return merge(left, right)
+}
+</code></pre>
+<p>快排、归并排序 都是借助分治的思想。</p>
+<p>快排是在前序位置计算出partitionIndex 然后分别递归排序左右两边 quickSort(nums, lo, partitionIndex-1) quickSort(nums, partitionIndex+1, hi)</p>
+<p>归并排序是计算mid=(start+end)/2, 然后分别对左右递归排序 left:=mergeSort(nums, start, mid)  right:=mergeSort(nums, mid+1, end), 最后merge两个有序数组 merge(left, right)；left, right已经有序</p>
+<p><strong>BFS层序遍历</strong></p>
+<pre><code class="language-go">func levelTraverse(root *TreeNode) [][]interface {
+    result := make([][]interface{}, 0)
+    if root == nil {
+        return nil
+    }
+    
+    queue := make([]*TreeNode, 0)
+    queue = append(queue, root)
+    for len(queue) &gt; 0 {
+        l := len(queue)
+        level := make([][]interface{}, 0)
+        for i:=0; i&lt;l; i++ {
+            // 队头出队
+            root := queue[0]
+            queue = queue[1:]
+            level = append(level, root)
+            if root.Left != nil {
+                queue = append(queue, root.Left)
+            }
+            if root.Right !=nil {
+                queue = append(queue, root.Right)
+            }
+        }
+        result = append(result, level)
+    }
+
+    return result
+}
+</code></pre>
+<h3 id="13-常见题型"><a class="header" href="#13-常见题型">1.3. <a name='-1'></a>常见题型</a></h3>
+<p><strong>遍历、分治</strong></p>
+<p><a href="https://leetcode.cn/problems/binary-tree-preorder-traversal/">二叉树的前序遍历</a>
+<a href="https://leetcode.cn/problems/binary-tree-inorder-traversal/">二叉树的中序遍历</a>
+<a href="https://leetcode.cn/problems/binary-tree-postorder-traversal/">二叉树的后序遍历</a></p>
+<p><a href="https://leetcode.cn/problems/binary-tree-paths/">二叉树的所有路径</a></p>
+<pre><code class="language-go">func traverse(root *TreeNode, path string, res *[]string) {
+    if root == nil {
+        return
+    }
+
+    path += fmt.Sprintf("-&gt;%d", root.Val)
+    if root.Left == nil &amp;&amp; root.Right == nil {
+        // 到达叶子节点
+        *res = append(*res, path[2:])
+        return
+    }
+    traverse(root.Left, path, res)
+    traverse(root.Right, path, res) 
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/flatten-binary-tree-to-linked-list">二叉树展开为链表</a></p>
+<pre><code class="language-go">func flatten(root *TreeNode)  {
+    if root == nil {
+        return
+    }
+    // 拉平左右子树
+    flatten(root.Left)
+    flatten(root.Right)
+
+    left := root.Left
+    right := root.Right
+
+    root.Left = nil
+    root.Right = left
+
+    // 将链表指针移到末尾
+    p:=root
+    for p.Right != nil {
+        p = p.Right
+    }
+    p.Right = right
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/invert-binary-tree/">翻转二叉树</a></p>
+<pre><code class="language-go">func invertTree(root *TreeNode) *TreeNode {
+    if root == nil {
+        return nil
+    }
+    left := invertTree(root.Left)
+    right := invertTree(root.Right)
+    root.Right = left
+    root.Left = right
+    return root
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/merge-two-binary-trees/">合并二叉树</a></p>
+<pre><code class="language-go">func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
+    if root1 == nil {
+        return root2
+    }
+    if root2 == nil {
+        return root1
+    }
+
+    // 递归子问题：分别将左右子树进行合并
+    left := mergeTrees(root1.Left, root2.Left)
+    right := mergeTrees(root1.Right, root2.Right)
+
+    // 依赖递归返回 后序处理
+    root := &amp;TreeNode{
+        Val: root1.Val + root2.Val,
+    }
+    root.Left = left
+    root.Right = right
+    return root
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/maximum-depth-of-binary-tree/">二叉树的最大深度</a></p>
+<pre><code class="language-go">func maxDepth(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+    left := maxDepth(root.Left)
+    right := maxDepth(root.Right)
+    
+    if left&gt;right {
+        return left+1
+    }
+    return right+1
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/balanced-binary-tree/">平衡二叉树</a></p>
+<pre><code class="language-go">func isBalanced(root *TreeNode) bool {
+    return maxDepth(root)&gt;=0
+}
+
+func maxDepth(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+    left := maxDepth(root.Left)
+    right := maxDepth(root.Right)
+    
+    // 非平衡 结束递归
+    if left == -1 || left-right&gt;1 || right==-1 || right-left&gt;1 {
+        return -1
+    }
+
+    if left&gt;right {
+        return left+1
+    }
+    return right+1
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/diameter-of-binary-tree/">二叉树的直径</a></p>
+<pre><code class="language-go">func diameterOfBinaryTree(root *TreeNode) int {
+    res := 0
+    maxDepth(root, &amp;res)
+    return res
+}
+
+func maxDepth(root *TreeNode, res *int) int {
+    if root == nil {
+        return 0
+    }
+    left := maxDepth(root.Left, res)
+    right := maxDepth(root.Right, res)
+    
+    if *res&lt;left+right {
+        *res = left+right
+    }
+    if left&gt;right {
+        return left+1
+    }
+    return right+1
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/count-complete-tree-nodes/">完全二叉树的节点个数</a></p>
+<pre><code class="language-go">func countNodes(root *TreeNode) int {
+    // 思路 
+    // 假设以当前节点为根节点，它是一个满二叉树，则 count=math.Pow(2, hight)
+    // 否则 递归左子树右子树分别计算个数
+    // 沿最左侧和最右侧分别计算高度, 如果相等则是满二叉树
+
+    l,r := root, root
+    hl, hr := 0, 0
+    
+    for l!=nil {
+        l=l.Left
+        hl++
+    }
+    for r!=nil {
+        r=r.Right
+        hr++
+    }
+    if hl == hr {
+        // 满二叉树
+        return int(math.Pow(2, float64(hl)))-1
+    }
+    return 1 + countNodes(root.Left) + countNodes(root.Right)
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/binary-tree-maximum-path-sum/">二叉树中的最大路径和</a></p>
+<pre><code class="language-go">func maxPathSum(root *TreeNode) int {
+    // 思路 计算以root节点为起点的最大序列和 与初始值比较 取较大
+    // 遍历 分别计算以左右子树的最大序列和 与初始值比较 取较大
+
+    // 定义 单边路径最大和函数 slidMax(root, res) int
+
+    res := -1001
+    slidMax(root, &amp;res)
+    return res
+}
+
+func slidMax(root *TreeNode, res *int) int {
+    if root == nil {
+        return 0
+    }
+    left := max(0, slidMax(root.Left, res))
+    right := max(0, slidMax(root.Right, res))
+
+    if *res &lt; root.Val + left + right {
+        *res = root.Val + left + right 
+    }
+    return root.Val + max(left, right)
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/path-sum-ii/">路径总和II</a></p>
+<pre><code class="language-go">func pathSum(root *TreeNode, targetSum int) [][]int {
+    var (
+        sum = 0
+        path =make([]int, 0)
+        res = make([][]int, 0)
+    )
+    traverse(root, targetSum, sum, path, &amp;res)
+    return res
+}
+
+func traverse(root *TreeNode, targetSum, sum int, path []int, res *[][]int) {
+    if root == nil {
+        return
+    }
+
+    path = append(path, root.Val)
+    sum += root.Val
+    if root.Left == nil &amp;&amp; root.Right == nil {
+        if sum == targetSum {
+            ans := make([]int, len(path))
+            copy(ans, path)
+            *res = append(*res, ans)
+        }
+        return
+    }
+    traverse(root.Left, targetSum, sum, path, res)
+    traverse(root.Right, targetSum, sum, path, res)
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/">二叉树的最近公共祖先</a></p>
+<pre><code class="language-go">func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+    // 判断当前节点是否等于p 或 q 是的话直接返回， 反之递归左右子树
+    // 针对递归返回做后序处理
+    // 1. p,q 分别在左右两边 left!=nil &amp;&amp; right!=nil return root
+    // 2. p,q 在左右某一边 或 都不在(left==nil &amp;&amp; right==nil)  return left != nil ? left:right
+    if root == nil {
+        return root
+    }
+    if root == p || root == q {
+        return root
+    }
+    left := lowestCommonAncestor(root, p, q)
+    right := lowestCommonAncestor(root, p, q)
+    
+    if left!=nil &amp;&amp; right!=nil {
+        return root
+    }
+    if left != nil {
+        return left
+    }
+    return right
+}
+</code></pre>
+<p><strong>层次遍历</strong></p>
+<p><a href="https://leetcode-cn.com/problems/binary-tree-level-order-traversal/">二叉树的层序遍历</a></p>
+<pre><code class="language-go">func levelOrderBottom(root *TreeNode) [][]int {
+    if root == nil {
+        return nil
+    }
+
+    res := make([][]int, 0)
+    queue := make([]*TreeNode, 0)
+    queue = append(queue, root)
+
+    for len(queue) &gt; 0 {
+        count := len(queue)
+        level := make([]int, 0)
+        for i:=0; i&lt;count; i++ {
+            root = queue[i]
+            level = append(level, root.Val)
+            if root.Left != nil {
+                queue = append(queue, root.Left)
+            }
+            if root.Right != nil {
+                queue = append(queue, root.Right)
+            }
+        }
+        queue = queue[count:]
+        if len(level) &gt; 0 {
+            res = append(res, level)
+        }
+    }
+    // reverse(res)
+    return res
+}
+</code></pre>
+<p><a href="https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/">二叉树的层序遍历-ii</a></p>
+<pre><code class="language-go">// 遍历同上 遍历完成后翻转result
+func reverse(list [][]int) {
+    for i, j:=0, len(list)-1; i&lt;j; i, j=i+1, j-1 {
+        list[i], list[j] = list[j], list[i]
+    }
+}
+</code></pre>
+<p><a href="https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/">二叉树的z字形遍历</a></p>
+<pre><code class="language-go">// 层序遍历
+// 将每层结果append到result时 做标志位flag的判断是否翻转 同时标志位置反
+if len(level) &gt; 0 {
+    if flag {
+        reverse(level)
+    }
+    flag = !flag
+    res = append(res, level)
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/check-completeness-of-a-binary-tree/">二叉树的完全性检验</a></p>
+<pre><code class="language-go">func isCompleteTree(root *TreeNode) bool {
+    // 思路 bfs
+    // 1. 对每个节点检验 root.Left == nil &amp;&amp; root.Right!=nil return false
+    // 2. 一旦出现叶子节点或不完整节点(root.Left == nil &amp;&amp; root.Right==nil) || (root.Left!=nil &amp;&amp; root.Right==nil)
+    // 则 后续不能再出现完整节点
+    if root == nil {
+        return true
+    }
+    queue := make([]*TreeNode, 0)
+    queue = append(queue, root)
+    end := false
+
+    for len(queue)&gt;0 {
+        l := len(queue)
+        for i:=0; i&lt;l; i++ {
+            root = queue[0]
+            queue = queue[1:]
+            // check valid
+            if root.Left == nil &amp;&amp; root.Right != nil {
+                return false
+            }
+            if end &amp;&amp; (root.Left != nil || root.Right != nil) {
+                return false
+            }
+
+            // add queue
+            if root.Left != nil {
+                queue = append(queue, root.Left)
+            }
+            if root.Right != nil {
+                queue = append(queue, root.Right)
+            }
+            // 是否到达最后一层
+            if (root.Left == nil &amp;&amp; root.Right==nil) || (root.Left!=nil &amp;&amp; root.Right==nil) {
+                end = true
+            }
+        }
+    }
+    return true
+}
+</code></pre>
+<p><strong>序列化、反序列化</strong></p>
+<p><a href="https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/">二叉树的序列化与反序列化</a></p>
+<pre><code class="language-go">// 思路
+// 只有前序遍历、后序遍历、层序遍历可以同时实现序列化与反序列化
+// 原理
+// 前序遍历的结果 第一个元素 即是root节点，之后根据左子树右子树顺序递归剩余字符串即可
+// 后序遍历的结果 最后一个元素是root节点，之后根据右子树左子树顺序递归剩余字符串
+// 层序遍历的结果 第一个节点是root节点， 之后紧跟的分别是left right; 下一层的每两个元素分别是上一层每一个元素的子节点
+// 中序遍历因为无法确定root节点的位置，故无法实现序列化
+
+// 解题技巧
+// 反序列化时， 可先将data字符串转换成 []*TreeNode, 即将每个元素预先构造成树, # 转成 nil；然后根据不同序列化的方式 将树串联起来
+
+// 有如下树结构
+//       1
+// 2           3
+//     4   5       6
+
+// 前序遍历序列化反序列化
+// 序列化结果： 1, 2, #, 4, #, #, 3, 5, #, #, 6, #, #
+func serialize(root *TreeNode) string {
+    if root == nil {
+        return "#"
+    }
+    left := this.serialize(root.Left)
+    right := this.serialize(root.Right)
+    data := fmt.Sprintf("%d,%s,%s", root.Val, left, right)
+    return data
+}
+// 反序列化，用一个pos索引指针记录当前反序列化位置
+func deserialize(data string, pos *int) *TreeNode {
+    if *pos &gt;= len(data) {
+        return nil
+    }
+    // 获取当前节点， 即root节点
+    var first string
+    index := strings.Index(data[*pos:], ",")
+    if index == -1 {
+        first = data[*pos:]
+    }else {
+        first = data[*pos:*pos+index]
+    }
+    // 指针后移
+    *pos = *pos + len(first) +1
+
+    if first == "#" {
+        // leaf node
+        return nil
+    }
+    // covert val
+    val, err:=strconv.ParseInt(first, 10, 64)
+    if err!=nil {
+        panic(err)
+    }
+    root := &amp;TreeNode{Val:int(val)}
+    
+    // 获取当前节点左右子树
+    root.Left = deserialize(data, pos) // pos 在递归中不断后移
+    root.Right = deserialize(data, pos)
+    return root
+}
+
+// 后续遍历 序列化反序列化
+func serialize(root *TreeNode) string {
+    if root == nil {
+        return "#"
+    }
+    left := this.serialize(root.Left)
+
+    right := this.serialize(root.Right)
+    data := fmt.Sprintf("%s,%s,%d",left, right, root.Val)
+    return data
+}
+// 反序列化 最后一个元素是root 之后递归右子树 左子树; pos指针不断前移
+func deserialize(data string, pos *int) *TreeNode{}
+
+
+// 层序遍历
+// Serializes a tree to a single string.
+func (this *Codec) serialize(root *TreeNode) string {
+    if root == nil {
+        return ""
+    }
+    res := ""
+    queue := make([]*TreeNode, 0)
+    queue = append(queue, root)
+    for len(queue) &gt; 0 {
+        count := len(queue)
+        for i:=0; i&lt;count; i++ {
+            node := queue[i]
+            if node == nil {
+                res += fmt.Sprintf(",%s", "#")
+                continue
+            }else if len(res) == 0 {
+                res += fmt.Sprintf("%d", node.Val)
+            }else {
+                res += fmt.Sprintf(",%d", node.Val)
+            }
+            queue = append(queue, node.Left)
+            queue = append(queue, node.Right)
+        }
+        queue = queue[count:]
+    }
+    return res
+}
+
+// Deserializes your encoded data to tree.
+func (this *Codec) deserialize(data string) *TreeNode {   
+    // fmt.Println("data:", data) 
+    if len(data) == 0 {
+        return nil
+    }
+
+    // get the first node
+    var getFirstNode func(data string, pos *int) *TreeNode 
+    getFirstNode = func(data string, pos *int) *TreeNode {
+        if *pos &gt; len(data) {
+            return nil
+        }
+        var first string
+        index := strings.Index(data[*pos:], ",")
+        if index == -1 {
+            first = data[*pos:]
+        }else {
+            first = data[*pos:*pos+index]
+        }
+        *pos = *pos + len(first) +1
+
+        if first == "#" {
+            return nil
+        }
+        val, err:=strconv.ParseInt(first, 10, 64)
+        if err !=nil {
+            fmt.Printf("panic data:%s pos:%d index:%d first:%s err:%s\n", data, *pos, index, first, err)
+            //panic(err)
+            return nil
+        }
+        return &amp;TreeNode{Val:int(val)}
+    }
+
+    var (
+        queue = make([]*TreeNode, 0)
+        pos int
+    )
+    root := getFirstNode(data, &amp;pos)
+
+    if root == nil {
+        return nil
+    }
+    queue = append(queue, root)
+
+    for pos&lt;len(data) {
+        node := queue[0]
+        queue = queue[1:]
+        
+        // 获取左右节点
+        node.Left = getFirstNode(data, &amp;pos)
+        if node.Left != nil {
+            queue = append(queue, node.Left)
+        }
+        node.Right = getFirstNode(data, &amp;pos)
+        if node.Right != nil {
+            queue = append(queue, node.Right)
+        }
+    }
+    return root
+}
+
+</code></pre>
+<p><a href="https://leetcode.cn/problems/construct-binary-search-tree-from-preorder-traversal">前序遍历构造二叉搜索树</a>
+<a href="https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/">从中序与后序遍历序列构造二叉树</a>
+<a href="https://leetcode.cn/problems/maximum-binary-tree/">最大二叉树</a></p>
+<pre><code class="language-go">// 思路 与快排类似：partition找到maxIndex 构建root, 之后递归左右两边 root.Left = construct(nums[:maxIndex-1]) root.Right = construct(maxIndex+1)
+</code></pre>
+<p><a href="https://leetcode.cn/problems/maximum-binary-tree-ii/">最大二叉树II</a></p>
+<h2 id="2-二叉搜索树bstbinary-search-tree"><a class="header" href="#2-二叉搜索树bstbinary-search-tree">2. <a name='BSTBinarySearchTree'></a>二叉搜索树BST(Binary Search Tree)</a></h2>
+<ol>
+<li>对于 BST 的每一个节点 node，左子树节点的值都比 node 的值要小，右子树节点的值都比 node 的值大。</li>
+<li>对于 BST 的每一个节点 node，它的左侧子树和右侧子树都是 BST。</li>
+</ol>
+<p>特性：中序遍历有序(升序) 解题基本都是中序遍历框架</p>
+<p><a href="https://leetcode.cn/problems/kth-smallest-element-in-a-bst/">二叉搜索树中第K小的元素</a></p>
+<pre><code class="language-go">func kthSmallest(root *TreeNode, k int) int {
+    // 思路 中序遍历 当 rank==k 时  return root.Val
+    var rank, res int
+    traverse(root, k, &amp;rank, &amp;res)
+    return res
+}
+
+func traverse(root *TreeNode, k int, rank, res *int) {
+    if root==nil {
+        return
+    }
+    traverse(root.Left, k, rank, res)
+    *rank +=1
+    if *rank == k {
+        *res = root.Val
+        return
+    }
+    traverse(root.Right, k, rank, res)
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/convert-bst-to-greater-tree/">把二叉搜索树转换为累加树</a></p>
+<pre><code class="language-go">func convertBST(root *TreeNode) *TreeNode {
+    // 思路 中续遍历 降序 计算累加和 并更新当前节点
+    // 定义 traverse(root, sum) 以他为根的累加和 从右子树开始遍历
+    // 将当前节点值变为 root.Val += sum
+    var sum int
+    traverse(root, &amp;sum)
+    return root
+}
+
+func traverse(root *TreeNode, sum *int) {
+    if root == nil {
+        return
+    }
+    
+    traverse(root.Right, sum)
+    *sum += root.Val
+    root.Val = *sum
+    traverse(root.Left, sum)
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/delete-node-in-a-bst/">删除二叉搜索树中的节点</a></p>
+<pre><code class="language-go">func deleteNode(root *TreeNode, key int) *TreeNode {
+    // 思路 比较 root.Val vs key 判断递归左 or 右子树
+    // 若 root.Val == key if root.Right !=nil {将root.Left 挂到root.Right 的最左叶子结点} else {root = root.Left}
+    // root.Val &lt; key 递归 右子树
+    // root.Val &gt; key 递归左子树
+
+    if root == nil {
+        return nil
+    }
+
+    if root.Val == key {
+        if root.Right != nil {
+            p:=root.Right
+            for p.Left != nil {
+                p = p.Left
+            }
+            p.Left = root.Left
+            root = root.Right
+        }else {
+            root = root.Left
+        }
+        return root
+    }
+    if root.Val &gt; key {
+        root.Left = deleteNode(root.Left, key)
+    }else{
+        root.Right = deleteNode(root.Right, key)
+    }
+    return root
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/search-in-a-binary-search-tree/">二叉搜索树中的搜索</a></p>
+<p><a href="https://leetcode.cn/problems/insert-into-a-binary-search-tree/">二叉搜索树中的插入操作</a></p>
+<pre><code class="language-go">func insertIntoBST(root *TreeNode, val int) *TreeNode {
+    // 思路 不断向左右递归 找到最后一个叶子节点，进行插入
+    // base case root == nil return &amp;TreeNode{Val:val}
+    
+    if root == nil {
+        return &amp;TreeNode{Val:val}
+    }
+    if root.Val &lt; val {
+        root.Right = insertIntoBST(root.Right, val)
+    }else {
+        root.Left = insertIntoBST(root.Left, val)
+    }
+    return root
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/validate-binary-search-tree/">验证二叉搜索树</a></p>
+<pre><code class="language-go">func isValidBST(root *TreeNode) bool {
+    // 思路 中序遍历有序 pre变量记录遍历的上一个值
+    pre := math.MinInt64
+    valid := true
+    traverse(root, &amp;pre, &amp;valid)
+    return valid
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/unique-binary-search-trees/">不同的二叉搜索树</a></p>
+<pre><code class="language-go">func numTrees(n int) int {
+    // 思路 递归函数count(lo, hi int) int 计算 lo~hi直接有多少种
+    // base case lo &gt;= hi return 1
+    // 添加备忘录
+    memo := make([][]int, n+1)
+    return count(1, n, memo)
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/unique-binary-search-trees-ii/">不同的二叉搜索树II</a></p>
+<pre><code class="language-go">func generateTrees(n int) []*TreeNode {
+    // 思路 定义递归函数
+    // generate(lo, hi int) []*TreeNode
+    // 循环lo~hi 固定root， 然后分别计算lefts, rights
+    // 排列组合lefts, rights
+    // 优化 备忘录
+    return generate(1, n)
+}
+</code></pre>
+<h2 id="3-其他常见树形结构及应用"><a class="header" href="#3-其他常见树形结构及应用">3. <a name='-1'></a>其他常见树形结构及应用</a></h2>
+<h3 id="31-前缀树"><a class="header" href="#31-前缀树">3.1. <a name='-1'></a>前缀树</a></h3>
+<p>Trie 树又叫字典树、前缀树、单词查找树，是一种二叉树衍生出来的高级数据结构(多叉树)，主要应用场景是处理字符串前缀相关的操作， 例如自动补全 拼写检查等。</p>
+<p>基本结构及方法</p>
+<pre><code class="language-go">type Trie struct {
+    // 数组大小26表示支持的key字符串为a~z 亦可根据实际情况自定义
+    // 数组下标对应ASCII码 当前定义下标转换 index = char - 'a'
+    children [26]*Trie  
+    // 表示从root-&gt;当前节点的路径是否表示一个完整的key
+    isEnd bool
+    // 在 isEnd为TRUE时，key 对应的value值 [option]
+    val interface{}
+}
+
+func Constructor() Trie {
+    return Trie{}
+}
+// 插入字符串
+func (this *Trie) Insert(word string)  {
+    cur := this
+    for _, ch := range word {
+        index := ch - 'a'
+        if cur.children[index] == nil {
+            // 不存在当前字符，新增插入
+            cur.children[index] = &amp;Trie{}
+        }
+        cur = cur.children[index]
+    }
+    cur.isEnd = true
+}
+// 前缀匹配
+func (this *Trie) SearchWithPrefix(word string) *Trie {
+    cur := this
+    for _, ch := range word {
+        index := ch - 'a'
+        if cur.children[index] == nil {
+            // 不存在当前字符
+            return nil
+        }
+        cur = cur.children[index]
+    }
+    return cur
+} 
+// 查找
+func (this *Trie) Search(word string) bool {
+    node := this.SearchWithPrefix(word)
+    return node != nil &amp;&amp; node.isEnd
+}
+// 前缀查找
+func (this *Trie) StartsWith(prefix string) bool {
+    return node != nil
+}
+</code></pre>
+<p><a href="https://mp.weixin.qq.com/s/hGrTUmM1zusPZZ0nA9aaNw">参考</a></p>
+<p><a href="https://leetcode.cn/problems/implement-trie-prefix-tree/">实现前缀树(Trie)</a></p>
+<p><a href="https://leetcode.cn/problems/design-add-and-search-words-data-structure/">添加与搜索单词-数据结构设计</a></p>
+<p><a href="https://leetcode.cn/problems/replace-words/">单词替换</a></p>
+<p><a href="https://leetcode.cn/problems/map-sum-pairs/">键值映射</a></p>
+<h3 id="32-b-树balance-treebayer-tree"><a class="header" href="#32-b-树balance-treebayer-tree">3.2. <a name='B-BalanceTreeBayerTree'></a>B-树(Balance Tree/Bayer Tree)</a></h3>
+<p><a href="https://segmentfault.com/a/1190000038749020">B树图文详解</a></p>
+<h3 id="33-b树b树plus"><a class="header" href="#33-b树b树plus">3.3. <a name='BBPlus'></a>B+树(B树Plus)</a></h3>
+<h3 id="34-avl树balance-binary-search-tree"><a class="header" href="#34-avl树balance-binary-search-tree">3.4. <a name='AVLBalanceBinarySearchTree'></a>AVL树(Balance Binary Search Tree)</a></h3>
+<p><a href="https://baike.baidu.com/item/AVL%E6%A0%91/10986648">AVL树</a></p>
+<p>AVL树得名于它的发明者G. M. Adelson-Velsky和E. M. Landis，他们在1962年的论文《An algorithm for the organization of information》中发表了它。</p>
+<h3 id="35-红黑树red-black-tree"><a class="header" href="#35-红黑树red-black-tree">3.5. <a name='RedBlackTree'></a>红黑树(Red Black Tree)</a></h3>
+<p><a href="https://baike.baidu.com/item/%E7%BA%A2%E9%BB%91%E6%A0%91/2413209">红黑树</a></p>
+<h2 id="4-参考"><a class="header" href="#4-参考">4. <a name='-1'></a>参考</a></h2>
+<p><a href="https://labuladong.github.io/algo/2/21/36/">东哥带你刷二叉树（纲领篇）</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../algorithm/stack.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../algorithm/array.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../algorithm/stack.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../algorithm/array.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

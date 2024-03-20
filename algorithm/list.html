@@ -1,0 +1,652 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>List</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../README.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 计算机网络</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../network/tcp&ip.html"><strong aria-hidden="true">2.1.</strong> tcp/ip</a></li><li class="chapter-item expanded "><a href="../network/http&https&tls.html"><strong aria-hidden="true">2.2.</strong> http/https</a></li><li class="chapter-item expanded "><a href="../network/http2.html"><strong aria-hidden="true">2.3.</strong> http2</a></li><li class="chapter-item expanded "><a href="../network/grpc.html"><strong aria-hidden="true">2.4.</strong> grpc</a></li><li class="chapter-item expanded "><a href="../network/udp.html"><strong aria-hidden="true">2.5.</strong> udp</a></li><li class="chapter-item expanded "><a href="../network/dns.html"><strong aria-hidden="true">2.6.</strong> dns</a></li><li class="chapter-item expanded "><a href="../network/quic.html"><strong aria-hidden="true">2.7.</strong> quic</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Linux</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux/README.html"><strong aria-hidden="true">3.1.</strong> linux</a></li><li class="chapter-item expanded "><a href="../linux/ids.html"><strong aria-hidden="true">3.2.</strong> 机器标识码/硬件ID</a></li><li class="chapter-item expanded "><a href="../linux/process-thread-coroutine.html"><strong aria-hidden="true">3.3.</strong> 进程/线程/协程</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 数据结构与算法</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../algorithm/list.html" class="active"><strong aria-hidden="true">4.1.</strong> List</a></li><li class="chapter-item expanded "><a href="../algorithm/stack.html"><strong aria-hidden="true">4.2.</strong> stack</a></li><li class="chapter-item expanded "><a href="../algorithm/tree.html"><strong aria-hidden="true">4.3.</strong> tree</a></li><li class="chapter-item expanded "><a href="../algorithm/array.html"><strong aria-hidden="true">4.4.</strong> array</a></li><li class="chapter-item expanded "><a href="../algorithm/backtrack.html"><strong aria-hidden="true">4.5.</strong> 回溯算法</a></li><li class="chapter-item expanded "><a href="../algorithm/dp.html"><strong aria-hidden="true">4.6.</strong> 动态规划</a></li><li class="chapter-item expanded "><a href="../algorithm/bloom.html"><strong aria-hidden="true">4.7.</strong> 布隆过滤器</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 语言</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../language/golang.html"><strong aria-hidden="true">5.1.</strong> go</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> 常用组件</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../components/mysql.html"><strong aria-hidden="true">6.1.</strong> mysql</a></li><li class="chapter-item expanded "><a href="../components/redis.html"><strong aria-hidden="true">6.2.</strong> redis</a></li><li class="chapter-item expanded "><a href="../components/kafka.html"><strong aria-hidden="true">6.3.</strong> kafka</a></li><li class="chapter-item expanded "><a href="../components/rabbitmq.html"><strong aria-hidden="true">6.4.</strong> rabbitmq</a></li><li class="chapter-item expanded "><a href="../components/mqtt.html"><strong aria-hidden="true">6.5.</strong> mqtt</a></li><li class="chapter-item expanded "><a href="../components/nginx.html"><strong aria-hidden="true">6.6.</strong> nginx</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> 分布式</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../distributed/raft.html"><strong aria-hidden="true">7.1.</strong> raft</a></li><li class="chapter-item expanded "><a href="../distributed/etcd.html"><strong aria-hidden="true">7.2.</strong> etcd</a></li><li class="chapter-item expanded "><a href="../distributed/zk.html"><strong aria-hidden="true">7.3.</strong> zookeeper</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> AI</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ai/video.html"><strong aria-hidden="true">8.1.</strong> video</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> AIOT</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 容器技术</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../devops/docker.html"><strong aria-hidden="true">10.1.</strong> docker</a></li><li class="chapter-item expanded "><a href="../devops/k8s/README.html"><strong aria-hidden="true">10.2.</strong> kubernetes</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 项目实践</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../projects/business-gw.html"><strong aria-hidden="true">11.1.</strong> 通用业务网关</a></li><li class="chapter-item expanded "><a href="../projects/trade-engin.html"><strong aria-hidden="true">11.2.</strong> 交易所</a></li></ol></li><li class="chapter-item expanded "><a href="../bak/bak.html"><strong aria-hidden="true">12.</strong> 归档</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/xiaomLee/my-cookbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/xiaomLee/my-cookbook/edit/master/.//algorithm/list.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="链表"><a class="header" href="#链表">链表</a></h1>
+<h2 id="基本技巧"><a class="header" href="#基本技巧">基本技巧</a></h2>
+<p>链表相关的核心点</p>
+<ul>
+<li>null/nil 异常处理</li>
+<li>dummy node 哑巴节点</li>
+<li>快慢指针</li>
+<li>插入一个节点到排序链表</li>
+<li>从一个链表中移除一个节点</li>
+<li>翻转链表</li>
+<li>合并两个链表</li>
+<li>找到链表的中间节点</li>
+</ul>
+<h2 id="常见题型"><a class="header" href="#常见题型">常见题型</a></h2>
+<h3 id="反转"><a class="header" href="#反转">反转</a></h3>
+<p><a href="https://leetcode.cn/problems/reverse-linked-list/">206.反转链表</a></p>
+<pre><code class="language-go">func reverseList(head *ListNode) *ListNode {
+    if head == nil || head.Next == nil {
+        return head
+    }
+    node := reverseList(head.Next)
+    head.Next.Next = head
+    head.Next = nil
+    return node
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/reverse-linked-list-ii/">92.反转链表II</a></p>
+<pre><code class="language-go">func reverseBetween(head *ListNode, left int, right int) *ListNode {
+    if left == 1 {
+        return reverseN(head, right)
+    }
+    head.Next = reverseBetween(head.Next, left-1, right-1)
+    return head
+}
+
+var tail *ListNode
+func reverseN(head *ListNode, n int) *ListNode {
+    if n == 1 {
+        tail = head.Next
+        return head
+    }
+    p := reverseN(head.Next,n-1)
+    head.Next.Next = head
+    head.Next = tail
+    return p
+}
+
+
+func reverseN(head *ListNode, n int) *ListNode {
+    // 1-&gt;2-&gt;3-&gt;4-&gt;5   n=3  pre=nil  cur=1 head=1
+    var pre *ListNode
+    cur := head
+    for ; n&gt;0; n-- {
+        cur.Next, pre, cur = pre, cur, cur.Next
+    }
+    // 1&lt;-2&lt;-3 4-&gt;5  n=0  pre=3 cur=4 head=1
+    
+    head.Next = cur
+    // 5&lt;-4&lt;=1&lt;-2&lt;-3
+    return pre
+}
+
+</code></pre>
+<p><a href="https://leetcode.cn/problems/reverse-nodes-in-k-group/">25.K个一组翻转链表</a></p>
+<pre><code class="language-go">func reerseKGroup(head *ListNode, k int) *ListNode {
+    if head == nil {
+        return head
+    }
+    // 判断是否有k个元素
+    a, b := head, head
+    for i:=0; i&lt;k; i++ {
+        if b == nil {
+            return head
+        }
+        b = b.Next
+    }
+    newHead := reverseBetween(a, b)
+    a.Next = reverseKGroup(b, k)
+    return newHead
+}
+
+func reverseBetween(a, b *ListNode) *ListNode {
+    var pre *ListNode
+    for a != b {
+        a.Next, pre, a = pre, a, a.Next
+    }
+    return pre
+}
+</code></pre>
+<p><strong>小结</strong></p>
+<ul>
+<li>遍历的方式需使用一个pre变量记录前一个节点</li>
+<li>递归需要关注当前节点需要做啥</li>
+<li>善用子函数抽象拆解问题 reverseN(head, n) reverseBetween(a, b *ListNode)</li>
+</ul>
+<h3 id="合并-分割-相加"><a class="header" href="#合并-分割-相加">合并 分割 相加</a></h3>
+<p><a href="https://leetcode.cn/problems/merge-two-sorted-lists/">21.合并两个有序链表</a></p>
+<pre><code class="language-go">func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+    // 思路 1 递归解法 mergeTwoLists(list1.Next, list2) or mergeTwoLists(list1, list2.Next)
+    // 思路 2 遍历list1 list2: 初始化dummy节点， p p1 p2分别指向三个链表
+    dummy := &amp;ListNode{}
+    p, p1, p2 := dummy, list1, list2
+
+    for p1 != nil &amp;&amp; p2 != nil {
+        if p1.Val &lt; p2.Val {
+            p.Next = p1
+            p1 = p1.Next
+        }else {
+            p.Next = p2
+            p2 = p2.Next
+        }
+        p = p.Next
+    }
+    if p1 != nil {
+        p.Next = p1
+    }
+    if p2 != nil {
+        p.Next = p2
+    }
+    return dummy.Next
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/merge-k-sorted-lists/">23.合并K个升序链表</a></p>
+<pre><code class="language-go">func mergeKLists(lists []*ListNode) *ListNode {
+    // 思路 二分递归合并 转换成 mergeTwoLists
+    if len(lists) &lt;=0 {
+        return nil
+    }
+    if len(lists) == 1 {
+        return lists[0]
+    }
+    mid := len(lists)/2
+    left := mergeKLists(lists[:mid])
+    right := mergeKLists(lists[mid:])
+    return mergeTwoLists(left, right)
+}
+
+func mergeTwoLists(list1, list2 *ListNode) *ListNode {
+    if list1 == nil {
+        return list2
+    }else if list2 == nil {
+        return list1
+    }else if list1.Val &lt; list2.Val {
+        list1.Next = mergeTwoLists(list1.Next, list2)
+        return list1
+    }else {
+        list2.Next = mergeTwoLists(list1, list2.Next)
+        return list2
+    }
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/partition-list/">86.分隔链表</a></p>
+<pre><code class="language-go">func partition(head *ListNode, x int) *ListNode {
+    if head == nil {
+        return nil
+    }
+    // 思路 合并两个链表的逆操作, 
+    // 定义两个链表 small large；之后将large 接与small之后
+    dummy1, dummy2 := &amp;ListNode{}, &amp;ListNode{}
+    small, large :=dummy1, dummy2
+    for head != nil {
+        if head.Val &lt; x {
+            small.Next = head
+            small = small.Next
+        }else {
+            large.Next = head
+            large = large.Next
+        }
+        head = head.Next
+    }
+    // 防止有环 leetcode 校验结果时有环会oom
+    large.Next = nil
+    small.Next = dummy2.Next
+    return dummy1.Next
+}
+</code></pre>
+<h3 id="有环公共节点"><a class="header" href="#有环公共节点">有环、公共节点</a></h3>
+<p><a href="https://leetcode.cn/problems/linked-list-cycle/">141.环形链表</a></p>
+<pre><code class="language-go">func hasCycle(head *ListNode) bool {
+    if head == nil {
+        return false
+    }
+    // 快慢指针 快指针两倍速 若再次相遇，说明有环
+    slow, fast := head, head
+    for fast.Next != nil &amp;&amp; fast.Next.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+        if slow == fast {
+            return true
+        }
+    }
+    return false
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/linked-list-cycle-ii/">142.环形链表II</a></p>
+<pre><code class="language-go">func detectCycle(head *ListNode) *ListNode {
+    if head == nil {
+        return nil
+    }
+    // 快慢指针 快指针两倍速 若再次相遇，说明有环
+    slow, fast := head, head
+    for fast.Next != nil &amp;&amp; fast.Next.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+        if slow == fast {
+            break
+        }
+    }
+    // nocycle
+    if fast.Next == nil || fast.Next.Next == nil {
+        return nil
+    }
+    // 此时slow回到链表头, 双指针同步前进， 再次相遇点即是入环点
+    slow = head
+    for slow != fast {
+        slow = slow.Next
+        fast = fast.Next
+    }
+    return slow
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/intersection-of-two-linked-lists/">160.相交链表</a></p>
+<pre><code class="language-go">func getIntersectionNode(headA, headB *ListNode) *ListNode {
+    // 思路1 
+    // 将b接在a的后面， 从a出发判断是否有环 以及环的起点
+    // 思路2
+    // 分别从a-&gt; b-&gt;a 遍历链表 若中途相遇即是相交点
+    if headA == nil || headB == nil {
+        return nil
+    }
+    a, b := headA, headB
+    for a!=b {
+        if a == nil {
+            a=headB
+        }else {
+            a = a.Next
+        }
+        if b == nil {
+            b = headA
+        }else {
+            b = b.Next
+        }
+    }
+    return a
+}
+</code></pre>
+<h3 id="查找-删除插入"><a class="header" href="#查找-删除插入">查找 删除、插入</a></h3>
+<p><a href="https://leetcode.cn/problems/middle-of-the-linked-list/">876.链表的中间结点</a></p>
+<pre><code class="language-go">func middleNode(head *ListNode) *ListNode {
+    // 快慢指针 快指针两倍速
+    slow, fast := head, head
+    for fast!=nil &amp;&amp; fast.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+    }
+    return slow
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/">19.删除链表的倒数第 N 个结点</a></p>
+<pre><code class="language-go">func removeNthFromEnd(head *ListNode, n int) *ListNode {
+    if head == nil {
+        return nil
+    }
+    // 快慢指针
+    // 注意点 头结点也可能被删 故初始化dummy
+    dummy := &amp;ListNode{}
+    dummy.Next = head
+    slow, fast := dummy, dummy
+
+    // fast 先走n+1步 保证删除的时候是删除slow.Next
+    for i:=0; i&lt;=n &amp;&amp; fast != nil; i++ {
+        fast = fast.Next
+    }
+    for fast != nil {
+        slow = slow.Next
+        fast = fast.Next
+    }
+    // delete slow.Next
+    slow.Next = slow.Next.Next
+    return dummy.Next
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/rotate-list/">61.旋转链表</a></p>
+<pre><code class="language-go">func rotateRight(head *ListNode, k int) *ListNode {
+    n := 0
+    p := head
+    for p!=nil {
+        p = p.Next
+        n++ 
+    }
+    if n == 0 || k%n == 0{
+        return head
+    }
+    p = head
+    for i:=0; i&lt;(n-1-k%n); i++ {
+        p = p.Next
+    }
+    newHead := p.Next
+    p.Next = nil
+
+    p = newHead
+    for p.Next != nil {
+        p = p.Next
+    }
+    p.Next = head
+    return newHead
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/remove-duplicates-from-sorted-list/">83.删除排序链表中的重复元素</a></p>
+<p><a href="https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/">82.删除排序链表中的重复元素II</a></p>
+<pre><code class="language-go">func deleteDuplicates(head *ListNode) *ListNode {
+    if head == nil {
+        return nil
+    }
+    // 思路1 hash+两次遍历
+    // 思路2 指针 cur.Next == cur.Next.Next delete cur.Next = cur.Next.Next
+    dummy := &amp;ListNode{}
+    dummy.Next = head
+
+    cur := dummy
+    for cur.Next != nil &amp;&amp; cur.Next.Next !=nil {
+        if cur.Next.Val == cur.Next.Next.Val {
+            reaptVal := cur.Next.Val
+            // delete reapt
+            for cur.Next != nil &amp;&amp; cur.Next.Val == reaptVal {
+                cur.Next = cur.Next.Next
+            }
+        }else {
+            cur = cur.Next
+        }
+    }
+    return dummy.Next
+}
+</code></pre>
+<h3 id="排序"><a class="header" href="#排序">排序</a></h3>
+<p><a href="https://leetcode.cn/problems/sort-list/">148.排序链表</a></p>
+<pre><code class="language-go">func sortList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	// 快慢指针找中点 归并排序
+	// [4,2,1,3] 
+	// 此处注意：fast = head.Next, 否则当只有两个数的时候，slow 指针会永远指向第二个数
+	// slow 指针要寻找的相当于是 mid 的前一个节点
+	slow, fast := head, head.Next
+	for fast!= nil &amp;&amp; fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+	fmt.Println(slow.Val, slow.Next.Val)
+	right := sortList(slow.Next)
+	slow.Next = nil
+	left := sortList(head)
+	return mergeTwoLists(left, right)
+}
+
+func mergeTwoLists(list1, list2 *ListNode) *ListNode {
+	if list1 == nil {
+		return list2
+	}else if list2 == nil {
+		return list1
+	}else if list1.Val &lt; list2.Val {
+		list1.Next = mergeTwoLists(list1.Next, list2)
+		return list1
+	}else {
+		list2.Next = mergeTwoLists(list1, list2.Next)
+		return list2
+	}
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/insertion-sort-list/">147.对链表进行插入排序</a></p>
+<pre><code class="language-go">func insertionSortList(head *ListNode) *ListNode {
+	dummy := &amp;ListNode{}
+	for head!=nil {
+		insertSort(dummy, head.Val)
+		head = head.Next
+	}
+	return dummy.Next
+}
+
+func insertSort(head *ListNode, val int) {
+	node := &amp;ListNode{Val: val}
+	if head.Next == nil {
+		head.Next = node
+		return
+	}
+	p := head
+	for p.Next!=nil &amp;&amp; p.Next.Val &lt;= node.Val {
+		p = p.Next
+	}
+	fmt.Println(p.Val)
+	node.Next = p.Next
+	p.Next = node 
+}
+</code></pre>
+<p><a href="https://leetcode.cn/problems/reorder-list/">143.重排链表</a></p>
+<h3 id="其他"><a class="header" href="#其他">其他</a></h3>
+<p><a href="https://leetcode.cn/problems/palindrome-linked-list/">234.回文链表</a>
+<a href="https://leetcode.cn/problems/odd-even-linked-list/">328.奇偶链表</a></p>
+<h2 id="常见工程应用"><a class="header" href="#常见工程应用">常见工程应用</a></h2>
+<h3 id="lru-lfu"><a class="header" href="#lru-lfu">LRU LFU</a></h3>
+<h3 id="skiplist跳表"><a class="header" href="#skiplist跳表">SKIPLIST(跳表)</a></h3>
+<p>跳表本质上是一个链表, 它其实是由有序链表发展而来。跳表在链表之上做了一些优化，跳表在有序链表之上加入了若干层用于索引的有序链表。索引链表的结点来源于基础链表，不过只有部分结点会加入索引链表中，并且越高层的链表结点数越少。跳表查询从顶层链表开始查询，碰到比自身大的，往下跳一级，然后逐级展开，直到底层链表。</p>
+<p>跳表使用概率均衡技术而不是使用强制性均衡，因此对于插入和删除结点比传统上的平衡树算法更为简洁高效。因此跳表适合增删操作比较频繁，并且对查询性能要求比较高的场景。</p>
+<p>原理简化示意图</p>
+<p>leveln:
+……:
+level3: H                   -&gt;                  T
+level2: H         -&gt;        4         -&gt;        T<br />
+level1: H    -&gt;   2    -&gt;   4   -&gt;    6    -&gt;   T
+level0: H -&gt; 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 7 -&gt; T</p>
+<ul>
+<li>level0是基础链表，所有节点都会被添加进来</li>
+<li>level1~leveln是索引链表，图例中每层是上一层的1/2</li>
+<li>如节点在第i层出现，则小于i的每一层都会出现该节点</li>
+<li>实际使用中，level层高是通过随机函数来确定的，会规范一个最大值</li>
+</ul>
+<p><a href="https://segmentfault.com/a/1190000041645807">跳表原理及Go实现</a></p>
+<h3 id="hash冲突-链地址法"><a class="header" href="#hash冲突-链地址法">HASH冲突 链地址法</a></h3>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../linux/process-thread-coroutine.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../algorithm/stack.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../linux/process-thread-coroutine.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../algorithm/stack.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

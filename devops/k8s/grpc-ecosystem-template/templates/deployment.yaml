@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "grpc-ecosystem-template.fullname" . }}
+  labels:
+    {{- include "grpc-ecosystem-template.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "grpc-ecosystem-template.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "grpc-ecosystem-template.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - configMap:
+            name: grpc-ecosystem-template
+          name: config
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - ./grpc-ecosystem-template
+          args:
+            - -configPath=/conf/config.yaml
+          ports:
+            - name: http
+              containerPort: 10051
+              protocol: TCP
+            - name: grpc
+              containerPort: 10050
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /conf
+              name: config
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 2
+            successThreshold: 1
+            timeoutSeconds: 1
+            tcpSocket:
+              port: grpc
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 2
+            successThreshold: 1
+            timeoutSeconds: 1
+            tcpSocket:
+              port: grpc
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,383 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>交易所</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../README.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 计算机网络</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../network/tcp&ip.html"><strong aria-hidden="true">2.1.</strong> tcp/ip</a></li><li class="chapter-item expanded "><a href="../network/http&https&tls.html"><strong aria-hidden="true">2.2.</strong> http/https</a></li><li class="chapter-item expanded "><a href="../network/http2.html"><strong aria-hidden="true">2.3.</strong> http2</a></li><li class="chapter-item expanded "><a href="../network/grpc.html"><strong aria-hidden="true">2.4.</strong> grpc</a></li><li class="chapter-item expanded "><a href="../network/udp.html"><strong aria-hidden="true">2.5.</strong> udp</a></li><li class="chapter-item expanded "><a href="../network/dns.html"><strong aria-hidden="true">2.6.</strong> dns</a></li><li class="chapter-item expanded "><a href="../network/quic.html"><strong aria-hidden="true">2.7.</strong> quic</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Linux</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux/README.html"><strong aria-hidden="true">3.1.</strong> linux</a></li><li class="chapter-item expanded "><a href="../linux/ids.html"><strong aria-hidden="true">3.2.</strong> 机器标识码/硬件ID</a></li><li class="chapter-item expanded "><a href="../linux/process-thread-coroutine.html"><strong aria-hidden="true">3.3.</strong> 进程/线程/协程</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 数据结构与算法</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../algorithm/list.html"><strong aria-hidden="true">4.1.</strong> List</a></li><li class="chapter-item expanded "><a href="../algorithm/stack.html"><strong aria-hidden="true">4.2.</strong> stack</a></li><li class="chapter-item expanded "><a href="../algorithm/tree.html"><strong aria-hidden="true">4.3.</strong> tree</a></li><li class="chapter-item expanded "><a href="../algorithm/array.html"><strong aria-hidden="true">4.4.</strong> array</a></li><li class="chapter-item expanded "><a href="../algorithm/backtrack.html"><strong aria-hidden="true">4.5.</strong> 回溯算法</a></li><li class="chapter-item expanded "><a href="../algorithm/dp.html"><strong aria-hidden="true">4.6.</strong> 动态规划</a></li><li class="chapter-item expanded "><a href="../algorithm/bloom.html"><strong aria-hidden="true">4.7.</strong> 布隆过滤器</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 语言</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../language/golang.html"><strong aria-hidden="true">5.1.</strong> go</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> 常用组件</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../components/mysql.html"><strong aria-hidden="true">6.1.</strong> mysql</a></li><li class="chapter-item expanded "><a href="../components/redis.html"><strong aria-hidden="true">6.2.</strong> redis</a></li><li class="chapter-item expanded "><a href="../components/kafka.html"><strong aria-hidden="true">6.3.</strong> kafka</a></li><li class="chapter-item expanded "><a href="../components/rabbitmq.html"><strong aria-hidden="true">6.4.</strong> rabbitmq</a></li><li class="chapter-item expanded "><a href="../components/mqtt.html"><strong aria-hidden="true">6.5.</strong> mqtt</a></li><li class="chapter-item expanded "><a href="../components/nginx.html"><strong aria-hidden="true">6.6.</strong> nginx</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> 分布式</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../distributed/raft.html"><strong aria-hidden="true">7.1.</strong> raft</a></li><li class="chapter-item expanded "><a href="../distributed/etcd.html"><strong aria-hidden="true">7.2.</strong> etcd</a></li><li class="chapter-item expanded "><a href="../distributed/zk.html"><strong aria-hidden="true">7.3.</strong> zookeeper</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> AI</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ai/video.html"><strong aria-hidden="true">8.1.</strong> video</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> AIOT</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 容器技术</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../devops/docker.html"><strong aria-hidden="true">10.1.</strong> docker</a></li><li class="chapter-item expanded "><a href="../devops/k8s/README.html"><strong aria-hidden="true">10.2.</strong> kubernetes</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 项目实践</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../projects/business-gw.html"><strong aria-hidden="true">11.1.</strong> 通用业务网关</a></li><li class="chapter-item expanded "><a href="../projects/trade-engin.html" class="active"><strong aria-hidden="true">11.2.</strong> 交易所</a></li></ol></li><li class="chapter-item expanded "><a href="../bak/bak.html"><strong aria-hidden="true">12.</strong> 归档</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/xiaomLee/my-cookbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/xiaomLee/my-cookbook/edit/master/.//projects/trade-engin.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="交易所"><a class="header" href="#交易所">交易所</a></h2>
+<p>初期业务模型：市场报价制，价格不受自身平台用户的交易所影响。用户下价格委托单，价格达成机成交。</p>
+<p>初期项目架构：bitcoin-kline(采集外部市场价)、trans-server(用户交易api)</p>
+<p>项目核心组件：全局用户信息列表，[ncpu]*reqworker, 根据uid取模处理对应用户请求。
+缺点：存在全局锁、热点数据、导致worker工作不均匀、并发性能低，有状态的内存计算型服务，中心化，无法水平扩展。</p>
+<p><img src="./images/%E4%BA%A4%E6%98%93%E6%89%80%E6%9E%B6%E6%9E%84%E5%9B%BE1.jpg" alt="交易所架构图" /></p>
+<p><em>TODO</em><br />
+改造成去中心化的分布式系统，可自由水平扩展。引入市场撮合机制。</p>
+<ol>
+<li>
+<p>方案1</p>
+<p>用户unit存储在worker里面，每个worker串行处理用户请求。
+增加集群模式，水平扩展。
+在trans-service之前，加一层proxy，根据uid做hash，保证同一个uid只可能路由到下游某一台服务器，类似hash分片的概念。</p>
+<p>难点&amp;缺点：集群可用性，某一台机器故障后，会导致需要全部机器reload，uid重新分片</p>
+</li>
+<li>
+<p>方案2<br />
+鉴于业务特点，用户成交不影响价格，所以用户之间是可并行的，单用户设计账户操作，不可并行。
+trans-server拆分成两个服务，一个调度服务，一个api-server服务。
+调度服务服务根据uid进行计算任务的分发，每个uid对应一个分布式锁。
+api-server计算处理单用户的数据。</p>
+<p>难点&amp;缺点：调度服务需单节点，中心化。</p>
+</li>
+</ol>
+<h3 id="应用特性"><a class="header" href="#应用特性">应用特性</a></h3>
+<p>撮合机制，需存在两个匹配队列，买方队列、卖方队列。</p>
+<p>数据库撮合：数据落地到数据库，每次撮合从数据库取出队列进行匹配。
+内存撮合：数据存于内存，记录日志，同时落地到数据库；撮合时从内存进行匹配。</p>
+<p>内存模型效率高，对数据库性能要求低。都存在单点串行问题，由撮合模式决定，同时只能有一个报价在进行撮合。</p>
+<h3 id="业内常用解决方案"><a class="header" href="#业内常用解决方案">业内常用解决方案</a></h3>
+<p>采用内存撮合模型，同时通过分布式部署保证单点的高可用。</p>
+<p><img src="./images/%E5%86%85%E5%AD%98%E6%92%AE%E5%90%88%E5%BC%95%E6%93%8E.jpg" alt="撮合引擎" /></p>
+<p>数据结构：优先队列</p>
+<pre><code class="language-go">type PriorityQueue interface {
+	Put(item int)
+	Pop() int
+}
+
+type PQueue struct {
+	items []int
+}
+
+func (pq *PQueue) Put(item int) {
+	// 1. append item to items
+	// 2. swim items[length-1] and build max heap
+	pq.items = append(pq.items, item)
+	pq.swim(len(pq.items) - 1)
+}
+
+func pancakeSort(arr []int) []int {
+	return sort(arr, len(arr))
+}
+
+func sort(arr []int, n int) []int {
+	actions := make([]int, 0)
+	if len(arr) &lt;= 1 || n &lt;= 1 {
+		return actions
+	}
+	// find max
+	maxIndex := 0
+	max := arr[0]
+	for i := 1; i &lt; n; i++ {
+		if arr[i] &gt; max {
+			max = arr[i]
+			maxIndex = i
+		}
+	}
+	// reverse max to first
+	reverse(arr, 0, maxIndex)
+	actions = append(actions, maxIndex+1)
+
+	// reverse max to end
+	reverse(arr, 0, n-1)
+	actions = append(actions, n)
+
+	actions = append(actions, sort(arr, n-1)...)
+
+	return actions
+}
+
+func reverse(arr []int, i, j int) {
+	for i &lt; j {
+		arr[i], arr[j] = arr[j], arr[i]
+		i++
+		j--
+	}
+}
+
+func (pq *PQueue) swim(i int) {
+	for {
+		child := i
+		root := i / 2
+		if root &gt;= 0 &amp;&amp; pq.items[root] &lt; pq.items[child] {
+			// swap root child
+			// make i == root
+			pq.items[root], pq.items[child] = pq.items[child], pq.items[root]
+			i = root
+		}
+		if i == child {
+			break
+		}
+	}
+}
+
+func (pq *PQueue) Pop() int {
+	// 1. swap items[0] items[length-1]
+	// 2. pop items[length-1]
+	// 3. sink item[0]
+	n := len(pq.items)
+	if n &lt; 1 {
+		return -1
+	}
+
+	pq.items[n-1], pq.items[0] = pq.items[0], pq.items[n-1]
+
+	ans := pq.items[n-1]
+	pq.items = pq.items[:n-1]
+
+	pq.sink(0)
+	return ans
+}
+
+func (pq *PQueue) sink(i int) {
+	for {
+		root := i
+		left := 2*i + 1
+		right := 2*i + 2
+		if left &lt; len(pq.items) &amp;&amp; pq.items[root] &lt; pq.items[left] {
+			root = left
+		}
+		if right &lt; len(pq.items) &amp;&amp; pq.items[root] &lt; pq.items[right] {
+			root = right
+		}
+		if i == root {
+			break
+		}
+		// root == max(left, right)
+		// swap items[i] max(items[left], items[right]
+		pq.items[i], pq.items[root] = pq.items[root], pq.items[i]
+		// make i = max(left, right)
+		i = root
+	}
+}
+
+</code></pre>
+<h3 id="有状态分布式应用"><a class="header" href="#有状态分布式应用">有状态分布式应用</a></h3>
+<p>采用raft协议的go实现<a href="https://github.com/hashicorp/raft">go-raft</a></p>
+<h3 id="具体实现"><a class="header" href="#具体实现">具体实现</a></h3>
+<p><a href="https://github.com/xiaomLee/trade-engine">trade-engine</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../projects/business-gw.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../bak/bak.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../projects/business-gw.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../bak/bak.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
