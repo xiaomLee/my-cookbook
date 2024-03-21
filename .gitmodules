@@ -1,0 +1,3 @@
+[submodule "containers/k8s-cookbook"]
+	path = containers/k8s-cookbook
+	url = git@github.com:xiaomLee/k8s-cookbook.git
